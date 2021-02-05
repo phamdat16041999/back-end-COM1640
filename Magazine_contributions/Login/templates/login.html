@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		body, html {
+			height: 100%;
+			margin: 0;
+		}
+
+		.bg {
+			/* The image used */
+			background-image: url("https://www.rit.edu/sites/rit.edu/files/images/paragraph/banner-item/Spring2020banner-2.jpg");
+
+			/* Full height */
+			height: 100%; 
+
+			/* Center and scale the image nicely */
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+		.content{
+			font-weight: bold;color: white; font-family:Telegraf;margin-left: 10px;
+		}
+		.left
+		{
+			margin-top: 300px;
+		}
+		.right
+		{
+			margin-top: 230px;
+		}
+		.getIn
+		{
+			font-size: 100px; 
+			font-family: Impact, 
+			fantasy; color: #3498db;
+		}
+		.loginBorder
+		{
+			height: 250px; 
+			/*background-color: #ecf0f1; */
+			border-radius: 10px;
+			/*box-shadow: 0px 10px 30px 8px #2c3e50*/
+/*			border-style: solid;
+border-color: #bdc3c7;*/
+}
+.formLogin
+{
+	margin-top: 20px;
+}
+@media only screen and (max-width: 1366px) {
+	.left
+	{
+		display: none;
+	}
+	.right
+	{
+		margin-top: 130px;
+	}
+	.loginBorder
+	{
+		height: 400px;
+	}
+	.formLogin
+	{
+		margin-top: 80px;
+	}
+}
+@media only screen and (max-width: 600px) {
+	.right
+	{
+		margin-top: 100px;
+	}
+	.getIn
+	{
+		font-size: 55px;
+	}
+	.loginBorder
+	{
+		height: 350px;
+	}
+}
+</style>
+</head>
+<body>
+	<div class="bg">
+		<div class="container-xl">
+			<div class="row">
+				<div class="col-6 left">
+					<div style="width: 40%; height: 100px; background-color: #f44336;">
+						<p style="font-size: 60px;" class="content">Web</p>
+					</div>
+					<br>
+					<div style="width: 80%; height: 100px; background-color: #d6c20e">
+						<p style="font-size: 60px;" class="content">Contribute</p>
+					</div>
+					<br>
+					<div style="width: 50%; height: 100px; background-color: #e67e22">
+						<p style="font-size: 30px;" class="content">For an university magazine</p>
+					</div>
+				</div>
+				<div class="col-xl-6 col-12 right">
+					<div class="row">
+						<div class="col-12">
+							<div class="row">
+								<div class="col-1">
+									
+								</div>
+								<div class="col-6" style="align-items: center; display: flex;justify-content: center;">
+									<p class="getIn">GET IN</p>
+								</div>
+								<div class="col-4">
+									<img src="image/logoGreenwich.png" alt="" style="width: 80%; height: auto;">
+								</div>
+								<div class="col-1">
+									
+								</div>
+							</div>
+						</div>
+						<br>
+						<div class="col-1">
+
+						</div>
+						<div class="col-10 loginBorder">
+							<form class="formLogin">
+								<label for="exampleInputPassword1" style="font-weight: bold; color: #273c75;">User Name</label>
+								<div class="input-group mb-3">
+									<input type="text" class="form-control" placeholder="User name" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-top-left-radius: 15px; border-bottom-left-radius: 15px;height: 45px;">
+									<div class="input-group-append">
+										<span class="input-group-text" id="basic-addon2" style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;"><i class="fa fa-user" style="font-size:24px"></i></span>
+									</div>
+								</div>
+								<label for="exampleInputPassword1" style="font-weight: bold; color: #273c75;">Password</label>
+								<div class="input-group mb-3">
+									<input type="text" class="form-control" placeholder="Password" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-top-left-radius: 15px; border-bottom-left-radius: 15px;height: 45px;">
+									<div class="input-group-append">
+										<span class="input-group-text" id="basic-addon2" style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;"><i class="fa fa-lock" style="font-size:24px"></i></span>
+									</div>
+								</div>
+								<a href="forgotPassword" title="">Forgot password?</a>
+								<div style="width: 100%; text-align: center;">
+									<button type="submit" class="btn btn-primary" style="background-color: #3498db; color: white;border-color: #3498db; width: 115px; font-weight: bold; border-radius: 15px;">Login</button>
+								</div>
+							</form>
+						</div>
+						<div class="col-1">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
