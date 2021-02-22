@@ -12,6 +12,10 @@ from google.auth.transport.requests import Request
 from email import message
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as django_logout
+from django.shortcuts import redirect
 
 # Send email	
 def random_password(length):
@@ -59,10 +63,6 @@ def Create_Service(client_secret_file, api_name, api_version, *scopes):
         print(e)
         return None
 
-
-
-
-
 def index(request):
 	return render(request, 'login.html')
 def forgotPassword(request):
@@ -83,3 +83,24 @@ def randomCode(request):
 		raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
 		message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
 	return render(request, 'forgotPassword.html')
+def indexStudent(request):
+    if request.method == 'POST':
+        userName = request.POST.get('userName','')
+        passWord = request.POST.get('passWord','')
+        user = authenticate(username=userName, password=passWord)
+        if(user is not None):
+            request.session.set_expiry(86400)
+            auth_login(request, user)
+            return redirect('/indexStudent')
+        else:
+            error = {'error': 'Username already exists, please try a different username'}
+            return render(request, 'login.html', error)
+    else:
+        if request.user.is_authenticated:
+            return render(request, 'indexStudent.html')
+        else:
+            return render(request, 'login.html')
+def logout(request):
+    django_logout(request)
+    return render(request, 'login.html')
+

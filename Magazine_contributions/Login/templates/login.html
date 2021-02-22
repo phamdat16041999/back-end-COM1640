@@ -137,21 +137,23 @@ border-color: #bdc3c7;*/
 
 						</div>
 						<div class="col-10 loginBorder">
-							<form class="formLogin">
+							<form class="formLogin" method="POST" action="indexStudent">
+								 {% csrf_token %}
 								<label for="exampleInputPassword1" style="font-weight: bold; color: #273c75;">User Name</label>
 								<div class="input-group mb-3">
-									<input type="text" class="form-control" placeholder="User name" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-top-left-radius: 15px; border-bottom-left-radius: 15px;height: 45px;">
+									<input type="text" name='userName' class="form-control" placeholder="User name" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-top-left-radius: 15px; border-bottom-left-radius: 15px;height: 45px;">
 									<div class="input-group-append">
 										<span class="input-group-text" id="basic-addon2" style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;"><i class="fa fa-user" style="font-size:24px"></i></span>
 									</div>
 								</div>
 								<label for="exampleInputPassword1" style="font-weight: bold; color: #273c75;">Password</label>
 								<div class="input-group mb-3">
-									<input type="text" class="form-control" placeholder="Password" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-top-left-radius: 15px; border-bottom-left-radius: 15px;height: 45px;">
+									<input type="password" class="form-control" name='passWord' placeholder="Password" aria-label="Recipient's username" aria-describedby="basic-addon2" style="border-top-left-radius: 15px; border-bottom-left-radius: 15px;height: 45px;">
 									<div class="input-group-append">
 										<span class="input-group-text" id="basic-addon2" style="border-top-right-radius: 15px; border-bottom-right-radius: 15px;"><i class="fa fa-lock" style="font-size:24px"></i></span>
 									</div>
 								</div>
+								<p style="color: red;">{{error}}</p>
 								<a href="forgotPassword" title="">Forgot password?</a>
 								<div style="width: 100%; text-align: center;">
 									<button type="submit" class="btn btn-primary" style="background-color: #3498db; color: white;border-color: #3498db; width: 115px; font-weight: bold; border-radius: 15px;">Login</button>
