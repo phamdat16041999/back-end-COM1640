@@ -71,24 +71,38 @@ def randomCode(request):
 	if request.method == 'POST':
         #kiem tra mail co trong csdl
         #neu co run ben duowis
+        random = random_password(12)
 		Email = request.POST.get('Email','')
 		CLIENT_SECRET_FILE = './client_secret.json'
 		API_NAME = "gmail"
 		API_VERSION = "v1"
 		SCOPES = ["https://mail.google.com/"]
 		service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-		emailMsg = random_password(12)
+		emailMsg = random
 		mimeMessage = MIMEMultipart()
 		mimeMessage["to"] = Email      #datptgch17575@fpt.edu.vn
 		mimeMessage["subject"] = "Authentic"
 		mimeMessage.attach(MIMEText(emailMsg, 'plain'))
 		raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
 		message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
+		# Lấy ID tài khoản có email vừa gửi.
+		# Lưu random vào trong DB tài khoản có ID vừa lấy
+		# return redirect('/authenticationInterface/'+ID)
+
+
+
         # neu khong tra ve ma loi('mail nay khoong ton tai')
         # error = {'error': 'Username already exists, please try a different username'}
         # return render(request, 'forgotPassword.html', error)
 	return render(request, 'forgotPassword.html')
-
+# def authenticationInterface(request, id):
+	userId = {'userId', id}
+# 	return render(request, 'login.html', code)
+def authentication(request, id):
+	# Lẫy mã đã lưu trong database từ ID
+	# NewCode = request.POST.get('Code','')
+	# So sánh hai cái với nhau
+	return redirect('/authentication/'+userId)
 def indexStudent(request):
     if request.method == 'POST':
         userName = request.POST.get('userName','')

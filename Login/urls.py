@@ -8,4 +8,6 @@ urlpatterns = [
     path('randomCode', views.randomCode),
     path('indexStudent', views.indexStudent),
     path('logout', views.logout),
+    path('authenticationInterface/<int:id>/', views.authentication),
+    path('authentication/<int:id>/', views.authentication),
 ]
