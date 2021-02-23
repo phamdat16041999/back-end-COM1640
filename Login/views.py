@@ -69,6 +69,8 @@ def forgotPassword(request):
 	return render(request, 'forgotPassword.html')
 def randomCode(request):
 	if request.method == 'POST':
+        #kiem tra mail co trong csdl
+        #neu co run ben duowis
 		Email = request.POST.get('Email','')
 		CLIENT_SECRET_FILE = './client_secret.json'
 		API_NAME = "gmail"
@@ -82,7 +84,11 @@ def randomCode(request):
 		mimeMessage.attach(MIMEText(emailMsg, 'plain'))
 		raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
 		message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
+        # neu khong tra ve ma loi('mail nay khoong ton tai')
+        # error = {'error': 'Username already exists, please try a different username'}
+        # return render(request, 'forgotPassword.html', error)
 	return render(request, 'forgotPassword.html')
+
 def indexStudent(request):
     if request.method == 'POST':
         userName = request.POST.get('userName','')
