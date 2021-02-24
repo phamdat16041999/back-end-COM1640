@@ -123,6 +123,9 @@ def indexStudent(request):
         passWord = request.POST.get('passWord','')
         user = authenticate(username=userName, password=passWord)
         if(user is not None):
+            # Kiểm tra xem nó thuộc tài khoản của ai
+            #auth_group =  auth_group.objects.filter(id = auth_user_group.objects.filter(user_id = User.objects.filter(username = userName, password = passWord)))[0].name
+            # if(auth_group == "student")
             request.session.set_expiry(86400)
             auth_login(request, user)
             return redirect('/indexStudent')
