@@ -18,8 +18,15 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
 
-# Send email	
-def random_password(length):
+mydb = mysql.connector.connect(             #connect db
+        host="localhost",
+        port="3306",
+        user="root",
+        password="",
+        database="manazinecontributions"
+        ) 
+	
+def random_code(length):
     LETTERS = string.ascii_letters
     DIGITS = string.digits
     
@@ -69,19 +76,12 @@ def index(request):
 def forgotPassword(request):
 	return render(request, 'forgotPassword.html')
 def randomCode(request):
-	if request.method == 'POST':
-        mydb = mysql.connector.connect(             #connect db
-        host="localhost",
-        port="3306",
-        user="root",
-        password="",
-        database="manazinecontributions"
-        ) 
-        random = random_password(12)
+	if request.method == 'POST':    # Send email
+        Codes = random_code(12)
 		Email = request.POST.get('Email','')
 
         mycursor = mydb.cursor()
-        mycursor.execute(f"SELECT * FROM `table` WHERE Email= '{Email}'") #kiểm tra mail có trong db
+        mycursor.execute(f"SELECT * FROM `table` WHERE email= '{Email}'")   #kiểm tra mail có trong db
         resultdb = str(mycursor.fetchone())
         if resultdb != "None":
             CLIENT_SECRET_FILE = './client_secret.json'
@@ -97,24 +97,27 @@ def randomCode(request):
             raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
             message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
 
-            mycursor.execute(f"SELECT ID FROM `table` WHERE Email= '{Email}'")
+            mycursor.execute(f"SELECT ID FROM `table` WHERE email= '{Email}'")
             ID = mycursor.fetchone()
 		# Lấy ID tài khoản có email vừa gửi.
-            mycursor.execute(f"UPDATE `table` SET Random= random WHERE ID= {ID}")   # Lưu random vào trong DB tài khoản có ID vừa lấy
+            mycursor.execute(f"UPDATE `table` SET code= Codes WHERE id= ID")   # Lưu Code vào trong DB tài khoản có ID vừa lấy
 		    return redirect('/authenticationInterface/'+ID)
         else:   # neu khong tra ve ma loi('mail nay khoong ton tai')
             error = {'error': 'Email not exists, Please try another Email!'}
             return render(request, 'forgotPassword.html', error)
-
-	return render(request, 'forgotPassword.html')
-# def authenticationInterface(request, id):
+    
+    return render(request, 'forgotPassword.html')
+def authenticationInterface(request, id):
 	userId = {'userId', id}
-# 	return render(request, 'login.html', code)
+	return render(request, 'login.html', code)
 def authentication(request, id):
-	# Lẫy mã đã lưu trong database từ ID
-	# NewCode = request.POST.get('Code','')
-	# So sánh hai cái với nhau
-	return redirect('/authentication/'+userId)
+    mycursor.execute(f"SELECT code FROM `table` WHERE id= ID")  # Lẫy mã đã lưu trong database từ ID
+	NewCode = request.POST.get('Code','')
+    if NewCode == Codes:        # So sánh hai cái với nhau
+        return redirect('/authentication/'+userId)
+    else:
+        error = {'error': 'Wrong code!, Please try another code!'}
+        return render(request, 'forgotPassword.html', error)
 def indexStudent(request):
     if request.method == 'POST':
         userName = request.POST.get('userName','')
