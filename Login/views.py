@@ -76,8 +76,21 @@ def index(request):
 def forgotPassword(request):
 	return render(request, 'forgotPassword.html')
 def randomCode(request):
+<<<<<<< HEAD
 	if request.method == 'POST':    # Send email
         Codes = random_code(12)
+=======
+	if request.method == 'POST':
+<<<<<<< HEAD
+        mydb = mysql.connector.connect(             #connect db
+        host="localhost",
+        port="3306",
+        user="root",
+        password="",
+        database="manazinecontributions"
+        ) 
+        random = random_password(12)
+>>>>>>> 3013fd29c54e4d5b5b99329ba7c5713f8d4a1bd2
 		Email = request.POST.get('Email','')
 
         mycursor = mydb.cursor()
@@ -111,6 +124,7 @@ def authenticationInterface(request, id):
 	userId = {'userId', id}
 	return render(request, 'login.html', code)
 def authentication(request, id):
+<<<<<<< HEAD
     mycursor.execute(f"SELECT code FROM `table` WHERE id= ID")  # Lẫy mã đã lưu trong database từ ID
 	NewCode = request.POST.get('Code','')
     if NewCode == Codes:        # So sánh hai cái với nhau
@@ -118,6 +132,28 @@ def authentication(request, id):
     else:
         error = {'error': 'Wrong code!, Please try another code!'}
         return render(request, 'forgotPassword.html', error)
+=======
+	# Lẫy mã đã lưu trong database từ ID
+	# NewCode = request.POST.get('Code','')
+	# So sánh hai cái với nhau
+	return redirect('/authentication/'+userId)
+=======
+		Email = request.POST.get('Email','')
+		CLIENT_SECRET_FILE = './client_secret.json'
+		API_NAME = "gmail"
+		API_VERSION = "v1"
+		SCOPES = ["https://mail.google.com/"]
+		service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+		emailMsg = random_password(12)
+		mimeMessage = MIMEMultipart()
+		mimeMessage["to"] = Email      #datptgch17575@fpt.edu.vn
+		mimeMessage["subject"] = "Authentic"
+		mimeMessage.attach(MIMEText(emailMsg, 'plain'))
+		raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
+		message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
+	return render(request, 'forgotPassword.html')
+>>>>>>> parent of 5292e0a (thang coment)
+>>>>>>> 3013fd29c54e4d5b5b99329ba7c5713f8d4a1bd2
 def indexStudent(request):
     if request.method == 'POST':
         userName = request.POST.get('userName','')
