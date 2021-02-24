@@ -71,40 +71,52 @@ def randomCode(request):
     if request.method == 'POST':
         Email = request.POST.get('Email','')
         Codes = random_code(12)
-        print(Email)
         if len(User.objects.filter(email =Email)) > 0:
-            # CLIENT_SECRET_FILE = './client_secret.json'
-            # API_NAME = "gmail"
-            # API_VERSION = "v1"
-            # SCOPES = ["https://mail.google.com/"]
-            # service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-            # emailMsg = random
-            # mimeMessage = MIMEMultipart()
-            # mimeMessage["to"] = Email      
-            # mimeMessage["subject"] = "Authentic"
-            # mimeMessage.attach(MIMEText(emailMsg, 'plain'))
-            # raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
-            # message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
-            return redirect('/authenticationInterface/'+str(User.objects.filter(email =Email)[0].id))
+            CLIENT_SECRET_FILE = './client_secret.json'
+            API_NAME = "gmail"
+            API_VERSION = "v1"
+            SCOPES = ["https://mail.google.com/"]
+            service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+            emailMsg = "Your verification code is: " + Codes
+            mimeMessage = MIMEMultipart()
+            mimeMessage["to"] = Email      
+            mimeMessage["subject"] = "Authentic"
+            mimeMessage.attach(MIMEText(emailMsg, 'plain'))
+            raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
+            message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
+            User.objects.filter(email =Email).update(code = Codes)
+            return redirect('/authenticationInterface/'+str(User.objects.filter(email =Email)[0].id)+"/")
         else:  
             error = {'error': 'Email not exists, Please try another Email!'}
             return render(request, 'forgotPassword.html', error) 
     else:
         return render(request, 'forgotPassword.html')
 def authenticationInterface(request, id):
-	userId = {'userId', id}
-	return render(request, 'authenticEmail.html', userId)
+    userId = {'userId': id}
+    return render(request, 'authenticEmail.html', userId)
 def authentication(request, id):
     code = User.objects.filter(id = id)[0].code
-    print(code)
     NewCode = request.POST.get('Code','')
-    if NewCode == code:        # So sánh hai cái với nhau
-        userId = {'userId', id}
-        return redirect('/authentication/'+userId)
-    else:
-        error = {'error': 'Wrong code!, Please try another code!'}
+    if NewCode == code:           
+        return redirect('/changePasswordInterface/'+str(id)+'/'+code+'/')
+    else:    
+        error = {'error': 'Wrong code!, Please try another code!', 'userId': id}
         return render(request, 'forgotPassword.html', error)
-
+def changePasswordInterface(request, id, code):
+    print(len(User.objects.filter(id =id, code=code)))
+    if(len(User.objects.filter(id =id, code=code)) > 0):
+        return render(request, 'changePassword.html', {'id': id})
+    else:
+        return redirect('/')
+def changePassword(request, id):
+    if request.method == 'POST':
+        confirmPassword = request.POST.get('confirmPassword','')
+        user = User.objects.get(id = id)
+        user.set_password(confirmPassword)
+        user.save()
+        return redirect('/')
+    else:
+        return redirect('/')
 def indexStudent(request):
     if request.method == 'POST':
         userName = request.POST.get('userName','')

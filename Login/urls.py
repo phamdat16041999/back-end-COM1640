@@ -9,5 +9,7 @@ urlpatterns = [
     path('indexStudent', views.indexStudent),
     path('logout', views.logout),
     path('authenticationInterface/<int:id>/', views.authenticationInterface),
-    # path('authentication/<int:id>/', views.authentication),
+    path('authentication/<int:id>/', views.authentication),
+    path('changePasswordInterface/<int:id>/<str:code>/', views.changePasswordInterface),
+    path('changePassword/<int:id>/', views.changePassword),
 ]
