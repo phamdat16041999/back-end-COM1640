@@ -137,11 +137,11 @@ border-color: #bdc3c7;*/
 
 						</div>
 						<div class="col-10 loginBorder">
-							<form class="formLogin" method="POST" action="randomCode">
+							<form class="formLogin" method="POST" action="authentication/{{userId}}">
 								{% csrf_token %}
 								<label for="exampleInputPassword1" style="font-weight: bold; color: #273c75;">Vi lòng kiểm tra email và nhập mã xác thực</label>
 								<div class="input-group mb-3">
-									<input type="text" class="form-control" placeholder="Authentication code" aria-label="Recipient's username" aria-describedby="basic-addon2" style="height: 45px; border-radius: 15px;" name="Email">
+									<input type="text" class="form-control" placeholder="Authentication code" aria-label="Recipient's username" aria-describedby="basic-addon2" style="height: 45px; border-radius: 15px;" name="Code">
 								</div>
 								<div style="width: 100%; text-align: center;">
 									<button type="submit" class="btn btn-primary" style="background-color: #3498db; color: white;border-color: #3498db; width: 115px; font-weight: bold; border-radius: 15px;">Submit</button>

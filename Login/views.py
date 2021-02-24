@@ -5,7 +5,6 @@ import random
 import pickle
 import os
 import base64
-import mysql.connector
 from google_auth_oauthlib.flow import Flow, InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
@@ -17,14 +16,8 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
+from .models import User
 
-mydb = mysql.connector.connect(             #connect db
-        host="localhost",
-        port="3306",
-        user="root",
-        password="",
-        database="manazinecontributions"
-        ) 
 	
 def random_code(length):
     LETTERS = string.ascii_letters
@@ -75,42 +68,37 @@ def index(request):
 def forgotPassword(request):
 	return render(request, 'forgotPassword.html')
 def randomCode(request):
-	if request.method == 'POST':    # Send email
-		Email = request.POST.get('Email','')
+    if request.method == 'POST':
+        Email = request.POST.get('Email','')
         Codes = random_code(12)
-
-        mycursor = mydb.cursor()
-        mycursor.execute(f"SELECT * FROM `table` WHERE email= '{Email}'")   #kiểm tra mail có trong db
-        resultemail = mycursor.fetchone()
-        if resultemail:
-            CLIENT_SECRET_FILE = './client_secret.json'
-            API_NAME = "gmail"
-            API_VERSION = "v1"
-            SCOPES = ["https://mail.google.com/"]
-            service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-            emailMsg = random
-            mimeMessage = MIMEMultipart()
-            mimeMessage["to"] = Email      
-            mimeMessage["subject"] = "Authentic"
-            mimeMessage.attach(MIMEText(emailMsg, 'plain'))
-            raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
-            message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
-
-            ID = mycursor.execute(f"SELECT ID FROM `table` WHERE email= '{Email}'").fetchone()  # Lấy ID tài khoản có email vừa gửi.
-
-            mycursor.execute(f"UPDATE `table` SET code= Codes WHERE id= ID")   # Lưu Code vào trong DB tài khoản có ID vừa lấy
-		    return redirect('/authenticationInterface/'+ID)
+        print(Email)
+        if len(User.objects.filter(email =Email)) > 0:
+            # CLIENT_SECRET_FILE = './client_secret.json'
+            # API_NAME = "gmail"
+            # API_VERSION = "v1"
+            # SCOPES = ["https://mail.google.com/"]
+            # service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+            # emailMsg = random
+            # mimeMessage = MIMEMultipart()
+            # mimeMessage["to"] = Email      
+            # mimeMessage["subject"] = "Authentic"
+            # mimeMessage.attach(MIMEText(emailMsg, 'plain'))
+            # raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
+            # message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
+            return redirect('/authenticationInterface/'+str(User.objects.filter(email =Email)[0].id))
         else:  
             error = {'error': 'Email not exists, Please try another Email!'}
             return render(request, 'forgotPassword.html', error) 
-    # return render(request, 'forgotPassword.html')
+    else:
+        return render(request, 'forgotPassword.html')
 def authenticationInterface(request, id):
 	userId = {'userId', id}
-	return render(request, 'login.html', code)
+	return render(request, 'authenticEmail.html', userId)
 def authentication(request, id):
-    mycursor.execute(f"SELECT code FROM `table` WHERE id= ID")  # Lẫy mã đã lưu trong database từ ID
-	NewCode = request.POST.get('Code','')
-    if NewCode == Codes:        # So sánh hai cái với nhau
+    code = User.objects.filter(id = id)[0].code
+    print(code)
+    NewCode = request.POST.get('Code','')
+    if NewCode == code:        # So sánh hai cái với nhau
         userId = {'userId', id}
         return redirect('/authentication/'+userId)
     else:
