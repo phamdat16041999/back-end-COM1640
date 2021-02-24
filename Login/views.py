@@ -97,7 +97,7 @@ def randomCode(request):
             raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
             message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
 
-            mycursor.execute(f"SELECT ID * FROM `table` WHERE Email= '{Email}'")
+            mycursor.execute(f"SELECT ID FROM `table` WHERE Email= '{Email}'")
             ID = mycursor.fetchone()
 		# Lấy ID tài khoản có email vừa gửi.
             mycursor.execute(f"UPDATE `table` SET Random= random WHERE ID= {ID}")   # Lưu random vào trong DB tài khoản có ID vừa lấy
