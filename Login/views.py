@@ -113,6 +113,7 @@ def authentication(request, id):
     mycursor.execute(f"SELECT code FROM `table` WHERE id= ID")  # Lẫy mã đã lưu trong database từ ID
 	NewCode = request.POST.get('Code','')
     if NewCode == Codes:        # So sánh hai cái với nhau
+        userId = {'userId', id}
         return redirect('/authentication/'+userId)
     else:
         error = {'error': 'Wrong code!, Please try another code!'}
