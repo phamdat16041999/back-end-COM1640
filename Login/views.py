@@ -76,13 +76,13 @@ def forgotPassword(request):
 	return render(request, 'forgotPassword.html')
 def randomCode(request):
 	if request.method == 'POST':    # Send email
-        Codes = random_code(12)
 		Email = request.POST.get('Email','')
+        Codes = random_code(12)
 
         mycursor = mydb.cursor()
         mycursor.execute(f"SELECT * FROM `table` WHERE email= '{Email}'")   #kiểm tra mail có trong db
-        resultdb = str(mycursor.fetchone())
-        if resultdb != "None":
+        resultemail = mycursor.fetchone()
+        if resultemail:
             CLIENT_SECRET_FILE = './client_secret.json'
             API_NAME = "gmail"
             API_VERSION = "v1"
@@ -96,16 +96,14 @@ def randomCode(request):
             raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
             message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
 
-            mycursor.execute(f"SELECT ID FROM `table` WHERE email= '{Email}'")
-            ID = mycursor.fetchone()
-		# Lấy ID tài khoản có email vừa gửi.
+            ID = mycursor.execute(f"SELECT ID FROM `table` WHERE email= '{Email}'").fetchone()  # Lấy ID tài khoản có email vừa gửi.
+
             mycursor.execute(f"UPDATE `table` SET code= Codes WHERE id= ID")   # Lưu Code vào trong DB tài khoản có ID vừa lấy
 		    return redirect('/authenticationInterface/'+ID)
         else:  
             error = {'error': 'Email not exists, Please try another Email!'}
-            return render(request, 'forgotPassword.html', error)
-    
-    return render(request, 'forgotPassword.html')
+            return render(request, 'forgotPassword.html', error) 
+    # return render(request, 'forgotPassword.html')
 def authenticationInterface(request, id):
 	userId = {'userId', id}
 	return render(request, 'login.html', code)
