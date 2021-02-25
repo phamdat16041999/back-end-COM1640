@@ -16,7 +16,8 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
 from .models import User
-
+from django.contrib.auth.models import Group
+from django.db import connection
 	
 def random_code(length):
     LETTERS = string.ascii_letters
@@ -122,26 +123,36 @@ def indexStudent(request):
         passWord = request.POST.get('passWord','')
         user = authenticate(username=userName, password=passWord)
         if(user is not None):
-            # Kiểm tra xem nó thuộc tài khoản của ai
-            auth_group =  auth_group.objects.filter(id = auth_user_group.objects.filter(user_id = User.objects.filter(username = userName, password = passWord)))[0].name
-            if(auth_group == "student"):
-                request.session.set_expiry(86400)
-                auth_login(request, user)
-                return redirect('/indexStudent')
-            elif (auth_group == "manager"):
-                request.session.set_expiry(86400)
-                auth_login(request, user)
-                return redirect('/indexManager')
-            elif (auth_group == "coordinator"):
-                request.session.set_expiry(86400)
-                auth_login(request, user)
-                return redirect('/indexCoordinator')
-            elif (auth_group == "admin"):
-                request.session.set_expiry(86400)
-                auth_login(request, user)
-                return redirect('/admin/')
-            else:
-                pass
+            userID =  User.objects.filter(username = userName)[0].id
+            request.session.set_expiry(86400)
+            auth_login(request, user)
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT auth_group.name FROM auth_group INNER JOIN login_user_groups ON auth_group.id = login_user_groups.group_id INNER JOIN login_user ON login_user.id = login_user_groups.user_id WHERE login_user.id = '%s'" ,
+                    [userID]
+                )
+                print(cursor.fetchall()[0][0])
+
+            return redirect('/indexStudent')
+            #auth_group = auth_group.objects.filter(id = auth_user_group.objects.filter(user_id = User.objects.filter(username = userName, password = passWord)))[0].name
+            # if(auth_group == "student"):
+            #     request.session.set_expiry(86400)
+            #     auth_login(request, user)
+            #     return redirect('/indexStudent')
+            # elif (auth_group == "manager"):
+            #     request.session.set_expiry(86400)
+            #     auth_login(request, user)
+            #     return redirect('/indexManager')
+            # elif (auth_group == "coordinator"):
+            #     request.session.set_expiry(86400)
+            #     auth_login(request, user)
+            #     return redirect('/indexCoordinator')
+            # elif (auth_group == "admin"):
+            #     request.session.set_expiry(86400)
+            #     auth_login(request, user)
+            #     return redirect('/admin/')
+            # else:
+            #     pass
         else:
             error = {'error': 'Username already exists, please try a different username'}
             return render(request, 'login.html', error)
