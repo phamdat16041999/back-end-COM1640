@@ -135,7 +135,7 @@ def indexStudent(request):
             # elif (auth_group == "manager"):
             #     request.session.set_expiry(86400)
             #     auth_login(request, user)
-            #     return redirect('/indexManager')~
+            #     return redirect('/indexManager')
             # elif (auth_group == "coordinator"):
             #     request.session.set_expiry(86400)
             #     auth_login(request, user)
