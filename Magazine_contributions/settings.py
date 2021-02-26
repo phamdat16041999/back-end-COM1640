@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Student',
     'Guess',
     'Manager',
+    'Coordinator',
     
 ]
 

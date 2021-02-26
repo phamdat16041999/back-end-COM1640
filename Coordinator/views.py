@@ -9,9 +9,8 @@ def getAuthGroup(UserID):
         )
         auth_group = cursor.fetchall()[0][0]
     return auth_group
-def indexGuess(request):
-    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Guess":
-        return render(request, 'indexGuess.html')
+def indexCoordinator(request):
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
+        return render(request, 'indexCoordinator.html')
     else:
         return render(request, 'login.html')
-
