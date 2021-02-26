@@ -117,7 +117,7 @@ def changePassword(request, id):
         return redirect('/')
     else:
         return redirect('/')
-def indexStudent(request):
+def indexUser(request):
     if request.method == 'POST':
         userName = request.POST.get('userName','')
         passWord = request.POST.get('passWord','')
@@ -135,11 +135,12 @@ def indexStudent(request):
             if(auth_group == "Student"):
                 request.session.set_expiry(86400)
                 auth_login(request, user)
-                return redirect('/indexStudent')
+                return redirect('Student/')
             elif (auth_group == "Manager"):
                 request.session.set_expiry(86400)
                 auth_login(request, user)
-                return redirect('/indexManager')
+                # return redirect('/indexManager')
+                return render(request, 'indexManager.html')
             elif (auth_group == "Coordinator"):
                 request.session.set_expiry(86400)
                 auth_login(request, user)
@@ -162,6 +163,9 @@ def indexStudent(request):
             return render(request, 'indexStudent.html')
         else:
             return render(request, 'login.html')
+
+def Student(request):
+    return redirect(request, '/Student')
 def logout(request):
     django_logout(request)
     return render(request, 'login.html')
