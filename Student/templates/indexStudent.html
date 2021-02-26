@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
+	<style>
+		html { 
+			background: url(background_khongchu.png) no-repeat center center fixed; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+		body{
+			background-color: transparent;	
+		}
+		.btn{
+			width: 140px; height: 70px;
+			font-weight: bold;
+		}
+		.btngirl{
+			margin-left: 120px; 
+			margin-top: -8px;
+		}
+		.btnEdithuman{
+			position: absolute;
+			margin-top: 105px;
+			margin-left: -90px;
+		}
+		.slogan{
+			text-align: center; margin-top: 140px;
+		}
+		@media only screen and (max-width: 700px) {
+			.btn{
+				width: 80px; height: 40px;
+				font-size: 11px;
+			}
+			.btngirl{
+				margin-left: 10px;
+				margin-top: -2px;
+			}
+			.studying{
+				margin-top: 0px !important;
+			}
+			.btnEdithuman{
+				margin-top: 75px !important;
+				margin-left: -45px !important;
+			}
+			.slogan{
+				margin-top: 50px;
+			}
+		}
+		@media only screen and (max-width: 1200px) {
+			.btngirl{
+				margin-left: 55px;
+				margin-top: -5px;
+			}
+			.btnEdithuman{
+				margin-top: 185px;
+				margin-left: -80px;
+			}
+		}
+	</style>
+</body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<div class="container-xl">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">My contribute</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">View my profile</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link disabled" href="#">Disabled</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<div class="container-xl">
+	<div class="row">
+		<h1 class="col-xl-4 col-12 slogan">MAKE YOUR IDEAS COME TRUE</h1>
+		<div class="col-xl-8 col-12" style="text-align: center; ">
+			<img src="studying.png" class="studying" alt="" style="width: 40%; height: auto; margin-top: 75px;">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-4">
+			
+		</div>
+		<div class="col-4">
+			<img src="girl.png" alt="" style="width: 80%; height: auto;">
+			<button type="button" class="btn btn-danger btngirl">Contribute upload</button>
+		</div>
+		<div class="col-4">
+		</div>
+	</div>
+</div>
+<div class="container-xl" style="margin-top: 20px;">
+	<div class="row">
+		<div class="col-xl-6 col-12">
+			<img src="Professor.png" alt="" style="width: 30%; height: auto;">
+			<button type="button" class="btn btn-danger">My contribute</button>
+		</div>
+		<div class="col-xl-6 col-12" style="text-align: right;">
+			<button type="button" class="btn btn-danger btnEdithuman">View my profile</button>
+			<img src="edithuman.png" alt="" style="width: 35%; height: auto;">
+		</div>
+	</div>
+</div>
+</body>
+</html>
