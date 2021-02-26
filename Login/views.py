@@ -65,6 +65,7 @@ def Create_Service(client_secret_file, api_name, api_version, *scopes):
 
 def index(request):
     if request.user.is_authenticated:
+        print(request.user.id)
         return render(request, 'indexStudent.html')
     else:
         return render(request, 'login.html')
@@ -127,29 +128,23 @@ def indexUser(request):
         user = authenticate(username=userName, password=passWord)
         if(user is not None):
             userID =  User.objects.filter(username = userName)[0].id
-            request.session.set_expiry(86400)
-            auth_login(request, user)
+            # request.session.set_expiry(86400)
+            # auth_login(request, user)
             with connection.cursor() as cursor:
                 cursor.execute(
                     "SELECT auth_group.name FROM auth_group INNER JOIN login_user_groups ON auth_group.id = login_user_groups.group_id INNER JOIN login_user ON login_user.id = login_user_groups.user_id WHERE login_user.id = '%s'" ,
                     [userID]
                 )
                 auth_group = cursor.fetchall()[0][0]
+            request.session.set_expiry(86400)
+            auth_login(request, user)
             if(auth_group == "Student"):
-                request.session.set_expiry(86400)
-                auth_login(request, user)
-                return redirect('Student/')
+                return redirect('/Student')
             elif (auth_group == "Manager"):
-                request.session.set_expiry(86400)
-                auth_login(request, user)
                 return redirect('/Manager')
             elif (auth_group == "Coordinator"):
-                request.session.set_expiry(86400)
-                auth_login(request, user)
                 return redirect('/Coordinator')
             elif (auth_group == "Guess"):
-                request.session.set_expiry(86400)
-                auth_login(request, user)
                 return redirect('/Guess')
             else:
                 pass

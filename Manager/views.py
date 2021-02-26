@@ -1,8 +1,4 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as django_logout
-from django.shortcuts import redirect
 from django.db import connection
 # Create your views here.
 def getAuthGroup(UserID):
@@ -13,8 +9,8 @@ def getAuthGroup(UserID):
         )
         auth_group = cursor.fetchall()[0][0]
     return auth_group
-def indexStudent(request):
-    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
-        return render(request, 'indexStudent.html')
+def indexManager(request):
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+        return render(request, 'indexManager.html')
     else:
         return render(request, 'login.html')

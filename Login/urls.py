@@ -13,4 +13,5 @@ urlpatterns = [
     path('changePasswordInterface/<int:id>/<str:code>/', views.changePasswordInterface),
     path('changePassword/<int:id>/', views.changePassword),
     path('Student', include('Student.urls')),
+    path('Manager', include('Manager.urls')),
 ]
