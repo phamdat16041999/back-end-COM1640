@@ -64,7 +64,10 @@ def Create_Service(client_secret_file, api_name, api_version, *scopes):
         return None
 
 def index(request):
-	return render(request, 'login.html')
+    if request.user.is_authenticated:
+        return render(request, 'indexStudent.html')
+    else:
+        return render(request, 'login.html')
 def forgotPassword(request):
 	return render(request, 'forgotPassword.html')
 def randomCode(request):
@@ -139,20 +142,15 @@ def indexUser(request):
             elif (auth_group == "Manager"):
                 request.session.set_expiry(86400)
                 auth_login(request, user)
-                # return redirect('/indexManager')
-                return render(request, 'indexManager.html')
+                return redirect('/Manager')
             elif (auth_group == "Coordinator"):
                 request.session.set_expiry(86400)
                 auth_login(request, user)
-                return redirect('/indexCoordinator')
-            elif (auth_group == "Admin"):
-                request.session.set_expiry(86400)
-                auth_login(request, user)
-                return redirect('/admin/')
+                return redirect('/Coordinator')
             elif (auth_group == "Guess"):
                 request.session.set_expiry(86400)
                 auth_login(request, user)
-                return redirect('/indexGuess')
+                return redirect('/Guess')
             else:
                 pass
         else:
