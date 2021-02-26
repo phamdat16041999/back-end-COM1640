@@ -72,6 +72,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'Magazine_contributions.wsgi.application'
 APPEND_SLASH=False
 
