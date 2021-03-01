@@ -23,8 +23,6 @@ class User(AbstractUser):
 	PhoneNumber = models.IntegerField(blank=True, null = True)
 	Sex = models.IntegerField(blank=True, choices= Sex_choise, null = True)
 	Faculty = models.ForeignKey(Faculty, default=None, on_delete=models.CASCADE, blank=True, null = True)
-
-<<<<<<< HEAD
 class Term(models.Model):
 	idTerm = models.AutoField(primary_key=True)
 	NameTerm = models.CharField(max_length=30)
@@ -32,9 +30,6 @@ class Term(models.Model):
 	ClosureDate = models.DateTimeField()
 	FinalClosureDate = models.DateTimeField()
 class Contribute(models.Model):
-=======
-class Contribute(Term, User):
->>>>>>> 5a4e1a033b178f3a75233ddede2a5de2a5f814a6
 	NameContribute = models.CharField(max_length=20)
 	DateContribute = models.DateTimeField()
 	Term = models.ForeignKey(Term, default=None, on_delete=models.CASCADE, blank=True, null = True)
@@ -47,7 +42,7 @@ class Data(models.Model):
 	Data = models.FileField()
 	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
 
-class Comment(Contribute, User):
+class Comment(models.Model):
 	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	User = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	Comment = models.TextField()
