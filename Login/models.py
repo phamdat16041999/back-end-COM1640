@@ -23,16 +23,17 @@ class Term(models.Model):
 	Description = models.TextField()
 	ClosureDate = models.DateTimeField()
 	FinalClosureDate = models.DateTimeField()
-class Contribute(Term, User):
+class Contribute(models.Model):
 	NameContribute = models.CharField(max_length=20)
-	Date = models.DateTimeField()
+	DateContribute = models.DateTimeField()
 	Term = models.ForeignKey(Term, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	Status = models.TextField()
 	User = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	Image = models.ImageField()
 
-class Data(Contribute):
+class Data(models.Model):
+	idData = models.AutoField(primary_key=True)
 	Data = models.FileField()
-	id = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
 
    

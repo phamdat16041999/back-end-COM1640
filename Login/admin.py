@@ -8,7 +8,7 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 
 class FacultyAdmin(admin.ModelAdmin):
-	list_display = ['Name', 'Description','ClosureDate','FinalClosureDate']
+	list_display = ['Name', 'Description']
 	list_filter = ['Name']
 	search_fields = ['Name']
 admin.site.register(Faculty, FacultyAdmin)
