@@ -7,8 +7,6 @@ from django.contrib.auth.models import AbstractUser
 class Faculty(models.Model):
 	Name = models.CharField(max_length=30)
 	Description = models.CharField(max_length=200)
-	ClosureDate = models.DateTimeField()
-	FinalClosureDate = models.DateTimeField()
 	def __str__(self):
 		return self.Name
 class User(AbstractUser):
@@ -19,5 +17,22 @@ class User(AbstractUser):
 	Sex = models.IntegerField(blank=True, choices= Sex_choise, null = True)
 	Faculty = models.ForeignKey(Faculty, default=None, on_delete=models.CASCADE, blank=True, null = True)
 
+class Term(models.Model):
+	idTerm = models.AutoField(primary_key=True)
+	NameTerm = models.CharField(max_length=30)
+	Description = models.TextField()
+	ClosureDate = models.DateTimeField()
+	FinalClosureDate = models.DateTimeField()
+class Contribute(Term, User):
+	NameContribute = models.CharField(max_length=20)
+	Date = models.DateTimeField()
+	Term = models.ForeignKey(Term, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	Status = models.TextField()
+	User = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	Image = models.ImageField()
+
+class Data(Contribute):
+	Data = models.FileField()
+	id = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
 
    
