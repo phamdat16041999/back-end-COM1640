@@ -18,6 +18,7 @@ from django.shortcuts import redirect
 from .models import User
 from django.contrib.auth.models import Group
 from django.db import connection
+from .models import Contribute
 	
 def random_code(length):
     LETTERS = string.ascii_letters
@@ -162,4 +163,7 @@ def Student(request):
 def logout(request):
     django_logout(request)
     return render(request, 'login.html')
+def ViewContributes(request):
+   Contributes = {'Contributes': Contribute.objects.all().order_by('-DateContribute')}
+   return render(request, 'ViewContributes.html', Contributes)
 
