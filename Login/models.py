@@ -9,6 +9,13 @@ class Faculty(models.Model):
 	Description = models.CharField(max_length=200)
 	def __str__(self):
 		return self.Name
+
+class Term(models.Model):
+	idTerm = models.AutoField(primary_key=True)
+	NameTerm = models.CharField(max_length=30)
+	Description = models.TextField()
+	ClosureDate = models.DateTimeField()
+	FinalClosureDate = models.DateTimeField()
 class User(AbstractUser):
 	Sex_choise = ((0,"Male"),(1,"Female"),(2,"Other"))
 	code = models.CharField(max_length=12, null = True, blank = True)
@@ -17,12 +24,6 @@ class User(AbstractUser):
 	Sex = models.IntegerField(blank=True, choices= Sex_choise, null = True)
 	Faculty = models.ForeignKey(Faculty, default=None, on_delete=models.CASCADE, blank=True, null = True)
 
-class Term(models.Model):
-	idTerm = models.AutoField(primary_key=True)
-	NameTerm = models.CharField(max_length=30)
-	Description = models.TextField()
-	ClosureDate = models.DateTimeField()
-	FinalClosureDate = models.DateTimeField()
 class Contribute(Term, User):
 	NameContribute = models.CharField(max_length=20)
 	Date = models.DateTimeField()
@@ -33,6 +34,10 @@ class Contribute(Term, User):
 
 class Data(Contribute):
 	Data = models.FileField()
-	id = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
 
-   
+class Comment(Contribute, User):
+	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	User = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	Comment = models.TextField()
+	DateComment = models.DateTimeField()
