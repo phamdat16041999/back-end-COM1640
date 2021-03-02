@@ -4,7 +4,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
 from django.db import connection
-from Login.models import Contribute
+from Login.models import Contribute, Term
 # Create your views here.
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
@@ -22,3 +22,6 @@ def indexStudent(request):
 def ViewContributes(request):
    Contributes = {'Contributes': Contribute.objects.filter(User=request.user.id).order_by('-DateContribute')}
    return render(request, 'MyContribute.html', Contributes)
+def ViewDeadline(request):
+   ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate')}
+   return render(request, 'ViewDeadline.html', ViewDeadlines)
