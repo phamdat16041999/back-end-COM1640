@@ -24,12 +24,10 @@ def ViewContributes(request):
    Contributes = {'Contributes': Contribute.objects.filter(User=request.user.id).order_by('-DateContribute')}
    return render(request, 'MyContribute.html', Contributes)
 def ViewDeadline(request):
-<<<<<<< Updated upstream
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'Now': datetime.now()}
 
-=======
+
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate')}
->>>>>>> Stashed changes
     return render(request, 'ViewDeadline.html', ViewDeadlines)
 def TimeZone(request):
     now = datetime.datetime.now()
