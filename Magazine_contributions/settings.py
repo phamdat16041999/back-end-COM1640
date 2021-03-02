@@ -85,7 +85,7 @@ APPEND_SLASH=False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'manazinecontributions',
+        'NAME': 'manazinecontributions1',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on

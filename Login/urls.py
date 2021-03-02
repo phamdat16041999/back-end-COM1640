@@ -16,5 +16,5 @@ urlpatterns = [
     path('Manager', include('Manager.urls')),
     path('Guess', include('Guess.urls')),
     path('Coordinator', include('Coordinator.urls')),
-    path('contribute', views.ViewContributes),
+    path('Contribute', views.ViewContributes),
 ]
