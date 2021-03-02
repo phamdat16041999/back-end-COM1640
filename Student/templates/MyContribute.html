@@ -24,10 +24,8 @@
 			<h4>{{Contribute.DateContribute|date:"d-m-Y"}}</h4>	
 			<h4>{{Contribute.DateContribute|date:"d-m-Y"}}</h4>	
 			{% endfor %}
-			{{Contributes|length}}
-
-		    {% for item in seq %}
-	    		<li>{{ item }}</li>
+		    {% for Contribute in Contributes %}
+	    		<li>{{ forloop.counter }}</li>
 			{% endfor %}
 
 		</div>
@@ -39,7 +37,8 @@
 				<h1>Your contributions</h1>
 				<p>Nội dung của văn bản	</p>	
 			</div>
-
+			{% for Contribute in Contributes %}
+			{% if forloop.counter == 1 %}
 			<div class="col-xl-8 col-12">
 				<div style="background-color: #E5E6DE;">
 					<div class="row ">
@@ -57,6 +56,8 @@
 					</div>	
 				</div>	
 			</div>
+			{% endif %}
+			{% endfor %}
 			<div class="col-xl-4 col-12 right">
 				<div class="row" style="height: 500px; overflow: auto;">
 					<div class="col-12">
@@ -64,34 +65,24 @@
 							<h2>Other Contributions</h2>
 						</div>
 					</div>
-					<div style="color: #3D9478">	
+					
+					<div style="color: #3D9478">
+					{% for Contribute in Contributes %}
+					{% if forloop.counter != 1 %}
+
 						<div class="col-12">
 							<h3> Title and Date</h3>
 						</div>
 						<div class="col-12">
 							<img src="{% static 'image/anh3.png' %}" style="max-width: 100%; height: auto;">
 						</div>
-						<div class="col-12">
-							<h3> Title and Date</h3>
-						</div>
-						<div class="col-12">
-							<img src="{% static 'image/anh3.png' %}" style="max-width: 100%; height: auto;">
-						</div>
-						<div class="col-12">
-							<h3> Title and Date</h3>
-						</div>
-						<div class="col-12">
-							<img src="{% static 'image/anh3.png' %}" style="max-width: 100%; height: auto;">
-						</div>					<div class="col-12">
-							<h3> Title and Date</h3>
-						</div>
-						<div class="col-12">
-							<img src="{% static 'image/anh3.png' %}" style="max-width: 100%; height: auto;">
-						</div>
+						{% endif %}
+						en
 					</div>
 				</div>	
 				<div style="margin-bottom: 30px;"></div>
 			</div>
+		
 		</div>
 	</div>
 </div>
