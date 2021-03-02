@@ -129,9 +129,12 @@
 						<div class="timeline-unit overdue">Overdue</div>
 					</div>
 					{% for ViewDeadline in ViewDeadlines %}
-					{{ViewDeadline.ClosureDate}}
-					
-					{% if ViewDeadline.ClosureDate == 1 %}
+					<p>Date/Time: <span id="datetime"></span></p>
+					<script>
+						var dt = new Date();
+						document.getElementById("datetime").innerHTML = dt.toLocaleString();
+					</script>
+					{% if ViewDeadline.ClosureDate != datetime %}
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">

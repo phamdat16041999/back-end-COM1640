@@ -5,7 +5,7 @@ from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
 from django.db import connection
 from Login.models import Contribute, Term
-import time, datetime
+from datetime import datetime
 # Create your views here.
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
@@ -25,6 +25,5 @@ def ViewContributes(request):
    return render(request, 'MyContribute.html', Contributes)
 def ViewDeadline(request):
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate')}
-    Now =  datetime.datetime.now()
     return render(request, 'ViewDeadline.html', ViewDeadlines)
     
