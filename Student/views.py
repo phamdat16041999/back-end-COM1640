@@ -25,10 +25,4 @@ def ViewContributes(request):
    return render(request, 'MyContribute.html', Contributes)
 def ViewDeadline(request):
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'Now': datetime.now()}
-
-
-    ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate')}
     return render(request, 'ViewDeadline.html', ViewDeadlines)
-def TimeZone(request):
-    now = datetime.datetime.now()
-    return render(request, 'ViewDeadline.html', now)

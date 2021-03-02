@@ -128,18 +128,8 @@
 					<div class="col-12">
 						<div class="timeline-unit overdue">Overdue</div>
 					</div>
-					{% comment %} <p>Curent Date: <span id="datenow"></span></p>	
-					<script>
-						var dt = new Date();
-						document.getElementById("datenow").innerHTML = (("0"+dt.getDate()).slice(-2)) +" "+ (("0"+(dt.getMonth()+1)).slice(-2)) +" "+ (dt.getFullYear());
-					</script> {% endcomment %}
 					{% for ViewDeadline in ViewDeadlines %}	
-					{% if ViewDeadline.ClosureDate|date:"d m Y" < Now|date:"d m Y" %}
-					{% for ViewDeadline in ViewDeadlines %}
-					{{ViewDeadline.ClosureDate}}		
-					{{now}}
-					
-					{% if ViewDeadline.ClosureDate == 1 %}
+					{% if ViewDeadline.ClosureDate|date:"d m Y" < Now|date:"d m Y" %}		
 
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
@@ -159,7 +149,6 @@
 					{% endfor %}
 				</div>
 			</div>
-			{% comment %} aaaaaaa {% endcomment %}
 			<div class="col-xl-3 col-12">
 				<div class="row">
 					<div class="col-12">
@@ -217,7 +206,7 @@
 						<div class="timeline-unit noDeadline">Year</div>
 					</div>
 					{% for ViewDeadline in ViewDeadlines %}	
-					{% if forloop.counter > 1 %}
+					{% if ViewDeadline.ClosureDate|date:"Y" == Now|date:"Y" %}
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
