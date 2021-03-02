@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title>Layout 1</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Bevan&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Asap+Condensed:wght@700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Faustina:wght@700&display=swap" rel="stylesheet">	
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+
+</head>
+<body style="width: 100%" >
+	<div style="background-color: #B5C1BE">
+		<div >
+			{% for Contribute in Contributes %}
+			<h4>{{Contribute.DateContribute|date:"d-m-Y"}}</h4>	
+			<h4>{{Contribute.DateContribute|date:"d-m-Y"}}</h4>	
+			{% endfor %}
+			{{Contributes|length}}
+
+		    {% for item in seq %}
+	    		<li>{{ item }}</li>
+			{% endfor %}
+
+		</div>
+		<div class="container-xl">
+			<div class="row">
+				<div class="col-12 center " style="text-align: center; font-family: 'Faustina', serif;
+				font-size: auto;">
+				<div style="margin-top: 30px;"></div>
+				<h1>Your contributions</h1>
+				<p>Nội dung của văn bản	</p>	
+			</div>
+
+			<div class="col-xl-8 col-12">
+				<div style="background-color: #E5E6DE;">
+					<div class="row ">
+						<div class="col-xl-6 col-12 order-xl-1 order-2 img2">
+							<img src="{% static 'image/anh2.png' %}" style="width: 100%; height: auto;" />
+						</div>
+						<div class="col-xl-6 col-12 order-xl-1 order-1 vanban" style="font-family: 'Asap Condensed', sans-serif">
+							<h2>Title contributions</h2>
+							<p></p>
+							<h4>DATE AND MENTOR</h4>
+							<p></p>
+							<h5>Description</h5>
+							<p>Tú đẹp trai so cute Tú đẹp trai so cuteTú đẹp trai so cuteTú đẹp trai so cuteTú đẹp trai so cuteTú đẹp trai so cuteTú đẹp trai so cuteTú đẹp trai so cuteTú đẹp trai so cute</p>
+						</div>
+					</div>	
+				</div>	
+			</div>
+			<div class="col-xl-4 col-12 right">
+				<div class="row" style="height: 500px; overflow: auto;">
+					<div class="col-12">
+						<div class="text-muted">
+							<h2>Other Contributions</h2>
+						</div>
+					</div>
+					<div style="color: #3D9478">	
+						<div class="col-12">
+							<h3> Title and Date</h3>
+						</div>
+						<div class="col-12">
+							<img src="{% static 'image/anh3.png' %}" style="max-width: 100%; height: auto;">
+						</div>
+						<div class="col-12">
+							<h3> Title and Date</h3>
+						</div>
+						<div class="col-12">
+							<img src="{% static 'image/anh3.png' %}" style="max-width: 100%; height: auto;">
+						</div>
+						<div class="col-12">
+							<h3> Title and Date</h3>
+						</div>
+						<div class="col-12">
+							<img src="{% static 'image/anh3.png' %}" style="max-width: 100%; height: auto;">
+						</div>					<div class="col-12">
+							<h3> Title and Date</h3>
+						</div>
+						<div class="col-12">
+							<img src="{% static 'image/anh3.png' %}" style="max-width: 100%; height: auto;">
+						</div>
+					</div>
+				</div>	
+				<div style="margin-bottom: 30px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
