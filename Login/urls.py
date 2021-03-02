@@ -12,9 +12,7 @@ urlpatterns = [
     path('authentication/<int:id>/', views.authentication),
     path('changePasswordInterface/<int:id>/<str:code>/', views.changePasswordInterface),
     path('changePassword/<int:id>/', views.changePassword),
-    path('Student', include('Student.urls')),
-    path('Manager', include('Manager.urls')),
-    path('Guess', include('Guess.urls')),
-    path('Coordinator', include('Coordinator.urls')),
+    # path('Student', include('Student.urls')),
+    
     path('Contribute', views.ViewContributes),
 ]

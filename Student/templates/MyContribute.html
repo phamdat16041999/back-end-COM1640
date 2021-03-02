@@ -37,7 +37,7 @@
 						</div>
 						<div class="col-xl-6 col-12 order-xl-1 order-1 vanban" style="font-family: 'Asap Condensed', sans-serif">
 							<h2>{{Contribute.NameContribute}}</h2>
-							<h4>{{Contribute.DateContribute|date:"d-m-Y"}}</h4>
+							<h4>{{Contribute.DateContribute|date:"d/m/Y"}}</h4>
 							<h5>Description</h5>
 							<p>{{Contribute.Status}}</p>
 						</div>
@@ -60,13 +60,13 @@
 						</div>
 					</div>
 					{% for Contribute in Contributes %}
-					{% if forloop.counter != 1 %}
+					{% if forloop.counter > 1 %}
 					<div style="color: #3D9478">
 						<div class="col-12">
 							<div class="col-xl-6 col-12 order-xl-1 order-1 vanban" style="font-family: 'Asap Condensed', sans-serif">
 								<h2>{{Contribute.NameContribute}}</h2>
 							<p></p>
-								<h4>{{Contribute.DateContribute|date:"d-m-Y"}}</h4>
+								<h4>{{Contribute.DateContribute|date:"d/m/Y"}}</h4>
 							<p></p>
 								<h5>Description</h5>
 							<p>{{Contribute.Status}}</p>

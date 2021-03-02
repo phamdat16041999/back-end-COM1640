@@ -24,6 +24,7 @@ def ViewContributes(request):
    Contributes = {'Contributes': Contribute.objects.filter(User=request.user.id).order_by('-DateContribute')}
    return render(request, 'MyContribute.html', Contributes)
 def ViewDeadline(request):
-    ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate')}
+    ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'Now': datetime.now()}
+
     return render(request, 'ViewDeadline.html', ViewDeadlines)
     

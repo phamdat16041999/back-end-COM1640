@@ -128,26 +128,24 @@
 					<div class="col-12">
 						<div class="timeline-unit overdue">Overdue</div>
 					</div>
-					{% for ViewDeadline in ViewDeadlines %}
-					<p>Date: <span id="datetime"></span></p>
+					{% comment %} <p>Curent Date: <span id="datenow"></span></p>	
 					<script>
-					var dt = new Date();
-					document.getElementById("datetime").innerHTML = ((("0"+(dt.getMonth()+1)).slice(-2)) +","+  ("0"+dt.getDate()).slice(-2))+","+ (dt.getFullYear()) +" "+ (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
-					</script>
-					{{ViewDeadline.ClosureDate}}
-					{% if ViewDeadline.ClosureDate != datetime %}
+						var dt = new Date();
+						
+						document.getElementById("datenow").innerHTML = (("0"+dt.getDate()).slice(-2)) +" "+ (("0"+(dt.getMonth()+1)).slice(-2)) +" "+ (dt.getFullYear());
+					</script> {% endcomment %}
+					{% for ViewDeadline in ViewDeadlines %}	
+					{% if ViewDeadline.ClosureDate|date:"d m Y" < Now|date:"d m Y" %}
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									{% comment %} <h5>Term</h5> {% endcomment %}
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
-										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d-m-Y"}}</span>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d m Y"}}</span>
 										<h4></h4>
-										<span>Status</span>
+										<span>Description: {{ViewDeadline.Description}}</span>
 									</div>
-									<p>Coordinator:</p>
 								</div>
 							</div>
 						</div>
@@ -156,44 +154,27 @@
 					{% endfor %}
 				</div>
 			</div>
-			
 			<div class="col-xl-3 col-12">
 				<div class="row">
 					<div class="col-12">
 						<div class="timeline-unit thisWeek">Now</div>
-					</div>
+					</div>			
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
+						{% for ViewDeadline in ViewDeadlines %}	
+						{% if ViewDeadline.ClosureDate|date:"d m Y" == Now|date:"d m Y" %}
 							<div class="col-12">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h5>Title</h5>
+								<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
-										<span>date</span>
-										<span>Status</span>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d m Y"}}</span>
+										<h4></h4>
+										<span>Description: {{ViewDeadline.Description}}</span>
 									</div>
-									<p>Coordinator:</p>
 								</div>
 							</div>
-							<div class="col-12">
-								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h5>Title</h5>
-									<div>
-										<span>date</span>
-										<span>Status</span>
-									</div>
-									<p>Coordinator:</p>
-								</div>
-							</div>
-							<div class="col-12">
-								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h5>Title</h5>
-									<div>
-										<span>date</span>
-										<span>Status</span>
-									</div>
-									<p>Coordinator:</p>
-								</div>
-							</div>
+						{% endif %}
+						{% endfor %}
 						</div>
 					</div>
 				</div>
@@ -203,20 +184,24 @@
 					<div class="col-12">
 						<div class="timeline-unit nextWeek">Due next week</div>
 					</div>
+					{% for ViewDeadline in ViewDeadlines %}	
+					{% if ViewDeadline.ClosureDate|date:"d m Y" > Now|date:"d m Y" %}
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h5>Title</h5>
+									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
-										<span>date</span>
-										<span>Status</span>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d m Y"}}</span>
+										<h4></h4>
+										<span>Description: {{ViewDeadline.Description}}</span>
 									</div>
-									<p>Coordinator:</p>
 								</div>
 							</div>
 						</div>
 					</div>
+					{% endif %}
+					{% endfor %}
 				</div>
 			</div>			
 			<div class="col-xl-3 col-12">
@@ -224,20 +209,21 @@
 					<div class="col-12">
 						<div class="timeline-unit noDeadline">Year</div>
 					</div>
+					{% for ViewDeadline in ViewDeadlines %}	
+					{% if forloop.counter > 1 %}
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h5>Title</h5>
 									<div>
-										<span>date</span>
-										<span>Status</span>
+										<span>Year {{ViewDeadline.ClosureDate|date:"Y"}}</span>
 									</div>
-									<p>Coordinator:</p>
 								</div>
 							</div>
 						</div>
 					</div>
+					{% endif %}
+					{% endfor %}
 				</div>
 			</div>
 		</div>

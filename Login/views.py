@@ -140,13 +140,13 @@ def indexUser(request):
             request.session.set_expiry(86400)
             auth_login(request, user)
             if(auth_group == "Student"):
-                return redirect('/Student')
+                return redirect('/Student/')
             elif (auth_group == "Manager"):
-                return redirect('/Manager')
+                return redirect('/Manager/')
             elif (auth_group == "Coordinator"):
-                return redirect('/Coordinator')
+                return redirect('/Coordinator/')
             elif (auth_group == "Guess"):
-                return redirect('/Guess')
+                return redirect('/Guess/')
             else:
                 pass
         else:
