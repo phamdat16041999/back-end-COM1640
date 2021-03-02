@@ -22,10 +22,17 @@
 		<div >
 			{% for Contribute in Contributes %}
 			<h4>{{Contribute.DateContribute|date:"d-m-Y"}}</h4>	
-			<h4>{{Contribute.DateContribute|date:"d-m-Y"}}</h4>	
+			<h4>{{Contribute.NameContribute|date:"d-m-Y"}}</h4>	
 			{% endfor %}
+<<<<<<< Updated upstream
 		    {% for Contribute in Contributes %}
 	    		<li>{{ forloop.counter }}</li>
+=======
+			{{Contributes|length}}
+
+		    {% for item in range(10) %}
+	    		<li>{{ item }}</li>
+>>>>>>> Stashed changes
 			{% endfor %}
 
 		</div>
