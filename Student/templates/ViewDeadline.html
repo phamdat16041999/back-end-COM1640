@@ -120,11 +120,7 @@
 			</div>
 		</div>
 	</nav>
-	{% for ViewDeadline in ViewDeadlines %}
-
-	<h2>{{ViewDeadline.NameTerm}}</h2>
-	<h4>{{ViewDeadline.ClosureDate|date:"d-m-Y"}}</h4>
-	{% endfor %}
+	
 	<div class="container-xl" style="margin-top: 50px;">
 		<div class="row">
 			<div class="col-xl-3 col-12">
@@ -132,13 +128,19 @@
 					<div class="col-12">
 						<div class="timeline-unit overdue">Overdue</div>
 					</div>
+					{% for ViewDeadline in ViewDeadlines %}
+					{{ViewDeadline.ClosureDate}}
+					
+					{% if ViewDeadline.ClosureDate == 1 %}
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h5>Title</h5>
+									{% comment %} <h5>Term</h5> {% endcomment %}
+									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
-										<span>date</span>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d-m-Y"}}</span>
+										<h4></h4>
 										<span>Status</span>
 									</div>
 									<p>Coordinator:</p>
@@ -146,8 +148,11 @@
 							</div>
 						</div>
 					</div>
+					{% endif %}
+					{% endfor %}
 				</div>
 			</div>
+			
 			<div class="col-xl-3 col-12">
 				<div class="row">
 					<div class="col-12">
