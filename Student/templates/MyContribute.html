@@ -20,8 +20,7 @@
 <body style="width: 100%" >
 	<div style="background-color: #B5C1BE">
 		<div >
-			
-
+		
 		</div>
 		<div class="container-xl">
 
@@ -61,7 +60,7 @@
 						</div>
 					</div>
 					{% for Contribute in Contributes %}
-					{% if forloop.counter == 2 %}
+					{% if forloop.counter != 1 %}
 					<div style="color: #3D9478">
 						<div class="col-12">
 							<h3>{{Contribute.NameContribute}}</h3>
