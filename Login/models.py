@@ -23,7 +23,7 @@ class Term(models.Model):
 	NameTerm = models.CharField(max_length=30)
 	Description = models.TextField()
 	ClosureDate = models.DateTimeField()
-	FinalClosureDate = models.DateTimeField()
+	FinalClosureDate = models.DateTimeField() 
 	def __str__(self):
 		return self.NameTerm
 class Contribute(models.Model):
