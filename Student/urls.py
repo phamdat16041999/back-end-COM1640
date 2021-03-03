@@ -4,9 +4,9 @@ from .import views
 urlpatterns = [
     path('home', views.indexStudent),
     path('ViewContributes', views.ViewContributes),
-    path('', views.ViewDeadline),
-    path('indexStudent', views.indexStudent),
-    path('indexUser', views.indexStudent),  #lỗi............
+    path('ViewDeadline', views.ViewDeadline),
+    path('', views.indexStudent),
+    path('indexUser', views.indexStudent), 
 
 ]
 

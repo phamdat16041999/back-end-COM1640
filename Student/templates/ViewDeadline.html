@@ -130,14 +130,15 @@
 					</div>
 					{% for ViewDeadline in ViewDeadlines %}	
 					{% if ViewDeadline.ClosureDate|date:"d m Y" < Now|date:"d m Y" %}		
-
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
-										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d m Y"}}</span>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
+										<h4></h4>
+										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
 										<h4></h4>
 										<span>Description: {{ViewDeadline.Description}}</span>
 									</div>
@@ -162,9 +163,11 @@
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 								<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
-										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d m Y"}}</span>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
 										<h4></h4>
-										<span>Description: {{ViewDeadline.Description}}</span>
+										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
+										<h4></h4>
+										<span>Description: {{ViewDeadline.Description}}</span>								
 									</div>
 								</div>
 							</div>
@@ -188,7 +191,9 @@
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
-										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d m Y"}}</span>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
+										<h4></h4>
+										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
 										<h4></h4>
 										<span>Description: {{ViewDeadline.Description}}</span>
 									</div>
@@ -206,19 +211,17 @@
 						<div class="timeline-unit noDeadline">Year</div>
 					</div>
 					{% for ViewDeadline in ViewDeadlines %}	
-					{% if ViewDeadline.ClosureDate|date:"Y" == Now|date:"Y" %}
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<div>
-										<span>Year {{ViewDeadline.ClosureDate|date:"Y"}}</span>
+										<span>Year: {{ViewDeadline.ClosureDate|date:"Y"}}</span>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					{% endif %}
 					{% endfor %}
 				</div>
 			</div>
