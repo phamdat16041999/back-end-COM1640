@@ -24,6 +24,16 @@ def ViewContributes(request):
    Contributes = {'Contributes': Contribute.objects.filter(User=request.user.id).order_by('-DateContribute')}
    return render(request, 'MyContribute.html', Contributes)
 def ViewDeadline(request):
-    ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'Now': datetime.now()}
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT DISTINCT YEAR(ClosureDate) FROM login_term as year"
+        )
+        year = cursor.fetchall()
+    Year = []
+    for i in range(len(year)):
+        Year.append(year[i][0])
+    print(Year)
+    print("aaaaaaaaaaaaaa")
+    ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'Now': datetime.now(), 'Year': Year}
     return render(request, 'ViewDeadline.html', ViewDeadlines)
 

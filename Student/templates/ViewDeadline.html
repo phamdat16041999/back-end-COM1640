@@ -210,19 +210,19 @@
 					<div class="col-12">
 						<div class="timeline-unit noDeadline">Year</div>
 					</div>
-					{% for ViewDeadline in ViewDeadlines|slice:":1" %}	
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<div>
-										<span><a href="">{{ViewDeadline.ClosureDate|date:'Y'}}</a></span>
+									{% for a in Year %}	
+										<p><a href="filler/{{ a }}">{{ a }}</a></p>
+									{% endfor %}
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					{% endfor %}
 				</div>
 			</div>
 		</div>
