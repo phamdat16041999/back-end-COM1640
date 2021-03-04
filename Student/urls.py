@@ -3,8 +3,8 @@ from .import views
 
 urlpatterns = [
     path('home', views.indexStudent),
-    path('ViewContributes', views.ViewContributes),
-    path('', views.ViewDeadline),
+    path('', views.ViewContributes),
+    path('ViewDeadline', views.ViewDeadline),
     path('indexStudent', views.indexStudent),
     path('indexUser', views.indexStudent), 
 
