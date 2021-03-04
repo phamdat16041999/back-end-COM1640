@@ -183,11 +183,11 @@
 					<div class="col-12">
 						<div class="timeline-unit nextWeek">Due next week</div>
 					</div>
-					{% for ViewDeadline in ViewDeadlines %}	
-					{% if ViewDeadline.ClosureDate|date:"d m Y" > Now|date:"d m Y" %}
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
+								{% for ViewDeadline in ViewDeadlines %}	
+								{% if ViewDeadline.ClosureDate|date:"d m Y" > Now|date:"d m Y" %}
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
@@ -198,11 +198,11 @@
 										<span>Description: {{ViewDeadline.Description}}</span>
 									</div>
 								</div>
+								{% endif %}
+								{% endfor %}
 							</div>
 						</div>
 					</div>
-					{% endif %}
-					{% endfor %}
 				</div>
 			</div>			
 			<div class="col-xl-3 col-12">
@@ -210,7 +210,7 @@
 					<div class="col-12">
 						<div class="timeline-unit noDeadline">Year</div>
 					</div>
-					{% for ViewDeadline in ViewDeadlines %}	
+					{% for ViewDeadline in ViewDeadlines|slice:":1" %}	
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							<div class="col-12">
