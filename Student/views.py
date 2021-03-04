@@ -26,3 +26,4 @@ def ViewContributes(request):
 def ViewDeadline(request):
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'Now': datetime.now()}
     return render(request, 'ViewDeadline.html', ViewDeadlines)
+
