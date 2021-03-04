@@ -32,8 +32,19 @@ def ViewDeadline(request):
     Year = []
     for i in range(len(year)):
         Year.append(year[i][0])
-    print(Year)
-    print("aaaaaaaaaaaaaa")
+        Year.sort(reverse=True)
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'Now': datetime.now(), 'Year': Year}
     return render(request, 'ViewDeadline.html', ViewDeadlines)
+def ViewDeadlineYear(request, id):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT DISTINCT YEAR(ClosureDate) FROM login_term as year"
+        )
+        year = cursor.fetchall()
+    Year = []
+    for i in range(len(year)):
+        Year.append(year[i][0])
+        Year.sort(reverse=True)
+    ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'id': str(id), 'Now': datetime.now(), 'Year': Year}
+    return render(request, 'ViewDeadlineYear.html', ViewDeadlines)
 

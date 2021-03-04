@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.indexStudent),
     path('ViewContributes', views.ViewContributes),
     path('ViewDeadline', views.ViewDeadline),
+    path('Filter/<int:id>', views.ViewDeadlineYear),
     path('indexStudent', views.indexStudent),
     path('indexUser', views.indexStudent), 
 
