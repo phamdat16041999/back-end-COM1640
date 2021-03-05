@@ -1,7 +1,7 @@
 from django import forms
-from Login.models import Book
+from Login.models import Data
 
-class BookForm(forms.ModelForm):
+class DataForm(forms.ModelForm):
 	class Meta:
-		model = Book
-		fields = ('title','author', 'pdf')
+		model = Data
+		fields = ('idData','Data')

@@ -36,16 +36,18 @@ class Contribute(models.Model):
 
 class Data(models.Model):
 	idData = models.AutoField(primary_key=True)
-	Data = models.FileField()
+	Data = models.FileField(upload_to='FileData/')
 	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	def __str__(self):
+		return self.Data
 class Comment(models.Model):
 	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	User = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	Comment = models.TextField()
 	DateComment = models.DateTimeField()
-class Book(models.Model):
-	title = models.CharField(max_length=100)
-	author = models.CharField(max_length=100)
-	pdf = models.FileField(upload_to='books/pdfs/')
-	def __str__(self):
-		return self.title
+# class Book(models.Model):
+# 	title = models.CharField(max_length=100)
+# 	author = models.CharField(max_length=100)
+# 	pdf = models.FileField(upload_to='books/pdfs/')
+# 	def __str__(self):
+# 		return self.title

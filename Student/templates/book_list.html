@@ -18,13 +18,11 @@
 	<link href="https://fonts.googleapis.com/css2?family=Faustina:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
-	<a href="{% url 'upload_book'%}" class="btn btn-primary">upload book</a>
-
 	{% for book in books %}
-	<p>Title: {{book.title}}</p>
-	<p>author:{{book.author}}</p>
-	<p>{{book.pdf}}</p>
-	<a href="{{book.pdf.url}}" class="btn btn-primary">dowload PDF</a>
+	<p>Id Data: {{book.idData}}</p>
+	<p>DAta:    {{book.Data}}</p>
+	<p>Contribute: {{book.Contribute}}</p>
+	<a href="{{book.Data.url}}" class="btn btn-primary">dowload PDF</a>
 
 	{%endfor%}
 	
