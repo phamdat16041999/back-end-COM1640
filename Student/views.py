@@ -55,7 +55,7 @@ def book_list(request):
         'books': book_list
         })
 
-def UploadFile(request, id):
+def UploadFile(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
