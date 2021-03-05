@@ -55,9 +55,7 @@ def book_list(request):
         'books': book_list
         })
 
-
-
-def upload_book(request):
+def UploadFile(request, id):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
@@ -67,6 +65,6 @@ def upload_book(request):
     else:
         form = BookForm()
 
-    return render(request, 'upload_book.html',{
+    return render(request, 'UploadFile.html',{
         'form': form
         })

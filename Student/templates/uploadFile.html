@@ -48,6 +48,7 @@
 	</style>
 </head>
 <body>
+	{% csrf_token %}
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-xl">
 			<a class="navbar-brand" href="#">Navbar</a>
@@ -111,7 +112,7 @@
 						</div>
 						<div class="row">
 							<div class="col-12" style="text-align: center;">
-								<button type="submit" class="btn btn-info">Info</button>
+								<button href="{% url 'book_list'%}" type="submit" class="btn btn-info">Upload</button>
 							</div>
 						</div>
 					</div>

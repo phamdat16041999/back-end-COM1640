@@ -132,7 +132,7 @@
 						<div class="row" style="height: 450px; overflow: auto;">
                         {% for ViewDeadline in ViewDeadlines %}
 						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.ClosureDate|date:"Y m d" < Now|date:"Y m d" %}
-							<div class="col-12">
+							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
@@ -159,7 +159,7 @@
 						<div class="row" style="height: 450px; overflow: auto;">
 						{% for ViewDeadline in ViewDeadlines %}
 						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.ClosureDate|date:"Y m d" == Now|date:"Y m d" %}
-							<div class="col-12">
+							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 								<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
@@ -187,7 +187,7 @@
 						<div class="row" style="height: 450px; overflow: auto;">
 						{% for ViewDeadline in ViewDeadlines %}
 						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.ClosureDate|date:"Y m d" > Now|date:"Y m d" %}
-							<div class="col-12">
+							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
@@ -226,5 +226,11 @@
 				</div>
 			</div>
 		</div>
-	</body>
+<script>
+		function viewUpload(id){
+			location.href = "Upload/" + id;
+		}
+	</script>
 	</html>
+</body>
+</html>
