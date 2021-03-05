@@ -57,7 +57,11 @@ def book_list(request,id):
 
 def UploadFile(request,id):
     if request.method == 'POST':
+<<<<<<< HEAD
         form = DataForm(request.POST, request.FILES)
+=======
+        form = DataForm(request.POST, request.FILES, id)
+>>>>>>> aecc2e6aa0344185093971c2eef33086382042f6
         if form.is_valid():
             form.save()
             return redirect('book_list')
