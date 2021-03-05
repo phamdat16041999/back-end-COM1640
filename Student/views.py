@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
 from django.db import connection
-from Login.models import Contribute, Term
+from Login.models import Contribute, Term, Book
 from datetime import datetime
+from .forms import BookForm
 # Create your views here.
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
@@ -48,3 +49,24 @@ def ViewDeadlineYear(request, id):
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'id': str(id), 'Now': datetime.now(), 'Year': Year}
     return render(request, 'ViewDeadlineYear.html', ViewDeadlines)
 
+def book_list(request):
+    book_list = Book.objects.all()
+    return render(request, 'book_list.html',{
+        'books': book_list
+        })
+
+
+
+def upload_book(request):
+    if request.method == 'POST':
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')
+            # return render(request, 'book_list.html')
+    else:
+        form = BookForm()
+
+    return render(request, 'upload_book.html',{
+        'form': form
+        })
