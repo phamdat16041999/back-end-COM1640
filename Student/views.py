@@ -4,9 +4,9 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
 from django.db import connection
-from Login.models import Contribute, Term, Book
+from Login.models import Contribute, Term, Data
 from datetime import datetime
-from .forms import BookForm
+from .forms import DataForm
 # Create your views here.
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
@@ -57,13 +57,13 @@ def book_list(request):
 
 def UploadFile(request, id):
     if request.method == 'POST':
-        form = BookForm(request.POST, request.FILES)
+        form = DataForm(request.POST, request.FILES, id)
         if form.is_valid():
             form.save()
             return redirect('book_list')
             # return render(request, 'book_list.html')
     else:
-        form = BookForm()
+        form = DataForm()
 
     return render(request, 'UploadFile.html',{
         'form': form
