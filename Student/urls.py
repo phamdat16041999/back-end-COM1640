@@ -8,6 +8,6 @@ urlpatterns = [
     path('ViewDeadline/<int:id>', views.ViewDeadlineYear),
     path('indexStudent', views.indexStudent),
     path('indexUser', views.indexStudent), 
-
+    
 ]
 
