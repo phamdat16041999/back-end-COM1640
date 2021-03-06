@@ -59,11 +59,9 @@ def book_list(request):
 
 def UploadFile(request,id):
     if request.method == 'POST':
-
         form = DataForm(request.POST, request.FILES )
         if form.is_valid():
-            newdoc = Document(docfile = request.FILES['docfile'])
-            newdoc.save()
+            form.save()
             return redirect('book_list')
             # return render(request, 'book_list.html')
     else:
