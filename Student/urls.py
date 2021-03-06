@@ -10,6 +10,7 @@ urlpatterns = [
     path('indexStudent', views.indexStudent),
     path('indexUser', views.indexStudent), 
     path('book_list', views.book_list, name='book_list'),
+    path('upload', views.simple_upload)
     # path('upload', views.upload_book, name='upload_book'),
 
 ]

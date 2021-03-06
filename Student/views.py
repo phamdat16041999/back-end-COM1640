@@ -7,6 +7,8 @@ from django.db import connection
 from Login.models import Contribute, Term, Data
 from datetime import datetime
 from .forms import DataForm
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
@@ -56,7 +58,7 @@ def book_list(request):
         })
 
 def UploadFile(request,id):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.FILES['myfile']:
         form = DataForm(request.POST, request.FILES )
         if form.is_valid():
             form.save()
@@ -64,7 +66,19 @@ def UploadFile(request,id):
             # return render(request, 'book_list.html')
     else:
         form = DataForm()
-
     return render(request, 'upload_book.html',{
         'form': form
         })
+def simple_upload(request):
+    if request.method == 'POST' and request.FILES['myfile'] and request.FILES['myfile1'] :
+        myfile = request.FILES['myfile']
+        myfile1 = request.FILES['myfile1']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        filename = fs.save(myfile1.name, myfile1)
+        return render(request, 'ViewDeadline.html')
+    return render(request, 'simple_upload.html')
+    # uploaded_file_url = fs.url(filename)
+    #     return render(request, 'core/simple_upload.html', {
+    #         'uploaded_file_url': uploaded_file_url
+    #     })
