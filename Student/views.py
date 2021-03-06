@@ -58,10 +58,12 @@ def book_list(request):
         })
 
 def UploadFile(request,id):
-    if request.method == 'POST' and request.FILES['myfile']:
+    if request.method == 'POST':
+
         form = DataForm(request.POST, request.FILES )
         if form.is_valid():
-            form.save()
+            newdoc = Document(docfile = request.FILES['docfile'])
+            newdoc.save()
             return redirect('book_list')
             # return render(request, 'book_list.html')
     else:
@@ -76,6 +78,7 @@ def simple_upload(request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         filename = fs.save(myfile1.name, myfile1)
+        uploaded_file_url = fs.url(filename)
         return render(request, 'ViewDeadline.html')
     return render(request, 'simple_upload.html')
     # uploaded_file_url = fs.url(filename)
