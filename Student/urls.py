@@ -9,7 +9,7 @@ urlpatterns = [
     path('ViewDeadline/Upload/<int:id>', views.UploadFile),
     path('indexStudent', views.indexStudent),
     path('indexUser', views.indexStudent), 
-    path('book_list/<int:id>', views.book_list, name='book_list'),
+    path('book_list', views.book_list, name='book_list'),
     # path('upload', views.upload_book, name='upload_book'),
 
 ]

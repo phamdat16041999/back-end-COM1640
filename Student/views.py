@@ -49,7 +49,7 @@ def ViewDeadlineYear(request, id):
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'id': str(id), 'Now': datetime.now(), 'Year': Year}
     return render(request, 'ViewDeadlineYear.html', ViewDeadlines)
 
-def book_list(request,id):
+def book_list(request):
     book_list = Data.objects.all()
     return render(request, 'book_list.html',{
         'books': book_list
@@ -57,7 +57,7 @@ def book_list(request,id):
 
 def UploadFile(request,id):
     if request.method == 'POST':
-        form = DataForm(request.POST, request.FILES)
+        form = DataForm(request.POST, request.FILES )
         if form.is_valid():
             form.save()
             return redirect('book_list')
