@@ -32,7 +32,8 @@ class Contribute(models.Model):
 	Status = models.BooleanField()
 	UserID = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	Document = models.FileField()
-
+	def __str__(self):
+		return self.Name
 class Data(models.Model):
 	Data = models.ImageField()
 	ContributeID = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)

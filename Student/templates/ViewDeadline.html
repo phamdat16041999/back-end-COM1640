@@ -131,8 +131,8 @@
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 							{% for ViewDeadline in ViewDeadlines %}	
-							{% if ViewDeadline.ClosureDate|date:"Y m d" < Now|date:"Y m d" %}
-							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
+							{% if ViewDeadline.FinalClosureDate|date:"Y m d" < Now|date:"Y m d" %}
+							<div class="col-12" onclick="viewUploaded('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
@@ -153,13 +153,13 @@
 			<div class="col-xl-3 col-12">
 				<div class="row">
 					<div class="col-12">
-						<div class="timeline-unit thisWeek">Now</div>
+						<div class="timeline-unit thisWeek">Update</div>
 					</div>			
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 						{% for ViewDeadline in ViewDeadlines %}	
-						{% if ViewDeadline.ClosureDate|date:"Y m d" == Now|date:"Y m d" %}
-							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
+						{% if ViewDeadline.ClosureDate|date:"Y m d" < Now|date:"Y m d" and ViewDeadline.FinalClosureDate|date:"Y m d" > Now|date:"Y m d" %}
+							<div class="col-12" onclick="viewUpdate('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 								<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
@@ -228,8 +228,18 @@
 		</div>
 	</body>
 	<script>
+		function viewUploaded(id){
+			location.href = "ViewDeadline/viewUploaded/" + id;
+		}
+	</script>
+	<script>
+		function viewUpdate(id){
+			location.href = "ViewDeadline/viewUpdate/" + id;
+		}
+	</script>
+	<script>
 		function viewUpload(id){
-			location.href = "viewUpload/" + id;
+			location.href = "ViewDeadline/viewUpload/" + id;
 		}
 	</script>
 	</html>

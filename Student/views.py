@@ -53,6 +53,12 @@ def ViewDeadlineYear(request, id):
 def viewUpload(request,id):
     ternID = {'ternID':id}
     return render(request, 'uploadFile.html', ternID)
+def viewUpdate(request,id):
+    ternID = {'ternID':id}
+    return render(request, 'updateFile.html', ternID)
+def viewUploaded(request,id):
+    ternID = {'ternID':id}
+    return render(request, 'viewUploaded.html', ternID)
 def uploadContribute(request,id):
     if request.user.is_authenticated:
         if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
@@ -76,4 +82,3 @@ def uploadContribute(request,id):
             return redirect('/')
     else:
         return render(request, 'login.html')
-

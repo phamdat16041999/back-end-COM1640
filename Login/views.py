@@ -106,7 +106,7 @@ def authentication(request, id):
         error = {'error': 'Wrong code!, Please try another code!', 'userId': id}
         return render(request, 'forgotPassword.html', error)
 def changePasswordInterface(request, id, code):
-    # print(len(User.objects.filter(id =id, code=code)))
+    print(len(User.objects.filter(id =id, code=code)))
     if(len(User.objects.filter(id =id, code=code)) > 0):
         return render(request, 'changePassword.html', {'id': id})
     else:
