@@ -132,7 +132,7 @@
 						<div class="row" style="height: 450px; overflow: auto;">
                         {% for ViewDeadline in ViewDeadlines %}
 						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.FinalClosureDate|date:"Y m d" < Now|date:"Y m d" %}
-							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
+							<div class="col-12" onclick="viewUploaded('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
@@ -153,13 +153,13 @@
 			<div class="col-xl-3 col-12">
 				<div class="row">
 					<div class="col-12">
-						<div class="timeline-unit thisWeek">Now</div>
+						<div class="timeline-unit thisWeek">Due</div>
 					</div>			
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 						{% for ViewDeadline in ViewDeadlines %}
 						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.ClosureDate|date:"Y m d" < Now|date:"Y m d" and  ViewDeadline.FinalClosureDate|date:"Y m d" > Now|date:"Y m d" %}
-							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
+							<div class="col-12" onclick="viewUpdate('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 								<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
@@ -181,12 +181,12 @@
 			<div class="col-xl-3 col-12">
 				<div class="row">
 					<div class="col-12">
-						<div class="timeline-unit nextWeek">Due next week</div>
+						<div class="timeline-unit nextWeek">Next due</div>
 					</div>
 					<div class="col-12" style="margin-top: 10px;">
 						<div class="row" style="height: 450px; overflow: auto;">
 						{% for ViewDeadline in ViewDeadlines %}
-						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.FinalClosureDate|date:"Y m d" > Now|date:"Y m d" %}
+						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.ClosureDate|date:"Y m d" > Now|date:"Y m d" %}
 							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
@@ -227,10 +227,18 @@
 			</div>
 		</div>
 <script>
+		function viewUploaded(id){
+			location.href = "viewUploaded/" + id;
+		}
+	</script>
+	<script>
+		function viewUpdate(id){
+			location.href = "viewUpdate/" + id;
+		}
+	</script>
+	<script>
 		function viewUpload(id){
 			location.href = "viewUpload/" + id;
 		}
 	</script>
-	</html>
-</body>
 </html>
