@@ -17,14 +17,14 @@ class TermAdmin(admin.ModelAdmin):
 	search_fields = ['NameTerm']
 admin.site.register(Term, TermAdmin)
 class ContributeAdmin(admin.ModelAdmin):
-	list_display = ['NameContribute', 'DateContribute','Term','Status','User','Image']
-	list_filter = ['NameContribute']
-	search_fields = ['NameContribute']
+	list_display = ['Name', 'Date','Status','Document']
+	list_filter = ['Name']
+	search_fields = ['Name']
 admin.site.register(Contribute, ContributeAdmin)
 class DataAdmin(admin.ModelAdmin):
-	list_display = ['Data', 'Contribute']
+	list_display = ['Data', 'ContributeID']
 	list_filter = ['Data']
-	search_fields = ['Data','Contribute']
+	search_fields = ['Data','ContributeID']
 admin.site.register(Data, DataAdmin)
 class CommentAdmin(admin.ModelAdmin):
 	list_display = ['Contribute', 'User','Comment','DateComment']

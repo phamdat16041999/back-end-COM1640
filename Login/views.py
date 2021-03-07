@@ -34,8 +34,6 @@ def Create_Service(client_secret_file, api_name, api_version, *scopes):
     API_SERVICE_NAME = api_name
     API_VERSION = api_version
     SCOPES = [scope for scope in scopes[0]]
-    print(SCOPES)
-
     cred = None
 
     pickle_file = f"token_{API_SERVICE_NAME}_{API_VERSION}.pickle"

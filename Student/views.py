@@ -6,7 +6,9 @@ from django.shortcuts import redirect
 from django.db import connection
 from Login.models import Contribute, Term, Data
 from datetime import datetime
-from .forms import DataForm
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+from django.shortcuts import redirect
 # Create your views here.
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
@@ -48,23 +50,30 @@ def ViewDeadlineYear(request, id):
         Year.sort(reverse=True)
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'id': str(id), 'Now': datetime.now(), 'Year': Year}
     return render(request, 'ViewDeadlineYear.html', ViewDeadlines)
-
-def book_list(request,id):
-    book_list = Data.objects.all()
-    return render(request, 'book_list.html',{
-        'books': book_list
-        })
-
-def UploadFile(request,id):
-    if request.method == 'POST':
-        form = DataForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('book_list')
-            # return render(request, 'book_list.html')
+def viewUpload(request,id):
+    ternID = {'ternID':id}
+    return render(request, 'uploadFile.html', ternID)
+def uploadContribute(request,id):
+    if request.user.is_authenticated:
+        if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
+            nameContribute = request.POST.get('nameContribute','')
+            description = request.POST.get('description','')
+            contribute = request.FILES['contribute']
+            image1 = request.FILES['image1']
+            image2 = request.FILES['image2']
+            fs = FileSystemStorage()
+            filename = fs.save(contribute.name, contribute)
+            filename = fs.save(image1.name, image1)
+            filename = fs.save(image2.name, image2)
+            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute.name)
+            Data.objects.create(Data = image1.name, ContributeID_id = Contribute.objects.latest('id').id)
+            Data.objects.create(Data = image2.name, ContributeID_id = Contribute.objects.latest('id').id)
+            uploaded_file_url = fs.url(filename)
+            # Contribute.objects.create()
+            return redirect('/')
+        else:
+            # Not found 404
+            return redirect('/')
     else:
-        form = DataForm()
+        return render(request, 'login.html')
 
-    return render(request, 'upload_book.html',{
-        'form': form
-        })

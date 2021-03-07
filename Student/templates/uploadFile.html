@@ -48,7 +48,6 @@
 	</style>
 </head>
 <body>
-	{% csrf_token %}
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-xl">
 			<a class="navbar-brand" href="#">Navbar</a>
@@ -85,34 +84,44 @@
 					<p>- You can upload file word and image</p>
 					<p>- You can update or edit your article(s) until the final closure date</p>
 				</div>
-				<form>
+				<form method="post" action="/Student/uploadContribute/{{ternID}}" enctype="multipart/form-data">
+					{% csrf_token %}
 					<div class="container">
 						<div class="input-group">
 							<div class="input-group-prepend" id="label">
 								<span class="input-group-text" style="background-color: transparent; border-color: transparent;">Sort title</span>
 							</div>
-							<input type="text" class="form-control">
+							<input type="text" class="form-control" name="nameContribute">
 						</div>
 						<div class="input-group">
 							<div class="input-group-prepend" id="label">
 								<span class="input-group-text" style="background-color: transparent; border-color: transparent;">Description</span>
 							</div>
-							<input type="text" class="form-control">
+							<input type="text" class="form-control" name="description">
 						</div>
 						<div class="row">
 							<div class="col-12">
-								<input type="file" style="margin-top: 20px;" required>
+								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadContribute').click();">Upload contribute</button>
+								<input type="file" required id="uploadContribute" name="contribute" accept=".doc,.docx,application/msword" style="display: none;">
+								<p id="nameFileContribute" style="margin-top: 16px;"></p>
 							</div>
 							<div class="col-12">
-								<input type="file" style="margin-top: 20px;" required>
+								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadImage1').click()">Upload image</button>
+								<input type="file" required id="uploadImage1" name="image1" accept="image/*" style="display: none;">
+								<p id="nameImage1" style="margin-top: 16px;"></p>
 							</div>
 							<div class="col-12">
-								<input type="file" style="margin-top: 20px;" required>
+								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadImage2').click()">Upload image</button>
+								<input type="file" required id="uploadImage2" name="image2" accept="image/*" style="display: none;">
+								<p id="nameImage2" style="margin-top: 16px;"></p>
+							</div>
+							<div class="col-12">
+								<button type="button" class="btn btn-info" style="width: 180px; margin-top: 10px;" onclick="setName()">Check file</button>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-12" style="text-align: center;">
-								<button href="{% url 'book_list'%}" type="submit" class="btn btn-info">Upload</button>
+								<button type="submit" class="btn" style="margin-top: 10px; color: white; background-color: #e74c3c; border-color: #e74c3c;">Upload</button>
 							</div>
 						</div>
 					</div>
@@ -121,5 +130,16 @@
 			<div class="col-xl-6 col-12"></div>
 		</div>
 	</div>
+	<script>
+		function setName()
+		{
+			nameFileContribute = document.getElementById('uploadContribute').value;
+			document.getElementById('nameFileContribute').innerHTML = nameFileContribute;
+			nameFileContribute = document.getElementById('uploadImage1').value;
+			document.getElementById('nameImage1').innerHTML = nameFileContribute;
+			nameFileContribute = document.getElementById('uploadImage2').value;
+			document.getElementById('nameImage2').innerHTML = nameFileContribute;
+		}
+	</script>
 </body>
 </html>

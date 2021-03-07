@@ -25,29 +25,19 @@ class Term(models.Model):
 	def __str__(self):
 		return self.NameTerm
 class Contribute(models.Model):
-	NameContribute = models.CharField(max_length=20)
-	DateContribute = models.DateTimeField()
-	Term = models.ForeignKey(Term, default=None, on_delete=models.CASCADE, blank=True, null = True)
-	Status = models.TextField()
-	User = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
-	Image = models.ImageField()
-	def __str__(self):
-		return self.NameContribute
+	Name = models.CharField(max_length=20)
+	Description = models.CharField(max_length=100)
+	Date = models.DateTimeField(auto_now_add = True)
+	TermID = models.ForeignKey(Term, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	Status = models.BooleanField()
+	UserID = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	Document = models.FileField()
 
 class Data(models.Model):
-	idData = models.AutoField(primary_key=True)
-	Data = models.FileField(upload_to='FileData/')
-	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
-	def __str__(self):
-		return self.Data
+	Data = models.ImageField()
+	ContributeID = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
 class Comment(models.Model):
 	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	User = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	Comment = models.TextField()
 	DateComment = models.DateTimeField()
-# class Book(models.Model):
-# 	title = models.CharField(max_length=100)
-# 	author = models.CharField(max_length=100)
-# 	pdf = models.FileField(upload_to='books/pdfs/')
-# 	def __str__(self):
-# 		return self.title
