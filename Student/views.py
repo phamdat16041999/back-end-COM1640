@@ -57,8 +57,17 @@ def viewUpdate(request,id):
     ternID = {'ternID':id}
     return render(request, 'updateFile.html', ternID)
 def viewUploaded(request,id):
-    ternID = {'ternID':id}
-    return render(request, 'viewUploaded.html', ternID)
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT login_contribute.Document FROM login_term INNER JOIN login_contribute ON login_term.idTerm = login_contribute.TermID_id WHERE login_term.idTerm = '%s'" , 
+            [id]
+        )
+        Data = cursor.fetchall()
+    contribute = []
+    for i in range(len(Data)):
+        contribute.append(Data[i][0])
+    print(contribute)
+    return render(request, 'viewUploaded.html', {'Data': contribute})
 def uploadContribute(request,id):
     if request.user.is_authenticated:
         if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
@@ -82,3 +91,12 @@ def uploadContribute(request,id):
             return redirect('/')
     else:
         return render(request, 'login.html')
+# def ShowData(request,id):
+#     ternID = {'ternID':id}
+#     print(ternID)
+#     with connection.cursor() as cursor:
+#         cursor.execute(
+#             "SELECT login_contribute.Document FROM login_term INNER JOIN login_contribute ON login_term.idTerm = login_contribute.TermID_id WHERE login_term.idTerm = '%s'", [id]
+#         )
+#         Data = cursor.fetchall()
+#     return render(request, 'viewUploaded.html', Data)
