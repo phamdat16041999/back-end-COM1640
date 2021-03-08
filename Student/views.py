@@ -64,14 +64,13 @@ def viewUploaded(request,id):
 
         )
         Data = cursor.fetchall()
-    print(len(Data))
-    contribute = []
-    title = []
-    
+    print(Data)
+    contribute = [] 
     for i in range(len(Data)):
+        contribute.append(Data[1][i])
         for j in range(len(Data)):
-            title.append(Data[0][j])
-        contribute.append(title[i][j])
+            contribute.append(Data[j][i])
+    
     print(contribute)
     return render(request, 'viewUploaded.html', {'Data': contribute})
 def uploadContribute(request,id):
