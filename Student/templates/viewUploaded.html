@@ -85,38 +85,39 @@
 					<p>- You can upload file word and image</p>
 					<p>- You can update or edit your article(s) until the final closure date</p>
 				</div>
-				{% for i in Data %}
-				<p>{{Data.Name}}</p>
-				{%endfor%}
-
+				
 				<div class="container">
 					<div class="input-group">
 						<div class="input-group-prepend" id="label">
 							<span class="input-group-text" style="background-color: transparent; border-color: transparent;">Sort title</span>
 						</div>
-						<input type="text" class="form-control" name="nameContribute" readonly>
+						<input type="text" class="form-control" name="nameContribute" value="{{Data.3}}" readonly>
 					</div>
 					<div class="input-group">
 						<div class="input-group-prepend" id="label">
 							<span class="input-group-text" style="background-color: transparent; border-color: transparent;">Description</span>
 						</div>
-						<input type="text" class="form-control" name="description" readonly> 
+						<input type="text" class="form-control" name="description" value="{{Data.2}}" readonly> 
 					</div>
 					<div class="row">
 						<div class="col-12">
 							<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info">Upload contribute</button>
 							<input type="file" required id="uploadContribute" name="contribute" accept=".doc,.docx,application/msword" style="display: none;">
-							<p id="nameFileContribute" style="margin-top: 16px;"></p>
+							<p id="nameFileContribute" style="margin-top: 16px;"><a href="{{Data.4}}.url}">{{Data.4}}}</a></p>
+							{% if uploaded_file_url %}
+							<p>aaaaaaaa</p>
+							<p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+							{% endif %}
 						</div>
 						<div class="col-12">
 							<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info">Upload image</button>
 							<input type="file" required id="uploadImage1" name="image1" accept="image/*" style="display: none;">
-							<p id="nameImage1" style="margin-top: 16px;"></p>
+							<p id="nameImage1" style="margin-top: 16px;">{{Data.1}}</p>
 						</div>
 						<div class="col-12">
 							<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info">Upload image</button>
 							<input type="file" required id="uploadImage2" name="image2" accept="image/*" style="display: none;">
-							<p id="nameImage2" style="margin-top: 16px;">Name</p>
+							<p id="nameImage2" style="margin-top: 16px;">{{Data.0}}</p>
 						</div>
 					</div>
 
