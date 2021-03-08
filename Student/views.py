@@ -59,13 +59,18 @@ def viewUpdate(request,id):
 def viewUploaded(request,id):
     with connection.cursor() as cursor:
         cursor.execute(
-            "SELECT login_contribute.Document FROM login_term INNER JOIN login_contribute ON login_term.idTerm = login_contribute.TermID_id WHERE login_term.idTerm = '%s'" , 
+            "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description, login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s'" , 
             [id]
+
         )
         Data = cursor.fetchall()
     contribute = []
+    title = []
+    print(len(Data))
     for i in range(len(Data)):
-        contribute.append(Data[i][0])
+        for j in range(len(Data)):
+            title.append(Data[j][i])
+        contribute.append(title)
     print(contribute)
     return render(request, 'viewUploaded.html', {'Data': contribute})
 def uploadContribute(request,id):

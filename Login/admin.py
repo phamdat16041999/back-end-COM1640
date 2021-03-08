@@ -17,7 +17,7 @@ class TermAdmin(admin.ModelAdmin):
 	search_fields = ['NameTerm']
 admin.site.register(Term, TermAdmin)
 class ContributeAdmin(admin.ModelAdmin):
-	list_display = ['Name', 'Date','Status','Document']
+	list_display = ['Name', 'Date','Status','Document','UserID']
 	list_filter = ['Name']
 	search_fields = ['Name']
 admin.site.register(Contribute, ContributeAdmin)
