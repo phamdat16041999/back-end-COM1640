@@ -59,20 +59,17 @@ def viewUpdate(request,id):
 def viewUploaded(request,id):
     with connection.cursor() as cursor:
         cursor.execute(
-            "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description, login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s'" , 
-            [id]
-
+            "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM ((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) WHERE login_term.idTerm = '%s' and login_user.id ='%s'" ,
+            [id,request.user.id]
         )
-        Data = cursor.fetchall()
-    print(Data[1][0])
-    contribute = []
-    contribute.append(Data[0][3])
-    contribute.append(Data[1][3])
-    contribute.append(Data[1][2])
-    contribute.append(Data[1][1])
-    contribute.append(Data[1][0])
-    print(contribute)
-    return render(request, 'viewUploaded.html', {'Data': contribute})
+        DataNoImage = cursor.fetchall()
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s' and login_user.id ='%s' ",
+            [id,request.user.id]
+        )
+        DataImage = cursor.fetchall()
+    return render(request, 'viewUploaded.html', {'DataNoImage': DataNoImage,'DataImage': DataImage})
 def uploadContribute(request,id):
     if request.user.is_authenticated:
         if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
