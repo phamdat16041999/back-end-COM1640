@@ -8,7 +8,6 @@ from Login.models import Contribute, Term, Data
 from datetime import datetime
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-from django.shortcuts import redirect
 # Create your views here.
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
