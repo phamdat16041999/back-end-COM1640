@@ -30,7 +30,7 @@ class DataAdmin(admin.ModelAdmin):
 	search_fields = ['Data','ContributeID']
 admin.site.register(Data, DataAdmin)
 class CommentAdmin(admin.ModelAdmin):
-	list_display = ['Contribute', 'User','Comment','DateComment']
-	list_filter = ['Contribute']
-	search_fields = ['Contribute']
+	list_display = ['ContributeID', 'UserID','Comment','DateComment']
+	list_filter = ['ContributeID']
+	search_fields = ['ContributeID']
 admin.site.register(Comment, CommentAdmin)

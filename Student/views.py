@@ -4,10 +4,11 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as django_logout
 from django.shortcuts import redirect
 from django.db import connection
-from Login.models import Contribute, Term, Data
+from Login.models import Contribute, Term, Data, Comment
 from datetime import datetime
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
 # Create your views here.
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
@@ -62,7 +63,6 @@ def viewUpload(request,id):
         ternID = {'ternID':id}
         return render(request, 'uploadFile.html', ternID)
 def viewUpdate(request,id):
-
     ternID = {'ternID':id}
     return render(request, 'Update.html', ternID)
 def viewUploaded(request,id):
@@ -102,12 +102,21 @@ def uploadContribute(request,id):
             return redirect('/')
     else:
         return render(request, 'login.html')
-# def ShowData(request,id):
-#     ternID = {'ternID':id}
-#     print(ternID)
-#     with connection.cursor() as cursor:
-#         cursor.execute(
-#             "SELECT login_contribute.Document FROM login_term INNER JOIN login_contribute ON login_term.idTerm = login_contribute.TermID_id WHERE login_term.idTerm = '%s'", [id]
-#         )
-#         Data = cursor.fetchall()
-#     return render(request, 'viewUploaded.html', Data)
+def sendMessenger(request, id, messenger):
+    ContributeID = Contribute.objects.get(TermID = id, UserID = request.user.id)
+    Comment.objects.create(UserID_id = request.user.id, ContributeID_id = ContributeID.id, Comment = messenger)
+    ternID = {'ternID':id}
+    return render(request, 'Update.html', ternID)
+def getMessenger(request, id):
+    ContributeID = Contribute.objects.get(TermID = id, UserID = request.user.id)
+    comment = Comment.objects.filter(ContributeID_id = ContributeID.id)
+    html = []
+    for i in comment:
+        if getAuthGroup(i.UserID_id) == "Student":
+            html.append("<span class='you first'>"+i.Comment+"</span>")
+        if getAuthGroup(i.UserID_id) == "Coordinator":
+            html.append("<span class='friend last'>"+i.Comment+"</span>")
+    response = HttpResponse()
+    response.writelines(html)
+    return response
+

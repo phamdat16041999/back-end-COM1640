@@ -38,7 +38,7 @@ class Data(models.Model):
 	Data = models.ImageField()
 	ContributeID = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
 class Comment(models.Model):
-	Contribute = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
-	User = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	ContributeID = models.ForeignKey(Contribute, default=None, on_delete=models.CASCADE, blank=True, null = True)
+	UserID = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	Comment = models.TextField()
-	DateComment = models.DateTimeField()
+	DateComment = models.DateTimeField(auto_now_add = True)

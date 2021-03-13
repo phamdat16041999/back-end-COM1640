@@ -444,19 +444,6 @@
 		<div style="width: 100%; background-color: white; height: 350px; border: 1px solid #bdc3c7;">
 			<div class="chat">
 				<div class="chat-content clearfix" style="position: absolute;height: 296px;overflow: auto;" id="contentChat">
-					<span class="friend last">
-						Hi, How are You?
-					</span>
-					<span class="friend last">
-						Hi, How are You?
-					</span>
-					<span class="you first">
-						Hi, I am fine.
-						How about you?
-					</span>
-					<span class="you first">
-						Ngày 12/3, Sở Giáo dục và Đào tạo Hà Nội công bố môn thi thứ tư trong kỳ thi tuyển sinh vào lớp 10 THPT công lập. Bài thi Lịch sử sẽ được ra dưới dạng trắc nghiệm, làm trong 60 phút. Nội dung chủ yếu thuộc chương trình lớp 9, đảm bảo hai cấp độ nhận biết, thông hiểu và có một số câu ở cấp độ vận dụng.
-					</span>
 				</div>
 				<div class="msg-box">
 					<input type="text" class="ip-msg" placeholder="type something.." id="contentMessenger" />
@@ -478,8 +465,39 @@
 				$("#contentChat").append("<span class='you first'>"+content+"</span>");
 				var element = document.getElementById("contentChat");
 				element.scrollTop = element.scrollHeight;
+				sendMessenger('{{ternID}}', content);
 			});
 		});
+		function sendMessenger(ternID, content)
+		{
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					/*document.getElementById("contentChat").innerHTML = this.responseText;*/
+					$("ol").append("<li>Appended item</li>");
+				}
+			};
+			xhttp.open("GET", "/Student/ViewDeadline/sendMessenger/"+ternID+"/"+content, true);
+			xhttp.send();
+		}
+		getMessenger('{{ternID}}');
+		function getMessenger(ternID)
+		{
+			var element = document.getElementById("contentChat");
+			element.scrollTop = element.scrollHeight;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					$(".friend, .you" ).remove();
+					$("#contentChat").append(this.responseText);
+					var element = document.getElementById("contentChat");
+					element.scrollTop = element.scrollHeight;
+				}
+			};
+			xhttp.open("GET", "/Student/ViewDeadline/getMessenger/"+ternID, true);
+			xhttp.send();
+			setTimeout(function(){ getMessenger('{{ternID}}') }, 5000);
+		}
 	</script>
 	<script>
 		function setName()
