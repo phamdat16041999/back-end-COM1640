@@ -7,7 +7,6 @@ from django.db import connection
 from Login.models import Contribute, Term, Data, Comment
 from datetime import datetime
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 # Create your views here.
 def getAuthGroup(UserID):
@@ -24,8 +23,8 @@ def indexStudent(request):
     else:
         return render(request, 'login.html')
 def ViewContributes(request):
-   Contributes = {'Contributes': Contribute.objects.filter(User=request.user.id).order_by('-DateContribute')}
-   return render(request, 'MyContribute.html', Contributes)
+    Contributes = {'Contributes': Contribute.objects.filter(UserID_id=request.user.id).order_by('-Date')}
+    return render(request, 'MyContribute.html', Contributes)
 def ViewDeadline(request):
     with connection.cursor() as cursor:
         cursor.execute(
@@ -50,6 +49,7 @@ def ViewDeadlineYear(request, id):
         Year.sort(reverse=True)
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'id': str(id), 'Now': datetime.now(), 'Year': Year}
     return render(request, 'ViewDeadlineYear.html', ViewDeadlines)
+
 def viewUpload(request,id):
     with connection.cursor() as cursor:
         cursor.execute(
@@ -63,7 +63,19 @@ def viewUpload(request,id):
         ternID = {'ternID':id}
         return render(request, 'uploadFile.html', ternID)
 def viewUpdate(request,id):
-    ternID = {'ternID':id}
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM ((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) WHERE login_term.idTerm = '%s' and login_user.id ='%s'" ,
+            [id,request.user.id]
+        )
+        DataNoImage = cursor.fetchall()
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s' and login_user.id ='%s' ",
+            [id,request.user.id]
+        )
+        DataImage = cursor.fetchall()
+    ternID = {'ternID':id, 'DataNoImage': DataNoImage,'DataImage': DataImage}
     return render(request, 'Update.html', ternID)
 def viewUploaded(request,id):
     with connection.cursor() as cursor:
@@ -87,14 +99,9 @@ def uploadContribute(request,id):
             contribute = request.FILES['contribute']
             image1 = request.FILES['image1']
             image2 = request.FILES['image2']
-            fs = FileSystemStorage()
-            filename = fs.save(contribute.name, contribute)
-            filename = fs.save(image1.name, image1)
-            filename = fs.save(image2.name, image2)
-            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute.name)
-            Data.objects.create(Data = image1.name, ContributeID_id = Contribute.objects.latest('id').id)
-            Data.objects.create(Data = image2.name, ContributeID_id = Contribute.objects.latest('id').id)
-            uploaded_file_url = fs.url(filename)
+            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute)
+            Data.objects.create(Data = image1, ContributeID_id = Contribute.objects.latest('id').id)
+            Data.objects.create(Data = image2, ContributeID_id = Contribute.objects.latest('id').id)
             # Contribute.objects.create()
             return redirect('/')
         else:
@@ -119,4 +126,24 @@ def getMessenger(request, id):
     response = HttpResponse()
     response.writelines(html)
     return response
+def Update(request,id):
+    if request.user.is_authenticated:
+        if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
+            nameContribute = request.POST.get('nameContribute','')
+            description = request.POST.get('description','')
+            contribute = request.FILES['contribute']
+            image1 = request.FILES['image1']
+            image2 = request.FILES['image2']
+            Contribute.objects.filter(TermID_id = id,UserID_id = request.user.id).delete()
+            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute)
+            Data.objects.create(Data = image1, ContributeID_id = Contribute.objects.latest('id').id)
+            Data.objects.create(Data = image2, ContributeID_id = Contribute.objects.latest('id').id)
+            # Contribute.objects.create()
+            return redirect('/Student/ViewDeadline/viewUpdate/'+str(id))
+        else:
+            # Not found 404
+            return redirect('/')
+    else:
+        return render(request, 'login.html')
+
 
