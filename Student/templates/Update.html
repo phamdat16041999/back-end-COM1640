@@ -326,34 +326,33 @@
 				<form method="post" action="/Student/uploadContribute/{{ternID}}" enctype="multipart/form-data">
 					{% csrf_token %}
 					<div class="container">
+						{% for data in DataNoImage %}
 						<div class="input-group">
 							<div class="input-group-prepend" id="label">
 								<span class="input-group-text" style="background-color: transparent; border-color: transparent;">Sort title</span>
 							</div>
-							<input type="text" class="form-control" name="nameContribute">
+							<input type="text" class="form-control" name="nameContribute" value="{{data.1}}">
 						</div>
 						<div class="input-group">
 							<div class="input-group-prepend" id="label">
 								<span class="input-group-text" style="background-color: transparent; border-color: transparent;">Description</span>
 							</div>
-							<input type="text" class="form-control" name="description">
+							<input type="text" class="form-control" name="description" value="{{data.2}}">
 						</div>
 						<div class="row">
 							<div class="col-12">
 								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadContribute').click();">Upload contribute</button>
 								<input type="file" required id="uploadContribute" name="contribute" accept=".doc,.docx,application/msword" style="display: none;">
-								<p id="nameFileContribute" style="margin-top: 16px;"></p>
+								<p id="nameFileContribute" style="margin-top: 16px;">{{data.0}}</p>
 							</div>
+						{% endfor %}
+						{% for data in DataImage %}
 							<div class="col-12">
 								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadImage1').click()">Upload image</button>
 								<input type="file" required id="uploadImage1" name="image1" accept="image/*" style="display: none;">
-								<p id="nameImage1" style="margin-top: 16px;"></p>
+								<p id="nameImage1" style="margin-top: 16px;">{{data.0}}</p>
 							</div>
-							<div class="col-12">
-								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadImage2').click()">Upload image</button>
-								<input type="file" required id="uploadImage2" name="image2" accept="image/*" style="display: none;">
-								<p id="nameImage2" style="margin-top: 16px;"></p>
-							</div>
+						{%endfor%}
 							<div class="col-12">
 								<button type="button" class="btn btn-info" style="width: 180px; margin-top: 10px;" onclick="setName()">Check file</button>
 							</div>

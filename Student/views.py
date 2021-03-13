@@ -56,15 +56,32 @@ def viewUpload(request,id):
             [id,request.user.id]
         )
         Data = cursor.fetchall()
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s' and login_user.id ='%s' ",
+            [id,request.user.id]
+        )
+        DataImage = cursor.fetchall()
     if len(Data) > 0:
-        return redirect('/Student/ViewDeadline/viewUpdate/'+str(id))
+        return redirect('/Student/ViewDeadline/viewUpdate/'+str(id),)
     else:
         ternID = {'ternID':id}
         return render(request, 'uploadFile.html', ternID)
 def viewUpdate(request,id):
-
-    ternID = {'ternID':id}
-    return render(request, 'Update.html', ternID)
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM ((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) WHERE login_term.idTerm = '%s' and login_user.id ='%s'" ,
+            [id,request.user.id]
+        )
+        Data = cursor.fetchall()
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s' and login_user.id ='%s' ",
+            [id,request.user.id]
+        )
+        DataImage = cursor.fetchall()
+    data = {'ternID':id, 'DataNoImage': Data,'DataImage': DataImage}
+    return render(request, 'Update.html',data)
 def viewUploaded(request,id):
     with connection.cursor() as cursor:
         cursor.execute(
