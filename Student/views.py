@@ -50,11 +50,21 @@ def ViewDeadlineYear(request, id):
     ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'id': str(id), 'Now': datetime.now(), 'Year': Year}
     return render(request, 'ViewDeadlineYear.html', ViewDeadlines)
 def viewUpload(request,id):
-    ternID = {'ternID':id}
-    return render(request, 'uploadFile.html', ternID)
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM ((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) WHERE login_term.idTerm = '%s' and login_user.id ='%s'" ,
+            [id,request.user.id]
+        )
+        Data = cursor.fetchall()
+    if len(Data) > 0:
+        return redirect('/Student/ViewDeadline/viewUpdate/'+str(id))
+    else:
+        ternID = {'ternID':id}
+        return render(request, 'uploadFile.html', ternID)
 def viewUpdate(request,id):
+
     ternID = {'ternID':id}
-    return render(request, 'updateFile.html', ternID)
+    return render(request, 'Update.html', ternID)
 def viewUploaded(request,id):
     with connection.cursor() as cursor:
         cursor.execute(
