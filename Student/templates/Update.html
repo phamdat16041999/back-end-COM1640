@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Faustina:wght@500&display=swap" rel="stylesheet">
+	<style>
+		html { 
+			background: url({% static 'image/backgroundUpload.png '%}) no-repeat center center fixed; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+		body{
+			background-color: transparent;	
+			width: 100%;
+		}
+		#label{
+			width: 20%;
+		}
+		.border{
+			background-color: #ecf0f1; height: 500px; box-shadow: 18px 20px 5px 2px grey;
+			font-family: 'Faustina', serif;
+		}
+		@media only screen and (max-width: 1200px) {
+			#label{
+				width: 30%;
+			}
+			.border{
+				box-shadow:none;
+				background-color: transparent;
+			}
+		}
+		/*popup style*/
+		.modal {
+			display: none; /* Hidden by default */
+			position: fixed; /* Stay in place */
+			z-index: 1; /* Sit on top */
+			padding-top: 100px; /* Location of the box */
+			left: 0;
+			top: 0;
+			width: 100%; /* Full width */
+			height: 100%; /* Full height */
+			overflow: auto; /* Enable scroll if needed */
+			background-color: rgb(0,0,0); /* Fallback color */
+			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		}
+
+		/* Modal Content */
+		.modal-content {
+			background-color: #fefefe;
+			margin: auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+		}
+
+		/* The Close Button */
+		.close {
+			color: #aaaaaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
+
+		.close:hover,
+		.close:focus {
+			color: #000;
+			text-decoration: none;
+			cursor: pointer;
+		}
+		#contentPopup
+		{
+			text-indent: 40px;
+		}
+		/*		messenger style*/
+		div.messenger {
+			position: fixed;
+			bottom: 0;
+			right: 5px;
+			width: 300px;
+		}
+		div.chat-messages
+		{
+			position: relative;
+			margin-top: 15px;
+			z-index: 10;
+		}
+		div.chat-messages div.chat
+		{
+			position: relative;
+			width: 260px;
+			height: 270px;
+			background: #fcfcfe;
+			left: 50%;
+			margin-left: -150px;
+			padding: 20px;
+			border-radius: 5px;
+			font-size: 15px;
+		}
+		div.chat-messages
+		{
+			position: relative;
+			margin-top: 15px;
+			z-index: 10;
+		}
+		div.chat-messages div.chat
+		{
+			position: relative;
+			width: 260px;
+			height: 270px;
+			background: #fcfcfe;
+			left: 50%;
+			margin-left: -150px;
+			padding: 20px;
+			border-radius: 5px;
+			font-size: 15px;
+
+		}
+
+		div.chat div.chat-content > span
+		{
+			margin-bottom: 12px;
+		}
+
+		div.chat div.chat-content span.friend
+		{
+			position: relative;
+			width: 70%;
+			height: auto;
+			display: inline-block;
+			background: #fff;
+			padding: 10px;
+			padding-bottom: 25px;
+			box-shadow: 2px 2px 20px -2px rgba(60,51,176,0.2);
+			color: rgba(60,51,176,1);
+		}
+
+		div.chat div.chat-content span.friend.first
+		{
+			border-radius: 15px 15px 15px 2px;
+		}
+
+		div.chat div.chat-content span.friend.last
+		{
+			border-radius: 2px 15px 15px 15px;
+		}
+
+		div.chat div.chat-content span.friend span.time
+		{
+			position: absolute;
+			display: block;
+			right: 0;
+			margin-top: 5px;
+			margin-right: 10px;
+			font-size: 10px;
+			font-weight: 500;
+			color: rgba(60,51,176,0.5);
+		}
+
+		div.chat div.chat-content span.you
+		{
+			position: relative;
+			float: right;
+			width: 70%;
+			height: auto;
+			background: #5850c0;
+			display: inline-block;
+			padding: 10px;
+			padding-bottom: 25px;
+			color: #fff;
+
+			box-shadow: 2px 2px 20px rgba(60,51,176,0.2),
+			inset -10px -10px 55px rgba(255,255,255,0.1);
+		}
+
+		div.chat div.chat-content span.you span.time
+		{
+			position: absolute;
+			display: block;
+			right: 0;
+			margin-top: 5px;
+			margin-right: 10px;
+			font-size: 10px;
+			font-weight: 500;
+			color: rgba(255,255,255,0.5);
+		}
+
+		div.chat div.chat-content span.you.first
+		{
+			border-radius: 15px 15px 2px 15px;
+		}
+
+		div.chat div.chat-content span.you.last
+		{
+			border-radius: 15px 2px 15px 15px;
+		}
+		div.msg-box .ip-msg
+		{
+			width: 70%;
+			font-size: 14px;
+			padding: 15px;
+			padding-right: 30%;
+			color: rgba(60,51,176,0.9);
+			border: none;
+			background: rgba(0,0,0,0.03);
+		}
+
+		div.msg-box .ip-msg::placeholder
+		{
+			color: rgba(60,51,176,0.4);
+		}
+		div.msg-box
+		{
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			left: 0;
+			border-top: 1px solid rgba(60,51,176,0.1);
+			overflow: hidden;
+		}
+
+		div.msg-box .ip-msg
+		{
+			width: 70%;
+			font-size: 14px;
+			padding: 15px;
+			padding-right: 30%;
+			color: rgba(60,51,176,0.9);
+			border: none;
+			background: rgba(0,0,0,0.03);
+		}
+
+		div.msg-box .ip-msg::placeholder
+		{
+			color: rgba(60,51,176,0.4);
+		}
+
+		div.msg-box span.btn-group
+		{
+			position: absolute;
+			right: 0;
+			top: 0;
+			margin-top: 14px;
+			display: inline-block;
+			margin-right: 10px;
+		}
+
+		div.msg-box span.btn-group i
+		{
+			color: rgba(60,51,176,1);
+			font-size: 18px;
+			padding: 0 7px;
+		}
+		div.msg-box span.btn-group
+		{
+			position: absolute;
+			right: 0;
+			top: 0;
+			margin-top: 14px;
+			display: inline-block;
+			margin-right: 10px;
+		}
+
+		div.msg-box span.btn-group i
+		{
+			color: rgba(60,51,176,1);
+			font-size: 18px;
+			padding: 0 7px;
+		}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-xl">
+			<a class="navbar-brand" href="#">Navbar</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">My contribute</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">View my profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#">Disabled</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container-fluid" style="margin-top: 150px;">
+		<div class="row">
+			<div class="col-xl-1 col-12"></div>
+			<div class="col-xl-5 col-12 border">
+				<div style="font-family: 'Asap', sans-serif;font-weight: bold;font-size: 30px;">
+					Upload magazine
+				</div>
+				<div class="container" style="background-color: #74b9ff; border-radius: 10px;">
+					<p>Before you updating, make sure to read:</p>
+					<p>- You can upload file word and image</p>
+					<p>- You can update or edit your article(s) until the final closure date</p>
+				</div>
+				<form method="post" action="/Student/uploadContribute/{{ternID}}" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="container">
+						<div class="input-group">
+							<div class="input-group-prepend" id="label">
+								<span class="input-group-text" style="background-color: transparent; border-color: transparent;">Sort title</span>
+							</div>
+							<input type="text" class="form-control" name="nameContribute">
+						</div>
+						<div class="input-group">
+							<div class="input-group-prepend" id="label">
+								<span class="input-group-text" style="background-color: transparent; border-color: transparent;">Description</span>
+							</div>
+							<input type="text" class="form-control" name="description">
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadContribute').click();">Upload contribute</button>
+								<input type="file" required id="uploadContribute" name="contribute" accept=".doc,.docx,application/msword" style="display: none;">
+								<p id="nameFileContribute" style="margin-top: 16px;"></p>
+							</div>
+							<div class="col-12">
+								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadImage1').click()">Upload image</button>
+								<input type="file" required id="uploadImage1" name="image1" accept="image/*" style="display: none;">
+								<p id="nameImage1" style="margin-top: 16px;"></p>
+							</div>
+							<div class="col-12">
+								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadImage2').click()">Upload image</button>
+								<input type="file" required id="uploadImage2" name="image2" accept="image/*" style="display: none;">
+								<p id="nameImage2" style="margin-top: 16px;"></p>
+							</div>
+							<div class="col-12">
+								<button type="button" class="btn btn-info" style="width: 180px; margin-top: 10px;" onclick="setName()">Check file</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12" style="text-align: center;">
+								<button type="button" class="btn" id="myBtn" onclick="showPopup()" style="margin-top: 10px; color: white; background-color: #e74c3c; border-color: #e74c3c;">Upload</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="col-xl-6 col-12"></div>
+		</div>
+	</div>
+	<!-- popup -->
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<div style="width: 100%;">
+				<span class="close">&times;</span>
+			</div>
+			<h3>Terms and conditions</h3>
+			<div  style="width: 100%; height: 400px; overflow: auto;">
+				<p id="contentPopup">PLEASE READ THIS SITE TERMS AND CONDITIONS CAREFULLY ("SITE TERMS") BEFORE USING THIS SITE. BY USING THIS SITE, YOU AGREE TO BE SUBJECT TO THE TERMS OF THIS SITE. IF YOU DO NOT AGREE TO THE TERMS OF THIS SITE, DO NOT USE THE SITE.</p>
+				<p id="contentPopup">The Terms of this Website apply exclusively to your access to and use of the Greenwich website, to all related subdomains, online services and mobile applications (collectively the “Website "). The Terms of this Website do not change in any way the terms or conditions of any other agreement you may have with Greenwich. If you are using the Website on behalf of any entity, you represent and warrant that you are authorized to accept the Terms of this Website on behalf of that entity and that entity agrees to indemnify you. usually to you and Greenwich for breaching the Terms of this Website.</p>
+				<p id="contentPopup">Greenwich reserves the right to change or modify any of the terms and conditions of this Website's Terms or any Website policies or instructions, at any time and at its sole discretion. Any changes or modifications will be effective immediately upon posting them on the Website. Your continued use of the Sites after posting such changes or modifications constitutes your acceptance of such changes or modifications. Therefore, you should regularly review this Website's Terms and applicable policies from time to time to understand the terms and conditions applicable to your use of the Website. If you do not agree to the revised terms, you must stop using the Website.</p>
+				<h3>General Terms</h3>
+				<p id="contentPopup">Greenwich controls and operates this Website from Vietnam. Greenwich does not represent that the materials on this Site are appropriate or available for use in other locations and that access to this Site from territories where its content is illegal is prohibited. Persons who choose to access This Website from other locations do so on their own initiative and are responsible for compliance with applicable local laws.</p>
+				<h3>Privacy Policy</h3>
+				<p id="contentPopup">Please refer to our Privacy Policy for information on how Greenwich collects, uses and discloses personal information from users of the Website.</p>
+				<h3>Copyrights and Licenses are limited</h3>
+				<p id="contentPopup">Unless otherwise specified in the Website, the Sites and all other content and materials on the Website, including but not limited to all trademarks, service marks, designs, text, maps illustrations, images, information, data, software, methods, inventions, sound files, other files and their selection and arrangement (collectively, the "Website Materials") are exclusive property. rights of Greenwich or the Greenwich network, its licensors or users and are protected by Vietnamese and international copyright, trademark and other intellectual property laws. The right is granted to access and use the Website and to display, copy, print and download the Website Materials for your personal, non-commercial use only, pursuant to the Terms of this Website and the Other rules and restrictions are contained in the Website, provided you do not modify the Site Materials and you retain all copyrights, trademarks and other proprietary notices contained in the material. In addition, you agree that such authorization does not include: (a) any commercial use or any resale or redistribution of the Sites or Website Materials therein; (b) the collection and use of any product listings, images or descriptions; (c) distribute, publicly perform or publicly display any Website Materials, (d) make any derivative uses of the Website and Website Materials, or any portion thereof. of them; (e) use any data mining, robotics or similar data collection or extraction methods; (f) download (other than page cache) of any part of the Website, Website Documentation or any information contained therein, except as expressly permitted on the Website; or (g) any other use of the Website or Website Materials other than the intended purpose. The rights granted herein may be revoked at any time, with or without cause. Except as expressly stated herein, no Site Documentation may be copied, reproduced, distributed, republished, downloaded, displayed, posted, transmitted or used in any way or in any way. by any means, including, but not limited to, electronic, mechanical, photocopying, audio recording, or otherwise, without the prior written permission of Greenwich or the copyright owner . Rights granted to you terminate automatically if you breach any of the Website's Terms. Upon termination, you must immediately destroy any downloaded and printed documents. Nor may you, without the permission of Greenwich, "copy" any material contained on this Website on any other server. Any unauthorized use of any material on this Website may violate applicable laws (including copyright law, trademark law, privacy and publicity laws, and regulations and communication regulations).</p>
+				<h3>Copyright Claims</h3>
+				<p id="contentPopup">If you truly believe that your copyrighted work has been reproduced on our Website without permission in a way that constitutes copyright infringement, please provide Greenwich's General Counsel. , according to the address provided below, the following information:</p>
+				<ul>
+					<li>Electronic or physical signature of authorized person representing owner of copyright or other intellectual property interests;</li>
+					<li>A description of the copyrighted work or other intellectual property that you believe has been infringed;</li>
+					<li>A description of the location of the material that you consider the infringing material to be on the Website;</li>
+					<li>Your address, phone number and email address;</li>
+					<li>Your statement that you have a good faith belief that the disputed use is not authorized by the copyright owner, the copyright owner's agent or the law;</li>
+					<li>Your statement, penalized for perjury, that the foregoing in your notice is accurate and that you are the owner of the copyright or intellectual property or authorized to act on its behalf. copyright or intellectual property.</li>
+				</ul>
+				<p id="contentPopup">A Greenwich agent for notices of copyright or other intellectual property infringement may be contacted by mail. Recipient: General Counsel, Greenwich Community, Inc., 9040 SW 72nd St., Miami, FL 33173; or by email to this Contact is intended only for suspected copyright or other intellectual property infringement notices and not for re-licensing or use licensing requests. Contact information for other matters is provided elsewhere on this website. We may provide notice of copyright infringement claims to our users by either a general notice on the Website, an email to the user's email address in our profile or in writing. Contact is sent by first-class mail to the user's address in our profile.</p>
+				<h3>Trademark</h3>
+				<p id="contentPopup">The Greenwich logo and any other product or service names or slogans contained on the Website are trademarks of Greenwich, the Greenwich network, corporate partners, licensees or other respective owners and may not be duplicated. copy, copy or use, in whole or in part, without the prior written permission of GREENWICH or the applicable trademark owner. You may not use any meta tags or any other “hidden text” under “Greenwich Community, Inc.,” or any other GREENWICH name, brand or product or service without prior consent. Our prior written permission. In addition, the appearance of the Website, including all page titles, custom graphics, button icons and text, is Greenwich's service marks, trademarks and / or commercial apparel and may not be copy, imitate or use, in whole or in part, without the prior written permission of Greenwich. Reference to any product, service, promise or other information, by trade name, trademark, manufacturer, supplier or otherwise does not constitute or imply endorsement, sponsorship or our recommendation.</p>
+				<h3>Sites linked from web sites; Third-party content</h3>
+				<p id="contentPopup">This website may contain links to or may frame third party websites ("Third Party Sites") and may contain or link to information, documents, or communications. or other third party content (collectively, "Third Party Content"). Such third-party content and third-party websites are not under the control of Greenwich and Greenwich does not endorse, assume any liability or liability or make any representations or warranties. in relation to, third party websites, Third Party Content or any product or service provided by any third party on the Website or any Third Party Website Come on. Greenwich does not intend the links on this Website to be referrals or endorsements of the linked entities, or their products or services and are provided for convenience only. Your use of the Third Party Website or Third Party Content, or any third party products and services, is at your own risk and subject to the terms and conditions or home. provided.</p>
+				<h3>Web sites that link to web sites</h3>
+				<p id="contentPopup">If you wish to link to a Website other than this Site, you may only do so with the prior consent of Greenwich. Such link may not imply or imply an endorsement or approval by Greenwich with respect to any product, location, entity or person or depicting Greenwich in a misleading, misleading, exposing manner. It may be offensive or defamatory and the linked site may not contain any adult or illegal material or any material that is offensive, harassing or objectionable. All association rights may be revoked at any time. You may not use the Greenwich logo or other exclusive Greenwich image to link to the Website without Greenwich's express written permission. Furthermore, you may not frame or provide inline links to the Sites without Greenwich's written consent.</p>
+				<h3>Disclaimer</h3>
+				<p id="contentPopup">YOUR USE OF THE SITE, THE WEBSITE DOCUMENTS AND SERVICES PROVIDED ON OR THROUGH THE SITE IS AT YOUR OWN RISK AND IS PROVIDED "PRINCIPLES", WITHOUT ANY WARRANTY . GREENWICH DOESN'T DISCLAIM OR WARRANTY THAT THE SITE, DOCUMENT OF THE WEBSITE OR THE SERVICES PROVIDED THROUGH THE SITE ARE ACCURATE, REFUNDABLE, RELIABLE, CURRENT OR ERROR-FREE OR THE SITE OR THE THEIR SERVICES ARE FREE OF COMMERCIAL OR OTHER EFFECTS. YOU SHOULD USE THE RECOGNITION SOFTWARE TO DISCOVER AND REMOVE VIRUS FROM ANY DOWNLOAD. GREENWICH IS NOT RESPONSIBLE FOR ERRORS OR MISSIONS. REFERENCE ANY PRODUCT, SERVICES, PROGRAM OR OTHER INFORMATION BY TRADE NAME, BRAND, MANUFACTURER, VENDOR OR OTHER ACCESSIBLE OR IMPLEMENTATION OF OUR TERMS, SPONSOR OR RECOMMENDATION OR ANY VIEWPOINTS RELATED TO. FOR THE FULL SCOPE PERMITTED BY LAW, GREENWICH DISCLAIMS ANY AND ALL WARRANTIES, CONDITIONS AND OTHER TERMS EXPRESS OR IMPLIED, FISHERIES OR OTHERWISE, INCLUDING INCLUDES, BUT NOT LIMITED TO WARRANTIES AFFECTING THIRD PARTY RIGHTS AND FITNESS FOR SPECIFIC PURPOSE.</p>
+				<h3>Feedback and documentation</h3>
+				<p id="contentPopup">Any comments or documents submitted to GREENWICH (through any medium including e-mail and regular mail) including response data, such as questions, ideas, comments, suggestions or similarly in connection with this Website or any other GREENWICH product or program (collectively "Feedback"), will be deemed non-secure and will become the sole property of GREENWICH. Accordingly, you assign all rights to the Response to GREENWICH, and GREENWICH shall have no obligation of any kind to the Response. Without limiting the foregoing, GREENWICH will be free to copy, use, disclose, exhibit, display, convert, create derivative works and distribute Feedback to others. Unlimited, without acknowledging or compensating you. Furthermore, you explicitly waive any moral rights you may have in Feedback.</p>
+				<h3>Return policy</h3>
+				<p id="contentPopup">GREENWICH is grateful for all donations received to support our conservation work. Due to restrictions imposed by law and the nature of charitable contributions, we cannot refund contributions once they have been received. However, if you think your contribution was made by mistake (please contact us). All erroneous or unauthorized contributions are refunded with the original payment method.
+					All purchases made through the Website are final. In the event of an item being damaged or destroyed during shipping, GREENWICH will endeavor to replace the item or correct the situation in a reasonable manner.
+				</p>
+				<h3>Registration data; Account security</h3>
+				<p id="contentPopup">In order to review your use of the Website, if you create an account on the Website, you agree to (a) provide accurate, current and complete information about you as may be prompted by any any registration form on the Website ("Registration Data"); (b) maintain the confidentiality of your password and identity; (c) maintain and promptly update the Registration Data, and any other information you provide to, to keep it accurate, current and complete; and (d) accept all risks of unauthorized access to the Registration Data and any other information you provide to GREENWICH.</p>
+				<h3>Limited liability</h3>
+				<p id="contentPopup">IN ANY EVENT, ANY OTHER PARTY (ANY OR NOT PARTICIPATING IN CREATING, MANUFACTURING, MAINTENANCE OR DELIVERY) AND / OR OFFICES, DIRECTOR, EMPLOYEES, SHAREHOLDERS OR AGENTS OF ANYONE, LIABILITY FOR ANY DIRECT, DAMAGE OR CONSEQUENCES OF ANY FORM, INCLUDING, UNLIMITED, LOSS OF USE, LOSS OF INCOME, LOSS OF REAL PROFIT ECONOMY OR ANY, LOSS OF BUSINESS, LOSS OF CONTRACT, LOSS OR PAYMENT, LOSS OF PROFITS, LOSS OF DAMAGE OR CORRECTION OF DATA, ANY ACTION OF CONTRACT, TERMS (INCLUDING BUT NOT INTRODUCTION LIMITATION OF NEGATIVE) OR OTHER, EXTERNAL DETECTION OR ANY WAY CONCERNING THE USE OF THE SITE, CONTENT OR MATERIALS AVAILABLE IN OR ACCESS THROUGH THE WEBSITE, INCLUDING WITHOUT ANY LIMIT ANY DAMAGE CAUSED BY THE USER, OR THE RESULTS OF THE USER'S RELIABILITY OF ANY INFORMATION AVAILABLE FROM GREENWICH, OR THE RESULTS FROM THE NET, ERROR, MOVEMENT, DELETE OR EMAIL, ERROR, ERROR RESERVATION G OPERATION OR TRANSMISSION OR ANY PERFORMANCE WITHOUT ANY EFFICIENCY, WHAT OR NOT RESULT OF GOD'S ACTION, FAILURE COMMUNICATION, SOFTWARE, SERVICES OR Illegal access to Records, GREENWICH PROGRAM OR SERVICES. IN NO CASE CAUSE GREENWICH'S TOTAL LIABILITY, EVERYONE IN THE CONTRACT, WARRANTY, TERMS (INCLUDING NEUTRAL, EFFECTIVE, PASSIVE OR EFFECTIVE), LIABILITY OF THE PROPERTY PRODUCT, SERIOUS LIABILITY OR OTHER THEORETICAL (INCLUDING NEUTRAL, BELOW IS Active, Passive, or Related) ANY COMPENSATION YOU PAY, IF ANY, FOR THE SUN FOR ACCESS OR USE SITES.</p>
+				<h3>Indemnify</h3>
+				<p id="contentPopup">You agree to defend, indemnify and hold GREENWICH and its affiliates, independent contractors, service providers, suppliers, licensees and consultants, and its officers, directors, their employees and their respective agents (the "Indemnified Parties"), harmless from and against any claims, damages, costs, actions, claims, liabilities and arrangements and costs (including but not limited to, reasonable attorney fees) arising out of or related to your breach of the Terms of this Website, any User Content you post, host or transmit. on or through the Site, or your use or inability to use the Website, including but not limited to any actual or threatening request, request or claim made against The Parties are indemnified, arising out of or relating to your Content, your behavior or your violation of the rights of any third party.</p>
+				<h3>Partial validity / Waiver</h3>
+				<p id="contentPopup">If any of the Terms of this Website is found to be illegal, invalid or for any reason unenforceable, that term will be deemed unenforceable from the Terms. Terms of this Website and will not affect the validity or enforceability of any remaining terms. No waiver of any of this Website's Terms will be deemed an additional or continuing waiver of such term or condition or any other term or condition.</p>
+				<h3>Applicable Laws and Jurisdiction</h3>
+				<p id="contentPopup">These Website Terms and your use of the Website are governed by and construed in accordance with Ha Noi's laws apply to agreements made and wholly made in Hanoi, without conflict of legal. You agree that any action in accordance with law or equity arising or in any way relating to the Terms of this Website will only be filed in the most federal and state courts. in Hanoi and accordingly you agree unconditional and irrevocable and subject to the sole jurisdiction of such courts. any lawsuit, action or proceeding arising out of the Terms of this Website.</p>
+			</div>
+			<div class="input-group mb-3">
+				<div class="input-group-prepend">
+					<div class="input-group-text" style="border: none; background-color: transparent;">
+						<input type="checkbox" aria-label="Checkbox for following text input" style="width: 20px; height: 20px;" id="checkAgree">
+					</div>
+				</div>
+				<p class="form-control" aria-label="Text input with checkbox" style="border: none; margin-top: 4px;">I have read and agree to the above terms</p>
+				<div style="width: 100%; text-align: center;">
+					<button type="button" class="btn btn-primary agree">I agree</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="messenger">
+		<div style="width: 100%; background-color: white; height: 40px; color: #5E56C2; border-top-left-radius: 5px;  border-top-right-radius: 5px; border: 1px solid #bdc3c7;">
+			<p style="width: 85%; float: left; height: 40px; align-items: center; justify-content: center; display: flex;">Feedback from the coordinator</p>
+			<i class='fas fa-angle-down' style='font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex;'></i>
+		</div>
+		<div style="width: 100%; background-color: white; height: 350px; border: 1px solid #bdc3c7;">
+			<div class="chat">
+				<div class="chat-content clearfix" style="position: absolute;height: 296px;overflow: auto;" id="contentChat">
+					<span class="friend last">
+						Hi, How are You?
+					</span>
+					<span class="friend last">
+						Hi, How are You?
+					</span>
+					<span class="you first">
+						Hi, I am fine.
+						How about you?
+					</span>
+					<span class="you first">
+						Ngày 12/3, Sở Giáo dục và Đào tạo Hà Nội công bố môn thi thứ tư trong kỳ thi tuyển sinh vào lớp 10 THPT công lập. Bài thi Lịch sử sẽ được ra dưới dạng trắc nghiệm, làm trong 60 phút. Nội dung chủ yếu thuộc chương trình lớp 9, đảm bảo hai cấp độ nhận biết, thông hiểu và có một số câu ở cấp độ vận dụng.
+					</span>
+				</div>
+				<div class="msg-box">
+					<input type="text" class="ip-msg" placeholder="type something.." id="contentMessenger" />
+					<span class="btn-group">
+						<i class="fa fa-paper-plane" style="cursor: pointer;" id="btnSendMessenger"></i>
+					</span>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<script>
+		var element = document.getElementById("contentChat");
+		element.scrollTop = element.scrollHeight;
+		$(document).ready(function(){
+			$("#btnSendMessenger").click(function(){
+				var content = $("#contentMessenger").val();
+				document.getElementById('contentMessenger').value = "";
+				$("#contentChat").append("<span class='you first'>"+content+"</span>");
+				var element = document.getElementById("contentChat");
+				element.scrollTop = element.scrollHeight;
+			});
+		});
+	</script>
+	<script>
+		function setName()
+		{
+			nameFileContribute = document.getElementById('uploadContribute').value;
+			document.getElementById('nameFileContribute').innerHTML = nameFileContribute;
+			nameFileContribute = document.getElementById('uploadImage1').value;
+			document.getElementById('nameImage1').innerHTML = nameFileContribute;
+			nameFileContribute = document.getElementById('uploadImage2').value;
+			document.getElementById('nameImage2').innerHTML = nameFileContribute;
+		}
+	</script>
+	<!-- popup script -->
+	<script>
+		var modal = document.getElementById("myModal");
+		var span = document.getElementsByClassName("close")[0];
+		var agree = document.getElementsByClassName("agree")[0];
+		function showPopup(){
+			modal.style.display = "block";
+		}
+		span.onclick = function() {
+			modal.style.display = "none";
+		}
+		agree.onclick = function() {
+			modal.style.display = "none";
+		}
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+		$(document).ready(function(){
+			$("#checkAgree").click(function(){
+				document.getElementById("myBtn").type = "submit";
+				document.getElementById("myBtn").onclick = "";
+			});
+		});
+
+	</script>
+</body>
+</html>
