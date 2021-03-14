@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.db import connection
-# Create your views here.
+from datetime import datetime 
+from datetime import timedelta 
+from datetime import date 
+
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
         cursor.execute(
@@ -14,3 +17,13 @@ def indexCoordinator(request):
         return render(request, 'indexCoordinator.html')
     else:
         return render(request, 'login.html')
+
+def days(request):
+    Begindatestring = date.today() 
+    print(f"Beginning date: {Begindatestring}") 
+    Enddate = Begindatestring + timedelta(days=14) 
+    date1 = Enddate - Begindatestring
+    print(f"Ending date: {Enddate}") 
+    print(date1)
+def viewContribute(request):
+    return render(request, 'viewContribute.html')
