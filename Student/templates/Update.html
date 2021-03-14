@@ -345,7 +345,7 @@
 								<input type="file" required id="uploadContribute" name="contribute" accept=".doc,.docx,application/msword" style="display: none;">
 								<p id="nameFileContribute" style="margin-top: 16px;">{{data.0}}</p>
 							</div>
-						{% endfor %}
+							{% endfor %}
 							<div class="col-12">
 								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadImage1').click()">Upload image</button>
 								<input type="file" required id="uploadImage1" name="image1" accept="image/*" style="display: none;">
@@ -441,11 +441,12 @@
 	<div class="messenger">
 		<div style="width: 100%; background-color: white; height: 40px; color: #5E56C2; border-top-left-radius: 5px;  border-top-right-radius: 5px; border: 1px solid #bdc3c7;">
 			<p style="width: 85%; float: left; height: 40px; align-items: center; justify-content: center; display: flex;">Feedback from the coordinator</p>
-			<i class='fas fa-angle-down' style='font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex;'></i>
+			<i class='fas fa-angle-down' id="noneBorderChat" style='font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex; cursor: pointer;'></i>
+			<i class="fa fa-angle-up" style="font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex; display: none; cursor: pointer;" id="blockBorderChat"></i>
 		</div>
-		<div style="width: 100%; background-color: white; height: 350px; border: 1px solid #bdc3c7;">
+		<div style="width: 100%; background-color: white; height: 350px; border: 1px solid #bdc3c7;" id="borderChat">
 			<div class="chat">
-				<div class="chat-content clearfix" style="position: absolute;height: 296px;overflow: auto;" id="contentChat">
+				<div class="chat-content clearfix" style="position: absolute;height: 296px;overflow: auto; width: 100%;" id="contentChat">
 				</div>
 				<div class="msg-box">
 					<input type="text" class="ip-msg" placeholder="type something.." id="contentMessenger" />
@@ -457,6 +458,18 @@
 		</div>
 
 	</div>
+	<script>
+		$("#noneBorderChat").click(function(){
+			$("#borderChat").hide();
+			$("#noneBorderChat").hide();
+			$("#blockBorderChat").show();
+		});
+		$("#blockBorderChat").click(function(){
+			$("#borderChat").show();
+			$("#noneBorderChat").show();
+			$("#blockBorderChat").hide();
+		});
+	</script>
 	<script>
 		var element = document.getElementById("contentChat");
 		element.scrollTop = element.scrollHeight;
