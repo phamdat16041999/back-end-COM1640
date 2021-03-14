@@ -323,7 +323,7 @@
 					<p>- You can upload file word and image</p>
 					<p>- You can update or edit your article(s) until the final closure date</p>
 				</div>
-				<form method="post" action="/Student/uploadContribute/{{ternID}}" enctype="multipart/form-data">
+				<form method="post" action="/Student/ViewDeadline/uploadContribute/{{ternID}}" enctype="multipart/form-data">
 					{% csrf_token %}
 					<div class="container">
 						{% for data in DataNoImage %}
@@ -346,13 +346,16 @@
 								<p id="nameFileContribute" style="margin-top: 16px;">{{data.0}}</p>
 							</div>
 						{% endfor %}
-						{% for data in DataImage %}
 							<div class="col-12">
 								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadImage1').click()">Upload image</button>
 								<input type="file" required id="uploadImage1" name="image1" accept="image/*" style="display: none;">
-								<p id="nameImage1" style="margin-top: 16px;">{{data.0}}</p>
+								<p id="nameImage1" style="margin-top: 16px;">{{DataImage.0.0}}</p>
 							</div>
-						{%endfor%}
+							<div class="col-12">
+								<button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info"  onclick="document.getElementById('uploadImage2').click()">Upload image</button>
+								<input type="file" required id="uploadImage2" name="image2" accept="image/*" style="display: none;">
+								<p id="nameImage2" style="margin-top: 16px;">{{DataImage.1.0}}</p>
+							</div>
 							<div class="col-12">
 								<button type="button" class="btn btn-info" style="width: 180px; margin-top: 10px;" onclick="setName()">Check file</button>
 							</div>
