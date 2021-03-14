@@ -23,6 +23,7 @@ class ContributeAdmin(admin.ModelAdmin):
 	list_display = ['Name', 'Date','Status','Document','UserID']
 	list_filter = ['Name']
 	search_fields = ['Name']
+	Readed = ['Name']
 admin.site.register(Contribute, ContributeAdmin)
 class DataAdmin(admin.ModelAdmin):
 	list_display = ['Data', 'ContributeID']
