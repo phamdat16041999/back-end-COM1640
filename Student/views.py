@@ -9,6 +9,7 @@ from datetime import datetime
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
+
 # Create your views here.
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
@@ -113,9 +114,9 @@ def getMessenger(request, id):
     html = []
     for i in comment:
         if getAuthGroup(i.UserID_id) == "Student":
-            html.append("<span class='you first'>"+i.Comment+"</span>")
+            html.append("<span class='you first'>"+i.Comment+" <span class='time'>"+i.DateComment.strftime("%m/%d/%y, %H:%M:%S")+"</span></span>")
         if getAuthGroup(i.UserID_id) == "Coordinator":
-            html.append("<span class='friend last'>"+i.Comment+"</span>")
+            html.append("<span class='friend last'>"+i.Comment+"<span class='time'>"+i.DateComment.strftime("%m/%d/%y, %H:%M:%S")+"</span></span>")
     response = HttpResponse()
     response.writelines(html)
     return response
