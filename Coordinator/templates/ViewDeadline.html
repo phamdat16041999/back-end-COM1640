@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Faustina:wght@500&display=swap" rel="stylesheet">
+	<style>
+		html { 
+			background: url({% static 'image/backgroundUpload.png' %}) no-repeat center center fixed; 
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+		}
+		body{
+			background-color: transparent;	
+			width: 100%;
+		}
+		.timeline-unit:before, .timeline-unit:after {
+			top: 0;
+			border: solid transparent;
+			border-width: 1.65em;
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+		}
+
+		.timeline-unit:after {
+			content: " ";
+			left: 100%;
+		}
+		.overdue:after{
+			border-left-color: #e74c3c;
+		}
+		.thisWeek:after{
+			border-left-color: #2ecc71;
+		}
+		.nextWeek:after{
+			border-left-color: #3498db;
+		}
+		.noDeadline:after{
+			border-left-color: #95a5a6;
+		}
+		.timeline-unit {
+			position: relative;
+			display: inline-block;
+			padding: 1em;
+			line-height: 1.25em;
+			color: #FFF;
+			width: 100%;
+		}
+		.overdue{
+			background: #e74c3c;
+		}
+		.thisWeek{
+			background: #2ecc71;
+		}
+		.nextWeek{
+			background: #3498db;
+		}
+		.noDeadline{
+			background: #95a5a6;
+		}
+
+		.timeline-unit:before { content: none; }
+
+		.timeline-unit + .timeline-unit:before {
+			content: " ";
+			border-color: rgba(51, 51, 51, 0.8);
+			border-left-color: transparent;
+			border-right: 0;
+			right: 100%;
+		}
+
+		.timeline-unit + .timeline-unit {
+			margin-left: 2em;
+		}
+		@-webkit-keyframes bgcolor { from { background: red; } to { background: green; }  }
+		@-moz-keyframes bgcolor { from { background: red; } to { background: green; }  }
+		@-o-keyframes bgcolor { from { background: red; } to { background: green; }  }
+		@keyframes bgcolor { from { background: red; } to { background: green; }  }
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-xl">
+			<a class="navbar-brand" href="#">Navbar</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">My contribute</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">View my profile</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#">Disabled</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-xl" style="margin-top: 50px;">
+		<div class="row">
+			<div class="col-xl-3 col-12">
+				<div class="row">
+					<div class="col-12">
+						<div class="timeline-unit overdue">Overdue</div>
+					</div>		
+					<div class="col-12" style="margin-top: 10px;">
+						<div class="row" style="height: 450px; overflow: auto;">
+							{% for ViewDeadline in ViewDeadlines %}	
+							{% if ViewDeadline.FinalClosureDate|date:"Y m d" < Now|date:"Y m d" %}
+							<div class="col-12" onclick="viewUploaded('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
+								<div style="height: 150px; background-color: white; margin-top: 10px;">
+									<h2>{{ViewDeadline.NameTerm}}</h2>
+									<div>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
+										<h4></h4>
+										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
+										<h4></h4>
+										<span>Description: {{ViewDeadline.Description}}</span>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-3 col-12">
+				<div class="row">
+					<div class="col-12">
+						<div class="timeline-unit thisWeek">Due</div>
+					</div>			
+					<div class="col-12" style="margin-top: 10px;">
+						<div class="row" style="height: 450px; overflow: auto;">
+						{% for ViewDeadline in ViewDeadlines %}	
+						{% if ViewDeadline.ClosureDate|date:"Y m d" < Now|date:"Y m d" and ViewDeadline.FinalClosureDate|date:"Y m d" > Now|date:"Y m d" %}
+							<div class="col-12" onclick="viewUpdate('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
+								<div style="height: 150px; background-color: white; margin-top: 10px;">
+								<h2>{{ViewDeadline.NameTerm}}</h2>
+									<div>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
+										<h4></h4>
+										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
+										<h4></h4>
+										<span>Description: {{ViewDeadline.Description}}</span>								
+									</div>
+								</div>
+							</div>
+						{% endif %}
+						{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>	
+					
+			<div class="col-xl-3 col-12">
+				<div class="row">
+					<div class="col-12">
+						<div class="timeline-unit nextWeek">Next due</div>
+					</div>
+					<div class="col-12" style="margin-top: 10px;">
+						<div class="row" style="height: 450px; overflow: auto;">
+							{% for ViewDeadline in ViewDeadlines %}	
+							{% if ViewDeadline.ClosureDate|date:"Y m d" > Now|date:"Y m d" %}
+							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
+								<div style="height: 150px; background-color: white; margin-top: 10px;">
+									<h2>{{ViewDeadline.NameTerm}}</h2>
+									<div>
+										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
+										<h4></h4>
+										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
+										<h4></h4>
+										<span>Description: {{ViewDeadline.Description}}</span>
+									</div>
+								</div>
+							</div>
+							{% endif %}
+							{% endfor %}							
+						</div>
+					</div>
+				</div>
+			</div>			
+			<div class="col-xl-3 col-12">
+				<div class="row">
+					<div class="col-12">
+						<div class="timeline-unit noDeadline">Year</div>
+					</div>
+					<div class="col-12" style="margin-top: 10px;">
+						<div class="row" style="height: 450px; overflow: auto;">
+							<div class="col-12">
+								<div style="height: 150px; background-color: white; margin-top: 10px;">
+									<div>
+									{% for y in Year %}	
+										<p><a href="ViewDeadline/{{ y }}">{{ y }}</a></p>
+									{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		function viewUploaded(id){
+			location.href = "ViewDeadline/viewUploaded/" + id;
+		}
+	</script>
+	<script>
+		function viewUpdate(id){
+			location.href = "ViewDeadline/viewUpload/" + id;
+		}
+	</script>
+	<script>
+		function viewUpload(id){
+			location.href = "ViewDeadline/viewUpload/" + id;
+		}
+	</script>
+	</html>
