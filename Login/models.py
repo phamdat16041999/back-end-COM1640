@@ -32,6 +32,7 @@ class Contribute(models.Model):
 	Status = models.BooleanField()
 	UserID = models.ForeignKey(User, default=None, on_delete=models.CASCADE, blank=True, null = True)
 	Document = models.FileField()
+	Readed = models.BooleanField(null= True, blank=True)
 	def __str__(self):
 		return self.Name
 class Data(models.Model):
