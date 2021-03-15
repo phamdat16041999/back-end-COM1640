@@ -145,8 +145,6 @@ def indexUser(request):
                 return redirect('/Coordinator/')
             elif (auth_group == "Guess"):
                 return redirect('/Guess/')
-            else:
-                pass
         else:
             error = {'error': 'Username already exists, please try a different username'}
             return render(request, 'login.html', error)

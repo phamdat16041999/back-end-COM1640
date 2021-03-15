@@ -79,7 +79,7 @@
 							<th>Name</th>
 							<th>Faculty</th>
 							<th>Date upload</th>
-							<th>Final date</th>
+							<th>Days left</th>
 							<th>Email</th>
 							<th>Status</th>
 							<th>Read</th>
@@ -91,32 +91,30 @@
 						<tr>        
 							<th>{{ view.0 }}</th>
 							<th>{{ view.1 }}</th>
-							<th>{{ view.2|date:"d/m/Y" }}</th>
+							<th>{{ view.2|date:"d-m-Y" }}</th>
 							<th id="Date{{view.7}}"></th>
 							<th>{{ view.4 }}</th>
 							<th>{{ view.5 }}</th>
 							<th><input type="checkbox" name=""></th>
 						</tr>	
-						
 						{% endfor %}		
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-
 </body>
 <script>
 	{% for i in DateS %}
 		var Dates = "{{i}}";
-		document.getElementById("Date"+Dates.split("/")[0]).innerHTML = Dates.split("/")[1];
+		document.getElementById("Date" + Dates.split("/")[0]).innerHTML = Dates.split("/")[1];
 		if(Dates.split("/")[1].split(" ")[0] < 0)
 		{
-			document.getElementById("Date"+Dates.split("/")[0]).style.color = "red";
+			document.getElementById("Date"+Dates.split("/")[0]).style.color = "#d6150b";
 		}
-		if(Dates.split("/")[1].split(" ")[0] <= 14 && Dates.split("/")[1].split(" ")[0] > 0)
+		if(Dates.split("/")[1].split(" ")[0] <= 14 && Dates.split("/")[1].split(" ")[0] >= 0)
 		{
-			document.getElementById("Date"+Dates.split("/")[0]).style.color = "yellow";
+			document.getElementById("Date"+Dates.split("/")[0]).style.color = "#faea07";
 		}
 		if(Dates.split("/")[1].split(" ")[0] > 14)
 		{

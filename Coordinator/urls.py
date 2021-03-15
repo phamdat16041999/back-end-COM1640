@@ -6,4 +6,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.indexCoordinator),
     path('viewContribute', views.viewContribute),
+    path('indexUser', views.indexCoordinator),
 ]
