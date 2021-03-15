@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.db import connection
-from datetime import datetime, date
-from datetime import timedelta 
-from Login.models import User
+from datetime import datetime
+
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
         cursor.execute(
@@ -22,8 +21,6 @@ def indexCoordinator(request):
             "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm"
             )
             views = cursor.fetchall()
-        # views[0][3].strftime("%Y,%m,%d, %H:%M:%S")
-        # datetime.strptime(views[0][3], "%Y,%m,%d, %H:%M:%S")
         Date = []
         for i in range(len(views)):
            Date.append(str(views[i][7]) +"/"+ str(daytime(views[i][3])))
