@@ -4,9 +4,18 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import UserCreationForm
 class UserAdmin(BaseUserAdmin):
 	add_form = UserCreationForm
-	list_display = ['username', 'first_name','last_name']
+	list_display = ['username', 'first_name','last_name','Faculty', 'Sex']
 	list_filter = ['Faculty']
 	search_fields = ['username']
+	fieldsets = BaseUserAdmin.fieldsets  +(
+		(None, {
+			'fields': ('Faculty', 'Sex')
+		}),
+		# ('Advanced options', {
+		# 	'classes': ('collapse',),
+		# 	'fields': ('registration_required', 'template_name'),
+		# }),
+	)
 admin.site.register(User, UserAdmin)
 
 class FacultyAdmin(admin.ModelAdmin):
