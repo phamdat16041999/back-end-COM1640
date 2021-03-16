@@ -89,7 +89,7 @@
 						{% for view in views %}
 						
 						<tr>        
-							<th>{{ view.0 }}</th>
+							<th onclick= "viewContribute('{{ view.7 }}')">{{ view.0 }}</th>
 							<th>{{ view.1 }}</th>
 							<th>{{ view.2|date:"d-m-Y" }}</th>
 							<th id="Date{{view.7}}"></th>
@@ -132,4 +132,9 @@
 		});
 	});
 </script>
+<script>
+		function viewContribute(id){
+			location.href = "/Coordinator/viewContribute/" + id;
+		}
+	</script>
 </html>

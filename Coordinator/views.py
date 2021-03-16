@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.db import connection
 from datetime import datetime
+from Login.models import Contribute, Data, Comment
+from django.http import HttpResponse
 
 def getAuthGroup(UserID):
     with connection.cursor() as cursor:
@@ -31,5 +33,22 @@ def indexCoordinator(request):
         return render(request, 'login.html')
 
 
-def viewContribute(request):
+def viewContribute(request, id):
+    Contributes = Contribute.objects.filter(id=id)
+    img = Data.objects.filter(ContributeID_id=id)
+    dataContribute = {'Contributes': Contributes, 'img':img}
+    return render(request, 'viewContribute.html', dataContribute)
+def sendMessenger(request, id, messenger):
+    Comment.objects.create(UserID_id = request.user.id, ContributeID_id = id, Comment = messenger)
     return render(request, 'viewContribute.html')
+def getMessenger(request, id):
+    comment = Comment.objects.filter(ContributeID_id = id)
+    html = []
+    for i in comment:
+        if getAuthGroup(i.UserID_id) == "Coordinator":
+            html.append("<span class='you first'>"+i.Comment+" <span class='time'>"+i.DateComment.strftime("%m/%d/%y, %H:%M:%S")+"</span></span>")
+        if getAuthGroup(i.UserID_id) == "Student":
+            html.append("<span class='friend last'>"+i.Comment+"<span class='time'>"+i.DateComment.strftime("%m/%d/%y, %H:%M:%S")+"</span></span>")
+    response = HttpResponse()
+    response.writelines(html)
+    return response

@@ -1,245 +1,396 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	{% load static %}
-	<title></title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %}
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-	<!-- Popper JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Faustina:wght@500&display=swap" rel="stylesheet">
-	<style>
-		html { 
-			background: url({% static 'image/backgroundUpload.png' %}) no-repeat center center fixed; 
-			-webkit-background-size: cover;
-			-moz-background-size: cover;
-			-o-background-size: cover;
-			background-size: cover;
-		}
-		body{
-			background-color: transparent;	
-			width: 100%;
-		}
-		.timeline-unit:before, .timeline-unit:after {
-			top: 0;
-			border: solid transparent;
-			border-width: 1.65em;
-			height: 0;
-			width: 0;
-			position: absolute;
-			pointer-events: none;
-		}
-
-		.timeline-unit:after {
-			content: " ";
-			left: 100%;
-		}
-		.overdue:after{
-			border-left-color: #e74c3c;
-		}
-		.thisWeek:after{
-			border-left-color: #2ecc71;
-		}
-		.nextWeek:after{
-			border-left-color: #3498db;
-		}
-		.noDeadline:after{
-			border-left-color: #95a5a6;
-		}
-		.timeline-unit {
-			position: relative;
-			display: inline-block;
-			padding: 1em;
-			line-height: 1.25em;
-			color: #FFF;
-			width: 100%;
-		}
-		.overdue{
-			background: #e74c3c;
-		}
-		.thisWeek{
-			background: #2ecc71;
-		}
-		.nextWeek{
-			background: #3498db;
-		}
-		.noDeadline{
-			background: #95a5a6;
-		}
-
-		.timeline-unit:before { content: none; }
-
-		.timeline-unit + .timeline-unit:before {
-			content: " ";
-			border-color: rgba(51, 51, 51, 0.8);
-			border-left-color: transparent;
-			border-right: 0;
-			right: 100%;
-		}
-
-		.timeline-unit + .timeline-unit {
-			margin-left: 2em;
-		}
-		@-webkit-keyframes bgcolor { from { background: red; } to { background: green; }  }
-		@-moz-keyframes bgcolor { from { background: red; } to { background: green; }  }
-		@-o-keyframes bgcolor { from { background: red; } to { background: green; }  }
-		@keyframes bgcolor { from { background: red; } to { background: green; }  }
-	</style>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Faustina:wght@500&display=swap" rel="stylesheet">
+    <style>
+        html {
+            background: url({% static 'image/backgroundUpload.png '%}) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+        
+        body {
+            background-color: transparent;
+            width: 100%;
+        }
+        
+        #label {
+            width: 20%;
+        }
+        
+        .border {
+            background-color: #ecf0f1;
+            height: 500px;
+            box-shadow: 18px 20px 5px 2px grey;
+            font-family: 'Faustina', serif;
+        }
+        
+        @media only screen and (max-width: 1200px) {
+            #label {
+                width: 30%;
+            }
+            .border {
+                box-shadow: none;
+                background-color: transparent;
+            }
+        }
+        /*		messenger style*/
+        
+        div.messenger {
+            position: fixed;
+            bottom: 0;
+            right: 5px;
+            width: 300px;
+        }
+        
+        div.chat-messages {
+            position: relative;
+            margin-top: 15px;
+            z-index: 10;
+        }
+        
+        div.chat-messages div.chat {
+            position: relative;
+            width: 260px;
+            height: 270px;
+            background: #fcfcfe;
+            left: 50%;
+            margin-left: -150px;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+        
+        div.chat-messages {
+            position: relative;
+            margin-top: 15px;
+            z-index: 10;
+        }
+        
+        div.chat-messages div.chat {
+            position: relative;
+            width: 260px;
+            height: 270px;
+            background: #fcfcfe;
+            left: 50%;
+            margin-left: -150px;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+        
+        div.chat div.chat-content>span {
+            margin-bottom: 12px;
+        }
+        
+        div.chat div.chat-content span.friend {
+            position: relative;
+            width: 70%;
+            height: auto;
+            display: inline-block;
+            background: #fff;
+            padding: 10px;
+            padding-bottom: 25px;
+            box-shadow: 2px 2px 20px -2px rgba(60, 51, 176, 0.2);
+            color: rgba(60, 51, 176, 1);
+        }
+        
+        div.chat div.chat-content span.friend.first {
+            border-radius: 15px 15px 15px 2px;
+        }
+        
+        div.chat div.chat-content span.friend.last {
+            border-radius: 2px 15px 15px 15px;
+        }
+        
+        div.chat div.chat-content span.friend span.time {
+            position: absolute;
+            display: block;
+            right: 0;
+            margin-top: 5px;
+            margin-right: 10px;
+            font-size: 10px;
+            font-weight: 500;
+            color: rgba(60, 51, 176, 0.5);
+        }
+        
+        div.chat div.chat-content span.you {
+            position: relative;
+            float: right;
+            width: 70%;
+            height: auto;
+            background: #5850c0;
+            display: inline-block;
+            padding: 10px;
+            padding-bottom: 25px;
+            color: #fff;
+            box-shadow: 2px 2px 20px rgba(60, 51, 176, 0.2), inset -10px -10px 55px rgba(255, 255, 255, 0.1);
+        }
+        
+        div.chat div.chat-content span.you span.time {
+            position: absolute;
+            display: block;
+            right: 0;
+            margin-top: 5px;
+            margin-right: 10px;
+            font-size: 10px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        div.chat div.chat-content span.you.first {
+            border-radius: 15px 15px 2px 15px;
+        }
+        
+        div.chat div.chat-content span.you.last {
+            border-radius: 15px 2px 15px 15px;
+        }
+        
+        div.msg-box .ip-msg {
+            width: 70%;
+            font-size: 14px;
+            padding: 15px;
+            padding-right: 30%;
+            color: rgba(60, 51, 176, 0.9);
+            border: none;
+            background: rgba(0, 0, 0, 0.03);
+        }
+        
+        div.msg-box .ip-msg::placeholder {
+            color: rgba(60, 51, 176, 0.4);
+        }
+        
+        div.msg-box {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            border-top: 1px solid rgba(60, 51, 176, 0.1);
+            overflow: hidden;
+        }
+        
+        div.msg-box .ip-msg {
+            width: 70%;
+            font-size: 14px;
+            padding: 15px;
+            padding-right: 30%;
+            color: rgba(60, 51, 176, 0.9);
+            border: none;
+            background: rgba(0, 0, 0, 0.03);
+        }
+        
+        div.msg-box .ip-msg::placeholder {
+            color: rgba(60, 51, 176, 0.4);
+        }
+        
+        div.msg-box span.btn-group {
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-top: 14px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        div.msg-box span.btn-group i {
+            color: rgba(60, 51, 176, 1);
+            font-size: 18px;
+            padding: 0 7px;
+        }
+        
+        div.msg-box span.btn-group {
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-top: 14px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        div.msg-box span.btn-group i {
+            color: rgba(60, 51, 176, 1);
+            font-size: 18px;
+            padding: 0 7px;
+        }
+    </style>
 </head>
+
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container-xl">
-			<a class="navbar-brand" href="#">Navbar</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-xl">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
-					<li class="nav-item active">
-						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">My contribute</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">View my profile</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link disabled" href="#">Disabled</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">My contribute</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">View my profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid" style="margin-top: 150px;">
+        <div class="row">
+            <div class="col-xl-1 col-12"></div>
+            <div class="col-xl-5 col-12 border">
+                <div style="font-family: 'Asap', sans-serif;font-weight: bold;font-size: 30px;">
+                    Upload magazine
+                </div>
+                <div class="container" style="background-color: #74b9ff; border-radius: 10px;">
+                    <p>Before you updating, make sure to read:</p>
+                    <p>- You can upload file word and image</p>
+                    <p>- You can update or edit your article(s) until the final closure date</p>
+                </div>
+                <form method="post" action="/Student/ViewDeadline/uploadContribute/{{ternID}}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="container">
+                        {% for Contributes in Contributes %}
+                        <div class="input-group">
+                            <div class="input-group-prepend" id="label">
+                                <span class="input-group-text" style="background-color: transparent; border-color: transparent;">Sort title</span>
+                            </div>
+                            <input type="text" class="form-control" name="nameContribute" value="{{Contributes.Name}}">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend" id="label">
+                                <span class="input-group-text" style="background-color: transparent; border-color: transparent;">Description</span>
+                            </div>
+                            <input type="text" class="form-control" name="description" value="{{Contributes.Description}}">
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info" onclick="document.getElementById('uploadContribute').click();">Upload contribute</button>
+                                <input type="file" required id="uploadContribute" name="contribute" accept=".doc,.docx,application/msword" style="display: none;">
+                                <p id="nameFileContribute" style="margin-top: 16px;"><a href="/media/{{Contributes.Document}}">{{Contributes.Document}}</a></p>
+                            </div>
+                            {% endfor %}
 
-	<div class="container-xl" style="margin-top: 50px;">
-		<div class="row">
-			<div class="col-xl-3 col-12">
-				<div class="row">
-					<div class="col-12">
-						<div class="timeline-unit overdue">Overdue</div>
-					</div>		
-					<div class="col-12" style="margin-top: 10px;">
-						<div class="row" style="height: 450px; overflow: auto;">
-							{% for ViewDeadline in ViewDeadlines %}	
-							{% if ViewDeadline.FinalClosureDate|date:"Y m d" < Now|date:"Y m d" %}
-							<div class="col-12" onclick="viewUploaded('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
-								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h2>{{ViewDeadline.NameTerm}}</h2>
-									<div>
-										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
-										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
-										<span>Description: {{ViewDeadline.Description}}</span>
-									</div>
-								</div>
-							</div>
-							{% endif %}
-							{% endfor %}
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-xl-3 col-12">
-				<div class="row">
-					<div class="col-12">
-						<div class="timeline-unit thisWeek">Due</div>
-					</div>			
-					<div class="col-12" style="margin-top: 10px;">
-						<div class="row" style="height: 450px; overflow: auto;">
-						{% for ViewDeadline in ViewDeadlines %}	
-						{% if ViewDeadline.ClosureDate|date:"Y m d" < Now|date:"Y m d" and ViewDeadline.FinalClosureDate|date:"Y m d" > Now|date:"Y m d" %}
-							<div class="col-12" onclick="viewUpdate('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
-								<div style="height: 150px; background-color: white; margin-top: 10px;">
-								<h2>{{ViewDeadline.NameTerm}}</h2>
-									<div>
-										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
-										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
-										<span>Description: {{ViewDeadline.Description}}</span>								
-									</div>
-								</div>
-							</div>
-						{% endif %}
-						{% endfor %}
-						</div>
-					</div>
-				</div>
-			</div>	
-					
-			<div class="col-xl-3 col-12">
-				<div class="row">
-					<div class="col-12">
-						<div class="timeline-unit nextWeek">Next due</div>
-					</div>
-					<div class="col-12" style="margin-top: 10px;">
-						<div class="row" style="height: 450px; overflow: auto;">
-							{% for ViewDeadline in ViewDeadlines %}	
-							{% if ViewDeadline.ClosureDate|date:"Y m d" > Now|date:"Y m d" %}
-							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
-								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h2>{{ViewDeadline.NameTerm}}</h2>
-									<div>
-										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
-										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
-										<span>Description: {{ViewDeadline.Description}}</span>
-									</div>
-								</div>
-							</div>
-							{% endif %}
-							{% endfor %}							
-						</div>
-					</div>
-				</div>
-			</div>			
-			<div class="col-xl-3 col-12">
-				<div class="row">
-					<div class="col-12">
-						<div class="timeline-unit noDeadline">Year</div>
-					</div>
-					<div class="col-12" style="margin-top: 10px;">
-						<div class="row" style="height: 450px; overflow: auto;">
-							<div class="col-12">
-								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<div>
-									{% for y in Year %}	
-										<p><a href="ViewDeadline/{{ y }}">{{ y }}</a></p>
-									{% endfor %}
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</body>
-	<script>
-		function viewUploaded(id){
-			location.href = "ViewDeadline/viewUploaded/" + id;
-		}
-	</script>
-	<script>
-		function viewUpdate(id){
-			location.href = "ViewDeadline/viewUpload/" + id;
-		}
-	</script>
-	<script>
-		function viewUpload(id){
-			location.href = "ViewDeadline/viewUpload/" + id;
-		}
-	</script>
-	</html>
+                            <div class="col-12">
+                                <button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info" onclick="document.getElementById('uploadImage1').click()">Upload image</button>
+                                <input type="file" required id="uploadImage1" name="image1" accept="image/*" style="display: none;">
+                                <p id="nameImage1" style="margin-top: 16px;"><a href="/media/{{img.0.Data}}">{{img.0.Data}}</a></p>
+                            </div>
+                            <div class="col-12">
+                                <button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info" onclick="document.getElementById('uploadImage2').click()">Upload image</button>
+                                <input type="file" required id="uploadImage2" name="image2" accept="image/*" style="display: none;">
+                                <p id="nameImage2" style="margin-top: 16px;"><a href="/media/{{img.1.Data}}">{{img.1.Data}}</a></p>
+                            </div>
+							
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-xl-6 col-12"></div>
+        </div>
+    </div>
+    <div class="messenger">
+        <div style="width: 100%; background-color: white; height: 40px; color: #5E56C2; border-top-left-radius: 5px;  border-top-right-radius: 5px; border: 1px solid #bdc3c7;">
+            <p style="width: 85%; float: left; height: 40px; align-items: center; justify-content: center; display: flex;">Feedback from the coordinator</p>
+            <i class='fas fa-angle-down' id="noneBorderChat" style='font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex; cursor: pointer;'></i>
+            <i class="fa fa-angle-up" style="font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex; display: none; cursor: pointer;" id="blockBorderChat"></i>
+        </div>
+        <div style="width: 100%; background-color: white; height: 350px; border: 1px solid #bdc3c7;" id="borderChat">
+            <div class="chat">
+                <div class="chat-content clearfix" style="position: absolute;height: 296px;overflow: auto; width: 100%;" id="contentChat">
+                </div>
+                <div class="msg-box">
+                    <input type="text" class="ip-msg" placeholder="type something.." id="contentMessenger" />
+                    <span class="btn-group">
+						<i class="fa fa-paper-plane" style="cursor: pointer;" id="btnSendMessenger"></i>
+					</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        var element = document.getElementById("contentChat");
+        element.scrollTop = element.scrollHeight;
+        $(document).ready(function() {
+            $("#btnSendMessenger").click(function() {
+                var content = $("#contentMessenger").val();
+                document.getElementById('contentMessenger').value = "";
+                $("#contentChat").append("<span class='you first'>" + content + "</span>");
+                var element = document.getElementById("contentChat");
+                element.scrollTop = element.scrollHeight;
+                sendMessenger('{{Contributes.0.id}}', content);
+            });
+        });
+
+        function sendMessenger(id, content) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    /*document.getElementById("contentChat").innerHTML = this.responseText;*/
+                    $("ol").append("<li>Appended item</li>");
+                }
+            };
+            xhttp.open("GET", "/Coordinator/sendMessenger/" + id + "/" + content, true);
+            xhttp.send();
+        }
+        getMessenger('{{Contributes.0.id}}');
+
+        function getMessenger(id) {
+            var element = document.getElementById("contentChat");
+            element.scrollTop = element.scrollHeight;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    $(".friend, .you").remove();
+                    $("#contentChat").append(this.responseText);
+                    var element = document.getElementById("contentChat");
+                    element.scrollTop = element.scrollHeight;
+                }
+            };
+            xhttp.open("GET", "/Coordinator/getMessenger/" + id, true);
+            xhttp.send();
+            setTimeout(function() {
+                getMessenger('{{Contributes.0.id}}')
+            }, 1000);
+        }
+    </script>
+    <script>
+        function setName() {
+            nameFileContribute = document.getElementById('uploadContribute').value;
+            document.getElementById('nameFileContribute').innerHTML = nameFileContribute;
+            nameFileContribute = document.getElementById('uploadImage1').value;
+            document.getElementById('nameImage1').innerHTML = nameFileContribute;
+            nameFileContribute = document.getElementById('uploadImage2').value;
+            document.getElementById('nameImage2').innerHTML = nameFileContribute;
+        }
+    </script>
+</body>
+
+</html>

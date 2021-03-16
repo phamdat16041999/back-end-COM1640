@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.indexCoordinator),
-    path('viewContribute', views.viewContribute),
+    path('viewContribute/<int:id>', views.viewContribute),
     path('indexUser', views.indexCoordinator),
+    path('sendMessenger/<int:id>/<str:messenger>', views.sendMessenger),
+    path('getMessenger/<int:id>', views.getMessenger),
 ]
