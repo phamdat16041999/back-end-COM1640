@@ -110,15 +110,15 @@
 		document.getElementById("Date" + Dates.split("/")[0]).innerHTML = Dates.split("/")[1];
 		if(Dates.split("/")[1].split(" ")[0] < 0)
 		{
-			document.getElementById("Date"+Dates.split("/")[0]).style.color = "#d6150b";
+			document.getElementById("Date" + Dates.split("/")[0]).style.color = "#d6150b";
 		}
 		if(Dates.split("/")[1].split(" ")[0] <= 14 && Dates.split("/")[1].split(" ")[0] >= 0)
 		{
-			document.getElementById("Date"+Dates.split("/")[0]).style.color = "#faea07";
+			document.getElementById("Date" + Dates.split("/")[0]).style.color = "#faea07";
 		}
 		if(Dates.split("/")[1].split(" ")[0] > 14)
 		{
-			document.getElementById("Date"+Dates.split("/")[0]).style.color = "#0307fc";
+			document.getElementById("Date" + Dates.split("/")[0]).style.color = "#0307fc";
 		}
 	{% endfor %}
 </script>
@@ -132,5 +132,4 @@
 		});
 	});
 </script>
-
 </html>
