@@ -9,4 +9,6 @@ urlpatterns = [
     path('indexUser', views.indexCoordinator),
     path('sendMessenger/<int:id>/<str:messenger>', views.sendMessenger),
     path('getMessenger/<int:id>', views.getMessenger),
+    path('public/<int:status>/<int:id>', views.public),
+    path('filter/<int:status>/<int:date_upload>/<int:read>', views.filter),
 ]

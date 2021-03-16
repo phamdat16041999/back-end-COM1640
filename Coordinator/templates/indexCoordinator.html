@@ -44,22 +44,28 @@
 							Read
 						</div>
 						<div class="col-4">
-							<select class="form-control">
-								<option>Private</option>
-								<option>Public</option>
+							<select class="form-select" aria-label="Default select example">
+								<option value="0" selected>All</option>
+								<option value="1">Private</option>
+								<option value="2">Public</option>
 							</select>
 						</div>
 						<div class="col-4">
-							<select class="form-control">
-								<option>2020</option>
-								<option>2019</option>
+							<select class="form-select" aria-label="Default select example">
+							<option value="0" selected>All</option>
+								<option value="3">2020</option>
+								<option value="4">2019</option>
 							</select>	
 						</div>
 						<div class="col-4">
-							<select class="form-control">
-								<option>Unread</option>
-								<option>Read</option>
+							<select class="form-select" aria-label="Default select example">
+							<option value="0" selected>All</option>
+								<option value="5">Read</option>
+								<option value="6">Unread</option>
 							</select>	
+						</div>
+						<div class="col-4">
+							<button type="button" class="btn" id="myBtn" onclick="Filter()" style="margin-top: 20px;margin-left: 170px; color: white; background-color: #e74c3c; border-color: #e74c3c;">Filter</button>
 						</div>
 					</div>
 				</div>
@@ -94,7 +100,12 @@
 							<th>{{ view.2|date:"d-m-Y" }}</th>
 							<th id="Date{{view.7}}"></th>
 							<th>{{ view.4 }}</th>
-							<th>{{ view.5 }}</th>
+							{% if view.5 == 0 %}
+							<th style="color: red;">Private</th>
+							{% endif %}
+							{% if view.5 == 1 %}
+							<th style="color: #73ff08;">Public</th>
+							{% endif %}
 							<th><input type="checkbox" name=""></th>
 						</tr>	
 						{% endfor %}		
@@ -137,4 +148,13 @@
 			location.href = "/Coordinator/viewContribute/" + id;
 		}
 	</script>
+<script>
+	function Filter()
+	{
+		var status = document.getElementsByClassName("form-select")[1].value;
+		var date_upload = document.getElementsByClassName("form-select")[1].value;
+		var read = document.getElementsByClassName("form-select")[1].value;
+        location.href = "/Coordinator/filter/" + status + "/" + date_upload + "/" + read ;
+	}
+</script>
 </html>

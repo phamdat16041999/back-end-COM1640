@@ -260,7 +260,7 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid" style="margin-top: 150px;">
+    <div class="container-fluid" style="margin-top: 50px;">
         <div class="row">
             <div class="col-xl-1 col-12"></div>
             <div class="col-xl-5 col-12 border">
@@ -306,8 +306,24 @@
                                 <input type="file" required id="uploadImage2" name="image2" accept="image/*" style="display: none;">
                                 <p id="nameImage2" style="margin-top: 16px;"><a href="/media/{{img.1.Data}}">{{img.1.Data}}</a></p>
                             </div>
-							
+							<div class="col-12">
+                                <select class="form-select" aria-label="Default select example">
+                                {% if Contributes.0.Status == False %}
+                                  <option value="0" selected>Private</option>
+                                  <option value="1" >Public</option>
+                                {% endif %}
+                                {% if Contributes.0.Status == True %}
+                                  <option value="0" >Private</option>
+                                  <option value="1" selected>Public</option>
+                                {% endif %}
+                                </select>
+                            </div>
+                            <div class="row">
+                            <div class="col-12" style="text-align: center;">
+                                <button type="button" class="btn" id="myBtn" onclick="public()" style="margin-top: 10px; color: white; background-color: #e74c3c; border-color: #e74c3c;">Upload</button>
 
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </form>
@@ -335,62 +351,69 @@
         </div>
 
     </div>
-    <script>
-        var element = document.getElementById("contentChat");
-        element.scrollTop = element.scrollHeight;
-        $(document).ready(function() {
-            $("#btnSendMessenger").click(function() {
-                var content = $("#contentMessenger").val();
-                document.getElementById('contentMessenger').value = "";
-                $("#contentChat").append("<span class='you first'>" + content + "</span>");
-                var element = document.getElementById("contentChat");
-                element.scrollTop = element.scrollHeight;
-                sendMessenger('{{Contributes.0.id}}', content);
-            });
-        });
+<script>
+	var element = document.getElementById("contentChat");
+	element.scrollTop = element.scrollHeight;
+	$(document).ready(function() {
+		$("#btnSendMessenger").click(function() {
+			var content = $("#contentMessenger").val();
+			document.getElementById('contentMessenger').value = "";
+			$("#contentChat").append("<span class='you first'>" + content + "</span>");
+			var element = document.getElementById("contentChat");
+			element.scrollTop = element.scrollHeight;
+			sendMessenger('{{Contributes.0.id}}', content);
+		});
+	});
 
-        function sendMessenger(id, content) {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    /*document.getElementById("contentChat").innerHTML = this.responseText;*/
-                    $("ol").append("<li>Appended item</li>");
-                }
-            };
-            xhttp.open("GET", "/Coordinator/sendMessenger/" + id + "/" + content, true);
-            xhttp.send();
-        }
-        getMessenger('{{Contributes.0.id}}');
+	function sendMessenger(id, content) {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				/*document.getElementById("contentChat").innerHTML = this.responseText;*/
+				$("ol").append("<li>Appended item</li>");
+			}
+		};
+		xhttp.open("GET", "/Coordinator/sendMessenger/" + id + "/" + content, true);
+		xhttp.send();
+	}
+	getMessenger('{{Contributes.0.id}}');
 
-        function getMessenger(id) {
-            var element = document.getElementById("contentChat");
-            element.scrollTop = element.scrollHeight;
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    $(".friend, .you").remove();
-                    $("#contentChat").append(this.responseText);
-                    var element = document.getElementById("contentChat");
-                    element.scrollTop = element.scrollHeight;
-                }
-            };
-            xhttp.open("GET", "/Coordinator/getMessenger/" + id, true);
-            xhttp.send();
-            setTimeout(function() {
-                getMessenger('{{Contributes.0.id}}')
-            }, 1000);
-        }
-    </script>
-    <script>
-        function setName() {
-            nameFileContribute = document.getElementById('uploadContribute').value;
-            document.getElementById('nameFileContribute').innerHTML = nameFileContribute;
-            nameFileContribute = document.getElementById('uploadImage1').value;
-            document.getElementById('nameImage1').innerHTML = nameFileContribute;
-            nameFileContribute = document.getElementById('uploadImage2').value;
-            document.getElementById('nameImage2').innerHTML = nameFileContribute;
-        }
-    </script>
+	function getMessenger(id) {
+		var element = document.getElementById("contentChat");
+		element.scrollTop = element.scrollHeight;
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				$(".friend, .you").remove();
+				$("#contentChat").append(this.responseText);
+				var element = document.getElementById("contentChat");
+				element.scrollTop = element.scrollHeight;
+			}
+		};
+		xhttp.open("GET", "/Coordinator/getMessenger/" + id, true);
+		xhttp.send();
+		setTimeout(function() {
+			getMessenger('{{Contributes.0.id}}')
+		}, 1000);
+	}
+</script>
+<script>
+	function setName() {
+		nameFileContribute = document.getElementById('uploadContribute').value;
+		document.getElementById('nameFileContribute').innerHTML = nameFileContribute;
+		nameFileContribute = document.getElementById('uploadImage1').value;
+		document.getElementById('nameImage1').innerHTML = nameFileContribute;
+		nameFileContribute = document.getElementById('uploadImage2').value;
+		document.getElementById('nameImage2').innerHTML = nameFileContribute;
+	}
+</script>
+<script>
+	function public()
+	{
+		var status = document.getElementsByClassName("form-select")[0].value;
+        location.href = "/Coordinator/public/" + status + "/" + "{{Contributes.0.id}}";
+	}
+</script>
 </body>
 
 </html>

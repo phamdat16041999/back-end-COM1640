@@ -45,18 +45,20 @@ def ViewDeadline(request):
     else:
         return render(request, 'login.html')
 def ViewDeadlineYear(request, id):
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT DISTINCT YEAR(ClosureDate) FROM login_term as year"
-        )
-        year = cursor.fetchall()
-    Year = []
-    for i in range(len(year)):
-        Year.append(year[i][0])
-        Year.sort(reverse=True)
-    ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'id': str(id), 'Now': datetime.now(), 'Year': Year}
-    return render(request, 'ViewDeadlineYear.html', ViewDeadlines)
-
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT DISTINCT YEAR(ClosureDate) FROM login_term as year"
+            )
+            year = cursor.fetchall()
+        Year = []
+        for i in range(len(year)):
+            Year.append(year[i][0])
+            Year.sort(reverse=True)
+        ViewDeadlines = {'ViewDeadlines': Term.objects.all().order_by('-ClosureDate'), 'id': str(id), 'Now': datetime.now(), 'Year': Year}
+        return render(request, 'ViewDeadlineYear.html', ViewDeadlines)
+    else:
+        return render(request, 'login.html')
 def viewUpload(request,id):
     with connection.cursor() as cursor:
         cursor.execute(
@@ -70,57 +72,69 @@ def viewUpload(request,id):
         ternID = {'ternID':id}
         return render(request, 'uploadFile.html', ternID)
 def viewUpdate(request,id):
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM ((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) WHERE login_term.idTerm = '%s' and login_user.id ='%s'" ,
-            [id,request.user.id]
-        )
-        DataNoImage = cursor.fetchall()
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s' and login_user.id ='%s' ",
-            [id,request.user.id]
-        )
-        DataImage = cursor.fetchall()
-    ternID = {'ternID':id, 'DataNoImage': DataNoImage,'DataImage': DataImage}
-    return render(request, 'Update.html', ternID)
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM ((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) WHERE login_term.idTerm = '%s' and login_user.id ='%s'" ,
+                [id,request.user.id]
+            )
+            DataNoImage = cursor.fetchall()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s' and login_user.id ='%s' ",
+                [id,request.user.id]
+            )
+            DataImage = cursor.fetchall()
+        ternID = {'ternID':id, 'DataNoImage': DataNoImage,'DataImage': DataImage}
+        return render(request, 'Update.html', ternID)
+    else:
+        return render(request, 'login.html')
 def viewUploaded(request,id):
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM ((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) WHERE login_term.idTerm = '%s' and login_user.id ='%s'" ,
-            [id,request.user.id]
-        )
-        DataNoImage = cursor.fetchall()
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s' and login_user.id ='%s' ",
-            [id,request.user.id]
-        )
-        DataImage = cursor.fetchall()
-    return render(request, 'viewUploaded.html', {'DataNoImage': DataNoImage,'DataImage': DataImage})
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM ((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) WHERE login_term.idTerm = '%s' and login_user.id ='%s'" ,
+                [id,request.user.id]
+            )
+            DataNoImage = cursor.fetchall()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s' and login_user.id ='%s' ",
+                [id,request.user.id]
+            )
+            DataImage = cursor.fetchall()
+        return render(request, 'viewUploaded.html', {'DataNoImage': DataNoImage,'DataImage': DataImage})
+    else:
+        return render(request, 'login.html')
 def uploadContribute(request,id):
-    if request.user.is_authenticated:
-        if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
-            nameContribute = request.POST.get('nameContribute','')
-            description = request.POST.get('description','')
-            contribute = request.FILES['contribute']
-            image1 = request.FILES['image1']
-            image2 = request.FILES['image2']
-            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute)
-            Data.objects.create(Data = image1, ContributeID_id = Contribute.objects.latest('id').id)
-            Data.objects.create(Data = image2, ContributeID_id = Contribute.objects.latest('id').id)
-            # Contribute.objects.create()
-            return redirect('/')
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
+        if request.user.is_authenticated:
+            if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
+                nameContribute = request.POST.get('nameContribute','')
+                description = request.POST.get('description','')
+                contribute = request.FILES['contribute']
+                image1 = request.FILES['image1']
+                image2 = request.FILES['image2']
+                Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute)
+                Data.objects.create(Data = image1, ContributeID_id = Contribute.objects.latest('id').id)
+                Data.objects.create(Data = image2, ContributeID_id = Contribute.objects.latest('id').id)
+                # Contribute.objects.create()
+                return redirect('/')
+            else:
+                # Not found 404
+                return redirect('/')
         else:
-            # Not found 404
-            return redirect('/')
+            return render(request, 'login.html')
     else:
         return render(request, 'login.html')
 def sendMessenger(request, id, messenger):
-    ContributeID = Contribute.objects.get(TermID = id, UserID = request.user.id)
-    Comment.objects.create(UserID_id = request.user.id, ContributeID_id = ContributeID.id, Comment = messenger)
-    ternID = {'ternID':id}
-    return render(request, 'Update.html', ternID)
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
+        ContributeID = Contribute.objects.get(TermID = id, UserID = request.user.id)
+        Comment.objects.create(UserID_id = request.user.id, ContributeID_id = ContributeID.id, Comment = messenger)
+        ternID = {'ternID':id}
+        return render(request, 'Update.html', ternID)
+    else:
+        return render(request, 'login.html')
 def getMessenger(request, id):
     ContributeID = Contribute.objects.get(TermID = id, UserID = request.user.id)
     comment = Comment.objects.filter(ContributeID_id = ContributeID.id)
@@ -134,23 +148,25 @@ def getMessenger(request, id):
     response.writelines(html)
     return response
 def Update(request,id):
-    if request.user.is_authenticated:
-        if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
-            nameContribute = request.POST.get('nameContribute','')
-            description = request.POST.get('description','')
-            contribute = request.FILES['contribute']
-            image1 = request.FILES['image1']
-            image2 = request.FILES['image2']
-            Contribute.objects.filter(TermID_id = id,UserID_id = request.user.id).delete()
-            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute)
-            Data.objects.create(Data = image1, ContributeID_id = Contribute.objects.latest('id').id)
-            Data.objects.create(Data = image2, ContributeID_id = Contribute.objects.latest('id').id)
-            # Contribute.objects.create()
-            return redirect('/Student/ViewDeadline/viewUpdate/'+str(id))
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
+        if request.user.is_authenticated:
+            if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
+                nameContribute = request.POST.get('nameContribute','')
+                description = request.POST.get('description','')
+                contribute = request.FILES['contribute']
+                image1 = request.FILES['image1']
+                image2 = request.FILES['image2']
+                Contribute.objects.filter(TermID_id = id,UserID_id = request.user.id).delete()
+                Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute)
+                Data.objects.create(Data = image1, ContributeID_id = Contribute.objects.latest('id').id)
+                Data.objects.create(Data = image2, ContributeID_id = Contribute.objects.latest('id').id)
+                # Contribute.objects.create()
+                return redirect('/Student/ViewDeadline/viewUpdate/'+str(id))
+            else:
+                # Not found 404
+                return redirect('/')
         else:
-            # Not found 404
-            return redirect('/')
+            return render(request, 'login.html')
     else:
         return render(request, 'login.html')
-
 

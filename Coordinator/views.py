@@ -34,13 +34,19 @@ def indexCoordinator(request):
 
 
 def viewContribute(request, id):
-    Contributes = Contribute.objects.filter(id=id)
-    img = Data.objects.filter(ContributeID_id=id)
-    dataContribute = {'Contributes': Contributes, 'img':img}
-    return render(request, 'viewContribute.html', dataContribute)
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
+        Contributes = Contribute.objects.filter(id=id)
+        img = Data.objects.filter(ContributeID_id=id)
+        dataContribute = {'Contributes': Contributes, 'img':img}
+        return render(request, 'viewContribute.html', dataContribute)
+    else:
+        return render(request, 'login.html')
 def sendMessenger(request, id, messenger):
-    Comment.objects.create(UserID_id = request.user.id, ContributeID_id = id, Comment = messenger)
-    return render(request, 'viewContribute.html')
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
+        Comment.objects.create(UserID_id = request.user.id, ContributeID_id = id, Comment = messenger)
+        return render(request, 'viewContribute.html')
+    else:
+        return render(request, 'login.html')
 def getMessenger(request, id):
     comment = Comment.objects.filter(ContributeID_id = id)
     html = []
@@ -52,3 +58,21 @@ def getMessenger(request, id):
     response = HttpResponse()
     response.writelines(html)
     return response
+def public(request, status, id):
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
+        Contribute.objects.filter(id = id).update(Status = status)
+        Contributes = Contribute.objects.filter(id=id)
+        img = Data.objects.filter(ContributeID_id=id)
+        dataContribute = {'Contributes': Contributes, 'img':img}
+        return render(request, 'viewContribute.html', dataContribute)
+    else:
+        return render(request, 'login.html')
+def filter(request, status, date_upload, read):
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
+        Status = Contribute.objects.filter(Status= status)
+        Date = Contribute.objects.filter(Date= date_upload)
+        Read = Contribute.objects.filter(Readed= read)
+        Filters = {'Status': Status, 'Date': Date, 'Read': Read}
+        return render(request, 'indexCoordinator.html', Filters)
+    else:
+        return render(request, 'login.html')
