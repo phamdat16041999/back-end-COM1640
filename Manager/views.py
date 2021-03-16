@@ -14,3 +14,9 @@ def indexManager(request):
         return render(request, 'indexManager.html')
     else:
         return render(request, 'login.html')
+def Contributionofterms(request):
+    return render(request, 'ContributionOfTearms.html')
+def Percentageofcontributionscontributetoeachfaculty(request):
+    return render(request, 'Percentageofcontributionscontributetoeachfaculty.html')
+def Numberofstudentssubmittingallsubjectsineachterm(request):
+    return render(request, 'Numberofstudentssubmittingallsubjectsineachterm.html')
