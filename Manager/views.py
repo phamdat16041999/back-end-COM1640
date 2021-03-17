@@ -20,3 +20,5 @@ def Percentageofcontributionscontributetoeachfaculty(request):
     return render(request, 'Percentageofcontributionscontributetoeachfaculty.html')
 def Numberofstudentssubmittingallsubjectsineachterm(request):
     return render(request, 'Numberofstudentssubmittingallsubjectsineachterm.html')
+def Exercisesthatthecoordinatorhasnotreadyet(request):
+    return render(request, 'Exercisesthatthecoordinatorhasnotreadyet.html')

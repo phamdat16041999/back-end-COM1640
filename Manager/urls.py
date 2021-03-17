@@ -6,6 +6,7 @@ urlpatterns = [
     path('Contributionofterms', views.Contributionofterms),
     path('Percentageofcontributionscontributetoeachfaculty', views.Percentageofcontributionscontributetoeachfaculty),
     path('Numberofstudentssubmittingallsubjectsineachterm', views.Numberofstudentssubmittingallsubjectsineachterm),
+    path('Exercisesthatthecoordinatorhasnotreadyet',views.Exercisesthatthecoordinatorhasnotreadyet),
 
 
 ]
