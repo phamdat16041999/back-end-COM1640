@@ -45,26 +45,26 @@
 						</div>
 						<div class="col-4">
 							<select class="form-select" aria-label="Default select example">
-								<option value="0" selected>All</option>
-								<option value="1">Private</option>
-								<option value="2">Public</option>
+								{% comment %} <option value="0" selected>All</option> {% endcomment %}
+								<option value="0" >Private</option>
+                                  <option value="1" selected>Public</option>
 							</select>
 						</div>
 						<div class="col-4">
 							<select class="form-select" aria-label="Default select example">
-							<option value="0" selected>All</option>
+							{% comment %} <option value="0" selected>All</option> {% endcomment %}
 								<option value="3">2020</option>
 								<option value="4">2019</option>
 							</select>	
 						</div>
 						<div class="col-4">
 							<select class="form-select" aria-label="Default select example">
-							<option value="0" selected>All</option>
-								<option value="5">Read</option>
-								<option value="6">Unread</option>
+							{% comment %} <option value="0" selected>All</option> {% endcomment %}
+								<option value="0">Read</option>
+								<option value="1">Unread</option>
 							</select>	
-						</div>
-						<div class="col-4">
+						</div> 
+						<div class="col-4" style="text-align: center;">
 							<button type="button" class="btn" id="myBtn" onclick="Filter()" style="margin-top: 20px;margin-left: 170px; color: white; background-color: #e74c3c; border-color: #e74c3c;">Filter</button>
 						</div>
 					</div>
@@ -151,10 +151,9 @@
 <script>
 	function Filter()
 	{
-		var status = document.getElementsByClassName("form-select")[1].value;
-		var date_upload = document.getElementsByClassName("form-select")[1].value;
-		var read = document.getElementsByClassName("form-select")[1].value;
-        location.href = "/Coordinator/filter/" + status + "/" + date_upload + "/" + read ;
+		var status = document.getElementsByClassName("form-select")[0].value;
+		var read = document.getElementsByClassName("form-select")[0].value;
+        location.href = "/Coordinator/filter/" + status + "/" + read;
 	}
 </script>
 </html>

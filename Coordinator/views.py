@@ -67,12 +67,21 @@ def public(request, status, id):
         return render(request, 'viewContribute.html', dataContribute)
     else:
         return render(request, 'login.html')
-def filter(request, status, date_upload, read):
+def filter(request, status, read):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
         Status = Contribute.objects.filter(Status= status)
-        Date = Contribute.objects.filter(Date= date_upload)
-        Read = Contribute.objects.filter(Readed= read)
-        Filters = {'Status': Status, 'Date': Date, 'Read': Read}
+        print(status)
+        # Date = Contribute.objects.filter(Date= date_upload)
+        # Read = Contribute.objects.filter(Readed= read)
+        with connection.cursor() as cursor:
+            cursor.execute(
+            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status= '%s' and login_contribute.Readed= '%s'", [status, read]
+            )
+            views = cursor.fetchall()
+        Date = []
+        for i in range(len(views)):
+           Date.append(str(views[i][7]) +"/"+ str(daytime(views[i][3])))
+        Filters = {'Status': Status, 'views': views, 'DateS': Date}
         return render(request, 'indexCoordinator.html', Filters)
     else:
         return render(request, 'login.html')
