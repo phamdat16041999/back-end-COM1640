@@ -108,7 +108,12 @@
 							{% if view.5 == 1 %}
 							<th style="color: #73ff08;">Public</th>
 							{% endif %}
-							<th><input type="checkbox" name=""></th>
+							{% if view.6 == 1 %}
+							<th><input type="checkbox" name="" checked readonly></th>
+							{% endif %}
+							{% if view.6 == 0 %}
+							<th><input type="checkbox" name="" readonly></th>
+							{% endif %}
 						</tr>	
 						{% endfor %}		
 					</tbody>
