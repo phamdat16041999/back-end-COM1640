@@ -10,5 +10,5 @@ urlpatterns = [
     path('sendMessenger/<int:id>/<str:messenger>', views.sendMessenger),
     path('getMessenger/<int:id>', views.getMessenger),
     path('public/<int:status>/<int:id>', views.public),
-    path('filter/<int:status>/<int:read>', views.filter),
+    path('filter/', views.filter),
 ]
