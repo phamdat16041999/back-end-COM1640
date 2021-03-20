@@ -15,10 +15,23 @@ def indexManager(request):
     else:
         return render(request, 'login.html')
 def Contributionofterms(request):
-    return render(request, 'ContributionOfTearms.html')
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+        return render(request, 'ContributionOfTearms.html')
+    else:
+        return render(request, 'login.html')
 def Percentageofcontributionscontributetoeachfaculty(request):
-    return render(request, 'Percentageofcontributionscontributetoeachfaculty.html')
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+        return render(request, 'Percentageofcontributionscontributetoeachfaculty.html')
+    else:
+        return render(request, 'login.html')
 def Numberofstudentssubmittingallsubjectsineachterm(request):
-    return render(request, 'Numberofstudentssubmittingallsubjectsineachterm.html')
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+        return render(request, 'Numberofstudentssubmittingallsubjectsineachterm.html')
+    else:
+        return render(request, 'login.html')
+
 def Exercisesthatthecoordinatorhasnotreadyet(request):
-    return render(request, 'Exercisesthatthecoordinatorhasnotreadyet.html')
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+        return render(request, 'Exercisesthatthecoordinatorhasnotreadyet.html')
+    else:
+        return render(request, 'login.html')
