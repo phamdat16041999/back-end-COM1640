@@ -1,15 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    {% load static %}   
+	<title></title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		body{
+			color:white;
+		}
+		tbody th{
+			font-weight: normal;
+		}
+	</style>
+</head>
 <body>
-    <div>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
+	<img src="{% static 'image/backgroundUpload.png' %}" alt="" style="width: 100%; height: 100%; position: fixed; filter: brightness(70%);object-fit: cover;">
+	<div class="container-xl">
+		<div class="row">
+			<div class="col-5">
+				<div style="width: 100%; height: 200px; border-radius: 10px; border: 1px solid white;">
+					<h3 style="margin-left: 5px;">Filter</h3>
+					<hr style="width: 80%;background-color: white; text-align: left; margin-left: 0px; height: 1px;">
+					<form action="/Guess/filter/" method="POST" class="row" style="margin-left: 5px; margin-right: 5px;">
+						{% csrf_token %}
+						
+						<div class="col-6" style="text-align: center;">
+							Date upload
+						</div>
+						
+						<div class="col-6" style="text-align: center;">
+							<select class="form-select" aria-label="Default select example" name="Year">
+								<option value="All" selected>All</option>
+								{% for i in Year %}
+								<option value="{{i}}">{{i}}</option>
+								{% endfor %}
+							</select>	
+						</div>
+						 <div class="col-6"></div>
+						<div class="col-6" style="text-align: center; width: 100%;">
+							<button type="submit" class="btn" id="myBtn" onclick="filter()" style="margin-top: 20px; color: white; background-color: #e74c3c; border-color: #e74c3c;width: 85px;">Filter</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-3">
+				
+			</div>
+			<div class="col-4">
+				<input class="form-control" id="myInput" type="text" placeholder="Search...">
+			</div>
+		</div>
+		<div class="row" style="margin-top: 10px; text-align: center;">
+			<div class="col-12">
+				<table class="table table-bordered">
+					<thead>
+						<tr style="color: white;">
+							<th>Name</th>
+							<th>Faculty</th>
+							<th>Date upload</th>
+							<th>Days left</th>
+							<th>Email</th>
+						</tr>
+					</thead>
+					<tbody id="myTable" style="color: white;">
+						{% for view in views %}
+						
+						<tr>        
+							<th>{{ view.0 }}</th>
+							<th>{{ view.1 }}</th>
+							<th>{{ view.2|date:"d-m-Y" }}</th>
+							<th id="Date{{view.5}}"></th>
+							<th>{{ view.4 }}</th>
+						</tr>	
+						{% endfor %}		
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </body>
+<script>
+	{% for i in DateS %}
+		var Dates = "{{i}}";
+		document.getElementById("Date" + Dates.split("/")[0]).innerHTML = Dates.split("/")[1];
+		if(Dates.split("/")[1].split(" ")[0] < 0)
+		{
+			document.getElementById("Date" + Dates.split("/")[0]).style.color = "#d6150b";
+		}
+		if(Dates.split("/")[1].split(" ")[0] <= 14 && Dates.split("/")[1].split(" ")[0] >= 0)
+		{
+			document.getElementById("Date" + Dates.split("/")[0]).style.color = "#faea07";
+		}
+		if(Dates.split("/")[1].split(" ")[0] > 14)
+		{
+			document.getElementById("Date" + Dates.split("/")[0]).style.color = "#0307fc";
+		}
+	{% endfor %}
+</script>
+<script>
+	$(document).ready(function(){
+		$("#myInput").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			$("#myTable tr").filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		});
+	});
+</script>
 
 </html>

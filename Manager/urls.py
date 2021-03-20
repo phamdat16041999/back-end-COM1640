@@ -8,5 +8,5 @@ urlpatterns = [
     path('Numberofstudentssubmittingallsubjectsineachterm', views.Numberofstudentssubmittingallsubjectsineachterm),
     path('Exercisesthatthecoordinatorhasnotreadyet',views.Exercisesthatthecoordinatorhasnotreadyet),
     path('viewContribution', views.viewContribution),
-
+    path('filter/', views.filter),
 ]

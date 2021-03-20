@@ -33,25 +33,14 @@
 				<div style="width: 100%; height: 200px; border-radius: 10px; border: 1px solid white;">
 					<h3 style="margin-left: 5px;">Filter</h3>
 					<hr style="width: 80%;background-color: white; text-align: left; margin-left: 0px; height: 1px;">
-					<form action="/Coordinator/filter/" method="POST" class="row" style="margin-left: 5px; margin-right: 5px;">
+					<form action="/Manager/filter/" method="POST" class="row" style="margin-left: 5px; margin-right: 5px;">
 						{% csrf_token %}
-						<div class="col-4">
-							Status
-						</div>
-						<div class="col-4">
+						
+						<div class="col-6" style="text-align: center;">
 							Date upload
 						</div>
-						<div class="col-4">
-							Read
-						</div>
-						<div class="col-4">
-							<select class="form-select" aria-label="Default select example" name="Status">
-								<option value="All" selected>All</option> 
-								<option value="Private" >Private</option>
-                                <option value="Public" >Public</option>
-							</select>
-						</div>
-						<div class="col-4">
+						
+						<div class="col-6" style="text-align: center;">
 							<select class="form-select" aria-label="Default select example" name="Year">
 								<option value="All" selected>All</option>
 								{% for i in Year %}
@@ -59,15 +48,9 @@
 								{% endfor %}
 							</select>	
 						</div>
-						<div class="col-4">
-							<select class="form-select" aria-label="Default select example" name="Read">
-								<option value="All" selected>All</option>
-								<option value="Read">Read</option>
-								<option value="Unread">Unread</option>
-							</select>	
-						</div> 
-						<div class="col-12" style="text-align: center; width: 100%;">
-							<button type="submit" class="btn" id="myBtn" onclick="filter()" style="margin-top: 10px; color: white; background-color: #e74c3c; border-color: #e74c3c;width: 85px;">Filter</button>
+						 <div class="col-6"></div>
+						<div class="col-6" style="text-align: center; width: 100%;">
+							<button type="submit" class="btn" id="myBtn" onclick="filter()" style="margin-top: 20px; color: white; background-color: #e74c3c; border-color: #e74c3c;width: 85px;">Filter</button>
 						</div>
 					</form>
 				</div>
@@ -89,31 +72,17 @@
 							<th>Date upload</th>
 							<th>Days left</th>
 							<th>Email</th>
-							<th>Status</th>
-							<th>Read</th>
 						</tr>
 					</thead>
 					<tbody id="myTable" style="color: white;">
 						{% for view in views %}
 						
 						<tr>        
-							<th onclick= "viewContribute('{{ view.7 }}')">{{ view.0 }}</th>
+							<th>{{ view.0 }}</th>
 							<th>{{ view.1 }}</th>
 							<th>{{ view.2|date:"d-m-Y" }}</th>
-							<th id="Date{{view.7}}"></th>
+							<th id="Date{{view.5}}"></th>
 							<th>{{ view.4 }}</th>
-							{% if view.5 == 0 %}
-							<th style="color: red;">Private</th>
-							{% endif %}
-							{% if view.5 == 1 %}
-							<th style="color: #73ff08;">Public</th>
-							{% endif %}
-							{% if view.6 == 1 %}
-							<th><input type="checkbox" name="" checked readonly></th>
-							{% endif %}
-							{% if view.6 == 0 %}
-							<th><input type="checkbox" name="" readonly></th>
-							{% endif %}
 						</tr>	
 						{% endfor %}		
 					</tbody>
@@ -150,10 +119,5 @@
 		});
 	});
 </script>
-<script>
-		function viewContribute(id){
-			location.href = "/Coordinator/viewContribute/" + id;
-		}
-	</script>
 
 </html>
