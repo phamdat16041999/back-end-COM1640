@@ -20,6 +20,10 @@
 		.textToolbar{
 			color: white !important;
 		}
+		body
+		{
+			background-color: transparent !important;
+		}
 	</style>
 </head>
 <body>
@@ -28,29 +32,12 @@
 			<div class="container-xl">
 				<div class="row" style="background-color: #2980b9;">
 					<nav class="navbar navbar-expand-lg navbar-light" style="width: 100%;">
-						<a class="navbar-brand textToolbar" href="{% url 'home' %}">Home</a>
+						<a class="navbar-brand textToolbar" href="/Guess/">Home</a>
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
 
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
-							<ul class="navbar-nav mr-auto">
-								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
-										View statistical
-									</a>
-									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="Contributionofterms">Contribute of terms</a>
-										<a class="dropdown-item" href="Percentageofcontributionscontributetoeachfaculty">Percentage of contributions contribute to each faculty</a>
-										<a class="dropdown-item" href="Numberofstudentssubmittingallsubjectsineachterm">Number of students submitting all subjects in each term</a>
-										<a class="dropdown-item" href="Exercisesthatthecoordinatorhasnotreadyet">Number of posts that the moderator has not scored</a>
-									</div>
-								</li>
-								<li class="nav-item active">
-									<a class="nav-link textToolbar" href="viewContribution">View contribute<span class="sr-only">(current)</span></a>
-								</li>
-							</ul>
-							<form class="form-inline my-2 my-lg-0">
 							<ul class="navbar-nav mr-auto">
 							</ul>
 							<form class="form-inline my-2 my-lg-0">
@@ -65,7 +52,6 @@
 										</div>
 									</li>
 								</ul>
-							</form>
 							</form>
 						</div>
 					</nav>

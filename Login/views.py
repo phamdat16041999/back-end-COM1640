@@ -19,7 +19,15 @@ from .models import User
 from django.contrib.auth.models import Group
 from django.db import connection
 from .models import Contribute
-	
+
+def getAuthGroup(UserID):
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT auth_group.name FROM auth_group INNER JOIN login_user_groups ON auth_group.id = login_user_groups.group_id INNER JOIN login_user ON login_user.id = login_user_groups.user_id WHERE login_user.id = '%s'" ,
+            [UserID]
+        )
+        auth_group = cursor.fetchall()[0][0]
+    return auth_group
 def random_code(length):
     LETTERS = string.ascii_letters
     DIGITS = string.digits
@@ -60,9 +68,14 @@ def Create_Service(client_secret_file, api_name, api_version, *scopes):
         print(e)
         return None
 def index(request):
-    if request.user.is_authenticated:
-        print(request.user.id)
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
         return render(request, 'indexStudent.html')
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Guess":
+        return redirect('/Guess/')
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
+        return redirect('/Coordinator/')
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+        return redirect('/Manager/')
     else:
         return render(request, 'login.html')
 def forgotPassword(request):
@@ -147,7 +160,14 @@ def indexUser(request):
             return render(request, 'login.html', error)
     else:
         if request.user.is_authenticated:
-            return render(request, 'indexStudent.html')
+            if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
+                return render(request, 'indexStudent.html')
+            if request.user.is_authenticated and getAuthGroup(request.user.id) == "Guess":
+                return redirect('/Guess/')
+            if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
+                return redirect('/Coordinator/')
+            if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+                return redirect('/Manager/')
         else:
             return render(request, 'login.html')
 
