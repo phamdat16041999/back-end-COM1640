@@ -18,8 +18,12 @@ from google.auth.transport.requests import Request
 from email import message
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from datetime import datetime
 
-# Create your views here.
+def daytime(Enddate):
+    Begindate = datetime.today()
+    Days_remaining = Enddate - Begindate
+    return Days_remaining
 def Create_Service(client_secret_file, api_name, api_version, *scopes):
     print(client_secret_file, api_name, api_version, scopes, sep="-")
     CLIENT_SECRET_FILE = client_secret_file
@@ -66,8 +70,55 @@ def indexStudent(request):
         return render(request, 'login.html')
 def ViewContributes(request):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
-        Contributes = {'Contributes': Contribute.objects.filter(UserID_id=request.user.id).order_by('-Date')}
+        with connection.cursor() as cursor:
+            cursor.execute(
+            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s' ORDER BY login_contribute.Date", [request.user.id]
+            )
+            views = cursor.fetchall()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT DISTINCT YEAR(ClosureDate) FROM login_term as year"
+            )
+            year = cursor.fetchall()
+        Year = []
+        for i in range(len(year)):
+            Year.append(year[i][0])
+        Date = []
+        for i in range(len(views)):
+           Date.append(str(views[i][7]) +"/"+ str(daytime(views[i][3])))
+        Contributes = {'views': views, 'DateS': Date, 'Year': Year}
         return render(request, 'MyContribute.html', Contributes)
+    else:
+        return render(request, 'login.html')
+def filter(request):
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
+        Year = request.POST.get('Year','')
+        if Year == 'All':
+            with connection.cursor() as cursor:
+                cursor.execute(
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s' ORDER BY login_contribute.Date", [request.user.id]
+                )
+                views = cursor.fetchall()
+        else:
+            Year = int(Year)
+            with connection.cursor() as cursor:
+                cursor.execute(
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s' ORDER BY login_contribute.Date", [request.user.id]
+                )
+                views = cursor.fetchall()
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT DISTINCT YEAR(ClosureDate) FROM login_term as year"
+            )
+            year = cursor.fetchall()
+        Year = []
+        for i in range(len(year)):
+            Year.append(year[i][0])
+        Date = []
+        for i in range(len(views)):
+            Date.append(str(views[i][7]) +"/"+ str(daytime(views[i][3])))
+        viewStudent = {'views': views, 'DateS': Date, 'Year': Year}
+        return render(request, 'MyContribute.html', viewStudent)
     else:
         return render(request, 'login.html')
 def ViewDeadline(request):
@@ -231,4 +282,10 @@ def Update(request,id):
             return render(request, 'login.html')
     else:
         return render(request, 'login.html')
-
+def my_profile(request):
+    if request.user.is_authenticated:
+        user = User.objects.filter(id = request.user.id)
+        profile = {'user' : user}
+        return render(request, 'my_profile.html', profile)
+    else:
+        return render(request, 'login.html')

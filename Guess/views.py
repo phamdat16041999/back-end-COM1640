@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db import connection
 from datetime import datetime
+from Login.models import User
 
 def daytime(Enddate):
     Begindate = datetime.today()
@@ -18,7 +19,7 @@ def indexGuess(request):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Guess":
         with connection.cursor() as cursor:
             cursor.execute(
-            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status = 1"
+            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm INNER JOIN login_faculty ON login_faculty.id = login_user.Faculty_id WHERE login_contribute.Status = 1 AND login_faculty.id = '%s' ORDER BY login_contribute.Date", [User.objects.filter(id= request.user.id)[0].Faculty_id]
             )
             views = cursor.fetchall()
         with connection.cursor() as cursor:
@@ -67,4 +68,10 @@ def filter(request):
         return render(request, 'indexGuess.html', viewGuess)
     else:
         return render(request, 'login.html')
-
+def my_profile(request):
+    if request.user.is_authenticated:
+        user = User.objects.filter(id = request.user.id)
+        profile = {'user' : user}
+        return render(request, 'my_profile.html', profile)
+    else:
+        return render(request, 'login.html')

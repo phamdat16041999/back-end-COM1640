@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db import connection
+from Login.models import Contribute, Term, Data, Comment, User, Faculty
 from datetime import datetime
 
 def daytime(Enddate):
@@ -19,11 +20,11 @@ def indexManager(request):
         return render(request, 'indexManager.html')
     else:
         return render(request, 'login.html')
-def viewContribution(request):
+def viewContributionManager(request):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
         with connection.cursor() as cursor:
             cursor.execute(
-            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status = 1"
+            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status = 1 ORDER BY login_contribute.Date"
             )
             views = cursor.fetchall()
         with connection.cursor() as cursor:
@@ -38,7 +39,7 @@ def viewContribution(request):
         for i in range(len(views)):
            Date.append(str(views[i][7]) +"/"+ str(daytime(views[i][3])))
         viewManager = {'views': views, 'DateS': Date, 'Year': Year}
-        return render(request, 'viewContribution.html', viewManager)
+        return render(request, 'viewContributionManager.html', viewManager)
     else:
         return render(request, 'login.html')
 def Contributionofterms(request):
@@ -91,5 +92,12 @@ def filter(request):
             Date.append(str(views[i][5]) +"/"+ str(daytime(views[i][3])))
         viewManager = {'views': views, 'DateS': Date, 'Year': Year}
         return render(request, 'viewContribution.html', viewManager)
+    else:
+        return render(request, 'login.html')
+def my_profile(request):
+    if request.user.is_authenticated:
+        user = User.objects.filter(id = request.user.id)
+        profile = {'user' : user}
+        return render(request, 'my_profile.html', profile)
     else:
         return render(request, 'login.html')

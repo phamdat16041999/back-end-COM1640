@@ -15,7 +15,9 @@ urlpatterns = [
     path('ViewDeadline/getMessenger/<int:id>', views.getMessenger),
     path('uploadContribute/<int:id>', views.uploadContribute),
     path('indexStudent', views.indexStudent),
-    path('indexUser', views.indexStudent), 
+    path('indexUser', views.indexStudent),
+    path('filter/', views.filter),  
+    path('my_profile', views.my_profile),
 
 
 ]

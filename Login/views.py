@@ -170,7 +170,14 @@ def indexUser(request):
                 return redirect('/Manager/')
         else:
             return render(request, 'login.html')
-
+# def my_profile(request):
+#     if request.user.is_authenticated:
+#         user = User.objects.filter(id = request.user.id)
+#         print(user[0].id)
+#         profile = {'user' : user}
+#         return render(request, 'my_profile.html', profile)
+#     else:
+#         return render(request, 'login.html')
 def Student(request):
     return redirect(request, '/Student')
 def logout(request):
