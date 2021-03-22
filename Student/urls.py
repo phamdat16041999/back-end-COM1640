@@ -9,7 +9,7 @@ urlpatterns = [
     path('ViewDeadline/<int:id>', views.ViewDeadlineYear),
     path('ViewDeadline/viewUploaded/<int:id>', views.viewUploaded),
     path('ViewDeadline/viewUpdate/<int:id>', views.viewUpdate),
-    path('ViewDeadline/uploadContribute/<int:id>',views.Update),
+    path('ViewDeadline/uploadContribute/<int:id>',views.uploadContribute),
     path('ViewDeadline/viewUpload/<int:id>', views.viewUpload),
     path('ViewDeadline/sendMessenger/<int:id>/<str:messenger>', views.sendMessenger),
     path('ViewDeadline/getMessenger/<int:id>', views.getMessenger),

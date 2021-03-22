@@ -497,7 +497,26 @@
 		var span = document.getElementsByClassName("close")[0];
 		var agree = document.getElementsByClassName("agree")[0];
 		function showPopup(){
-			modal.style.display = "block";
+			var validation = 0;
+				var uploadContribute = document.getElementById("uploadContribute").value
+				var uploadImage1 = document.getElementById("uploadContribute").value
+				var uploadImage2 = document.getElementById("uploadContribute").value
+				if (uploadContribute.length == 0){
+					validation++;
+				} 
+				if (uploadImage1.length == 0){
+					validation++;
+				} 
+				if (uploadImage2.length == 0){
+					validation++;
+				} 
+				if (validation == 0){
+					modal.style.display = "block";
+				}
+				if (validation != 0){
+					alert("Must update all your items!")
+				}
+			
 		}
 		span.onclick = function() {
 			modal.style.display = "none";
@@ -512,8 +531,8 @@
 		}
 		$(document).ready(function(){
 			$("#checkAgree").click(function(){
-				document.getElementById("myBtn").type = "submit";
-				document.getElementById("myBtn").onclick = "";
+			document.getElementById("myBtn").type = "submit";
+			document.getElementById("myBtn").onclick = "";
 			});
 		});
 
