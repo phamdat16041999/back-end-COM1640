@@ -103,7 +103,7 @@ def filter(request):
             Year = int(Year)
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s' ORDER BY login_contribute.Date", [request.user.id]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s'  AND YEAR(login_contribute.Date) = '%s' ORDER BY login_contribute.Date", [request.user.id, Year]
                 )
                 views = cursor.fetchall()
         with connection.cursor() as cursor:
