@@ -11,5 +11,5 @@ urlpatterns = [
     path('getMessenger/<int:id>', views.getMessenger),
     path('public/<int:status>/<int:id>', views.public),
     path('filter/', views.filter),
-    path('my_profile', views.my_profile),
+    path('my_profileCoordinator', views.my_profileCoordinator),
 ]

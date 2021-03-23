@@ -17,7 +17,7 @@ urlpatterns = [
     path('indexStudent', views.indexStudent),
     path('indexUser', views.indexStudent),
     path('filter/', views.filter),  
-    path('my_profile', views.my_profile),
+    path('my_profileStudent', views.my_profileStudent),
 
 
 ]

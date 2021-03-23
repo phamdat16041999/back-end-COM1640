@@ -71,7 +71,7 @@ def public(request, status, id):
         Contributes = Contribute.objects.filter(id=id)
         img = Data.objects.filter(ContributeID_id=id)
         dataContribute = {'Contributes': Contributes, 'img':img}
-        return render(request, 'viewContribute.html', dataContribute)
+        return render(request, 'indexCoordinator.html', dataContribute)
     else:
         return render(request, 'login.html')
 def filter(request):
@@ -84,9 +84,9 @@ def filter(request):
         if Status == "Public":
             Status = 1
         if Read == "Read":
-            Read = 0
-        if Read == "Unread":
             Read = 1
+        if Read == "Unread":
+            Read = 0
         if Status == 'All' and Year == 'All' and Read == 'All':
             with connection.cursor() as cursor:
                 cursor.execute(
@@ -189,10 +189,10 @@ def filter(request):
             return render(request, 'indexCoordinator.html', Filters)
     else:
         return render(request, 'login.html')
-def my_profile(request):
+def my_profileCoordinator(request):
     if request.user.is_authenticated:
         user = User.objects.filter(id = request.user.id)
         profile = {'user' : user}
-        return render(request, 'my_profile.html', profile)
+        return render(request, 'my_profileCoordinator.html', profile)
     else:
         return render(request, 'login.html')

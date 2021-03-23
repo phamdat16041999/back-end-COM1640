@@ -94,10 +94,10 @@ def filter(request):
         return render(request, 'viewContribution.html', viewManager)
     else:
         return render(request, 'login.html')
-def my_profile(request):
+def my_profileManager(request):
     if request.user.is_authenticated:
         user = User.objects.filter(id = request.user.id)
         profile = {'user' : user}
-        return render(request, 'my_profile.html', profile)
+        return render(request, 'my_profileManager.html', profile)
     else:
         return render(request, 'login.html')

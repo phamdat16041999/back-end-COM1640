@@ -206,7 +206,7 @@ def uploadContribute(request,id):
             contribute = request.FILES['contribute']
             image1 = request.FILES['image1']
             image2 = request.FILES['image2']
-            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute)
+            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute, Read = False)
             Data.objects.create(Data = image1, ContributeID_id = Contribute.objects.latest('id').id)
             Data.objects.create(Data = image2, ContributeID_id = Contribute.objects.latest('id').id)
             # Send email
@@ -280,10 +280,10 @@ def getMessenger(request, id):
 #             return render(request, 'login.html')
 #     else:
 #         return render(request, 'login.html')
-def my_profile(request):
+def my_profileStudent(request):
     if request.user.is_authenticated:
         user = User.objects.filter(id = request.user.id)
         profile = {'user' : user}
-        return render(request, 'my_profile.html', profile)
+        return render(request, 'my_profileStudent.html', profile)
     else:
         return render(request, 'login.html')

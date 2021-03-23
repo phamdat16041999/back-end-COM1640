@@ -68,10 +68,10 @@ def filter(request):
         return render(request, 'indexGuess.html', viewGuess)
     else:
         return render(request, 'login.html')
-def my_profile(request):
+def my_profileGuess(request):
     if request.user.is_authenticated:
         user = User.objects.filter(id = request.user.id)
         profile = {'user' : user}
-        return render(request, 'my_profile.html', profile)
+        return render(request, 'my_profileGuess.html', profile)
     else:
         return render(request, 'login.html')
