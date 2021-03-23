@@ -61,17 +61,23 @@
 							<th>Date upload</th>
 							<th>Days left</th>
 							<th>Email</th>
+							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody id="myTable" style="color: white;">
 						{% for view in views %}
-						
 						<tr>        
 							<th>{{ view.0 }}</th>
 							<th>{{ view.1 }}</th>
 							<th>{{ view.2|date:"d-m-Y" }}</th>
 							<th id="Date{{view.7}}"></th>
 							<th>{{ view.4 }}</th>
+							{% if view.5 == 0 %}
+							<th style="color: red;">Private</th>
+							{% endif %}
+							{% if view.5 == 1 %}
+							<th style="color: #73ff08;">Public</th>
+							{% endif %}
 						</tr>	
 						{% endfor %}		
 					</tbody>

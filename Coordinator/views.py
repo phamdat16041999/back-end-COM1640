@@ -38,11 +38,11 @@ def indexCoordinator(request):
         return render(request, 'indexCoordinator.html', viewCoordinator)
     else:
         return render(request, 'login.html')
-
-
 def viewContribute(request, id):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
         Contributes = Contribute.objects.filter(id=id)
+        Contribute.objects.filter(id=id).update(Readed = 1)
+        print(Contributes)
         img = Data.objects.filter(ContributeID_id=id)
         dataContribute = {'Contributes': Contributes, 'img':img}
         return render(request, 'viewContribute.html', dataContribute)

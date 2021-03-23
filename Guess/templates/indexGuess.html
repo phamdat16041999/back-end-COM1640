@@ -60,7 +60,7 @@
 							<th>Name</th>
 							<th>Contribution</th>
 							<th>Date upload</th>
-							<th>Days left</th>
+							{% comment %} <th>Days left</th> {% endcomment %}
 							<th>Email</th>
 						</tr>
 					</thead>
@@ -71,7 +71,7 @@
 							<th>{{ view.0 }}</th>
 							<th>{{ view.1 }}</th>
 							<th>{{ view.2|date:"d-m-Y" }}</th>
-							<th id="Date{{view.7}}"></th>
+							{% comment %} <th id="Date{{view.7}}"></th> {% endcomment %}
 							<th>{{ view.4 }}</th>
 						</tr>	
 						{% endfor %}		
