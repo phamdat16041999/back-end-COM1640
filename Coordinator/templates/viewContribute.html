@@ -222,22 +222,12 @@
         }
     </style>
 </head>
-
 <body>
 {% include "toolbarCoordinator.html" %}
     <div class="container-fluid" style="margin-top: 50px;">
         <div class="row">
             <div class="col-xl-1 col-12"></div>
             <div class="col-xl-5 col-12 border">
-                <div style="font-family: 'Asap', sans-serif;font-weight: bold;font-size: 30px;">
-                    Upload magazine
-                </div>
-                <div class="container" style="background-color: #74b9ff; border-radius: 10px;">
-                    <p>Before you updating, make sure to read:</p>
-                    <p>1. You can upload file word and image</p>
-                    <p>2. You can update or edit your article(s) until the final closure date</p>
-                </div>
-                <form method="post" action="/Student/ViewDeadline/uploadContribute/{{ternID}}" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="container">
                         {% for Contributes in Contributes %}
