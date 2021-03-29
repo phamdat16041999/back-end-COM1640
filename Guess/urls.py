@@ -4,5 +4,5 @@ from .import views
 urlpatterns = [
     path('', views.indexGuess),
     path('filter/', views.filter),
-    path('my_profile', views.my_profile),
+    path('my_profileGuess', views.my_profileGuess),
 ]

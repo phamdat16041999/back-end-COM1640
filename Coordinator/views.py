@@ -20,7 +20,7 @@ def indexCoordinator(request):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
         with connection.cursor() as cursor:
             cursor.execute(
-            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm ORDER BY login_contribute.Date"
+            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [User.objects.filter(id= request.user.id)[0].Faculty_id]
             )
             views = cursor.fetchall()
         with connection.cursor() as cursor:
@@ -38,11 +38,11 @@ def indexCoordinator(request):
         return render(request, 'indexCoordinator.html', viewCoordinator)
     else:
         return render(request, 'login.html')
-
-
 def viewContribute(request, id):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Coordinator":
         Contributes = Contribute.objects.filter(id=id)
+        Contribute.objects.filter(id=id).update(Readed = 1)
+        print(Contributes)
         img = Data.objects.filter(ContributeID_id=id)
         dataContribute = {'Contributes': Contributes, 'img':img}
         return render(request, 'viewContribute.html', dataContribute)
@@ -71,7 +71,7 @@ def public(request, status, id):
         Contributes = Contribute.objects.filter(id=id)
         img = Data.objects.filter(ContributeID_id=id)
         dataContribute = {'Contributes': Contributes, 'img':img}
-        return render(request, 'viewContribute.html', dataContribute)
+        return render(request, 'indexCoordinator.html', dataContribute)
     else:
         return render(request, 'login.html')
 def filter(request):
@@ -84,13 +84,13 @@ def filter(request):
         if Status == "Public":
             Status = 1
         if Read == "Read":
-            Read = 0
-        if Read == "Unread":
             Read = 1
+        if Read == "Unread":
+            Read = 0
         if Status == 'All' and Year == 'All' and Read == 'All':
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm ORDER BY login_contribute.Date"
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [User.objects.filter(id= request.user.id)[0].Faculty_id]
                 )
                 views = cursor.fetchall()
             with connection.cursor() as cursor:
@@ -109,7 +109,7 @@ def filter(request):
         if Status == 'All' and Year == 'All' and Read != 'All':
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Readed = '%s' ORDER BY login_contribute.Date", [Read]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Readed = '%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [Read, User.objects.filter(id= request.user.id)[0].Faculty_id]
                 )
                 views = cursor.fetchall()
             Date = []
@@ -121,7 +121,7 @@ def filter(request):
             Year = int(Year)
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE YEAR(login_contribute.Date) = '%s' ORDER BY login_contribute.Date", [Year]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE YEAR(login_contribute.Date) = '%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [Year, User.objects.filter(id= request.user.id)[0].Faculty_id]
                 )
                 views = cursor.fetchall()
             Date = []
@@ -132,7 +132,7 @@ def filter(request):
         if Status != 'All' and Year == 'All' and Read == 'All':
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status= '%s' ORDER BY login_contribute.Date", [Status]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status= '%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [Status, User.objects.filter(id= request.user.id)[0].Faculty_id]
                 )
                 views = cursor.fetchall()
             Date = []
@@ -144,7 +144,7 @@ def filter(request):
             Year = int(Year)
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE YEAR(login_contribute.Date) ='%s' and login_contribute.Readed = '%s' ORDER BY login_contribute.Date", [Year, Read]
+                    "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE YEAR(login_contribute.Date) ='%s' and login_contribute.Readed = '%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [Year, Read, User.objects.filter(id= request.user.id)[0].Faculty_id]
                     )
                 views = cursor.fetchall()
             Date = []
@@ -155,7 +155,7 @@ def filter(request):
         if Status != 'All' and Year == 'All' and Read != 'All':
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status= '%s' and login_contribute.Readed= '%s' ORDER BY login_contribute.Date", [Status, Read]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status= '%s' and login_contribute.Readed= '%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [Status, Read, User.objects.filter(id= request.user.id)[0].Faculty_id]
                 )
                 views = cursor.fetchall()
             Date = []
@@ -167,7 +167,7 @@ def filter(request):
             Year = int(Year)
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status= '%s' and YEAR(login_contribute.Date) ='%s' ORDER BY login_contribute.Date", [Status, Year]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status= '%s' and YEAR(login_contribute.Date) ='%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [Status, Year, User.objects.filter(id= request.user.id)[0].Faculty_id]
                 )
                 views = cursor.fetchall()
             Date = []
@@ -179,7 +179,7 @@ def filter(request):
             Year = int(Year)
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status= '%s' and YEAR(login_contribute.Date) ='%s' and login_contribute.Readed= '%s' ORDER BY login_contribute.Date", [Status, Year, Read]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status= '%s' and YEAR(login_contribute.Date) ='%s' and login_contribute.Readed= '%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [Status, Year, Read, User.objects.filter(id= request.user.id)[0].Faculty_id]
                 )
                 views = cursor.fetchall()
             Date = []
@@ -189,10 +189,10 @@ def filter(request):
             return render(request, 'indexCoordinator.html', Filters)
     else:
         return render(request, 'login.html')
-def my_profile(request):
+def my_profileCoordinator(request):
     if request.user.is_authenticated:
         user = User.objects.filter(id = request.user.id)
         profile = {'user' : user}
-        return render(request, 'my_profile.html', profile)
+        return render(request, 'my_profileCoordinator.html', profile)
     else:
         return render(request, 'login.html')
