@@ -72,7 +72,7 @@ def ViewContributes(request):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
         with connection.cursor() as cursor:
             cursor.execute(
-            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s' ORDER BY login_contribute.Date", [request.user.id]
+            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [request.user.id, User.objects.filter(id= request.user.id)[0].Faculty_id]
             )
             views = cursor.fetchall()
         with connection.cursor() as cursor:
@@ -96,14 +96,14 @@ def filter(request):
         if Year == 'All':
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s' ORDER BY login_contribute.Date", [request.user.id]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [request.user.id, User.objects.filter(id= request.user.id)[0].Faculty_id]
                 )
                 views = cursor.fetchall()
         else:
             Year = int(Year)
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s'  AND YEAR(login_contribute.Date) = '%s' ORDER BY login_contribute.Date", [request.user.id, Year]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_user.id = '%s'  AND YEAR(login_contribute.Date) = '%s' AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [request.user.id, Year, User.objects.filter(id= request.user.id)[0].Faculty_id]
                 )
                 views = cursor.fetchall()
         with connection.cursor() as cursor:
@@ -167,18 +167,20 @@ def viewUpdate(request,id):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM ((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) WHERE login_term.idTerm = '%s' and login_user.id ='%s'" ,
-                [id,request.user.id]
+                "SELECT login_contribute.Document, login_contribute.Name, login_contribute.Description FROM login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm INNER JOIN login_user ON login_contribute.UserID_id = login_user.id WHERE login_term.idTerm = '%s' and login_user.id ='%s'", [id,request.user.id]
             )
             DataNoImage = cursor.fetchall()
         with connection.cursor() as cursor:
             cursor.execute(
-                "SELECT login_data.Data FROM (((login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm) INNER JOIN login_user ON login_contribute.UserID_id = login_user.id) INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id) WHERE login_term.idTerm = '%s' and login_user.id ='%s' ",
-                [id,request.user.id]
+                "SELECT login_data.Data FROM login_contribute INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm INNER JOIN login_user ON login_contribute.UserID_id = login_user.id INNER JOIN login_data ON login_contribute.id = login_data.ContributeID_id WHERE login_term.idTerm = '%s' and login_user.id ='%s'", [id,request.user.id]
             )
             DataImage = cursor.fetchall()
-        ternID = {'ternID':id, 'DataNoImage': DataNoImage,'DataImage': DataImage}
-        return render(request, 'Update.html', ternID)
+        if len(DataNoImage) > 0 and len(DataImage) > 0:
+            ternID = {'ternID':id, 'DataNoImage': DataNoImage,'DataImage': DataImage}
+            return render(request, 'Update.html', ternID)
+            # return redirect('/Student/ViewDeadline/viewUpdate/'+str(id), ternID)
+        else:
+            return render(request, 'viewUploaded.html', {'DataNoImage': DataNoImage,'DataImage': DataImage})
     else:
         return render(request, 'login.html')
 def viewUploaded(request,id):
@@ -206,7 +208,48 @@ def uploadContribute(request,id):
             contribute = request.FILES['contribute']
             image1 = request.FILES['image1']
             image2 = request.FILES['image2']
-            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute)
+            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute, Readed = False)
+            Data.objects.create(Data = image1, ContributeID_id = Contribute.objects.latest('id').id)
+            Data.objects.create(Data = image2, ContributeID_id = Contribute.objects.latest('id').id)
+            # Send email
+            facultyID = User.objects.filter(id = request.user.id)[0].Faculty_id
+            facultyName = Faculty.objects.filter(id = facultyID)[0].Name
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT login_user.email FROM login_user INNER JOIN login_user_groups ON login_user.id = login_user_groups.user_id INNER JOIN auth_group ON login_user_groups.group_id = auth_group.id INNER JOIN login_faculty ON login_faculty.id = login_user.Faculty_id WHERE auth_group.name = %s AND login_faculty.Name = %s" ,
+                    ["Coordinator",facultyName]
+                )
+                Email = cursor.fetchall()
+            
+            for i in Email:
+                CLIENT_SECRET_FILE = './client_secret.json'
+                API_NAME = "gmail"
+                API_VERSION = "v1"
+                SCOPES = ["https://mail.google.com/"]
+                service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+                emailMsg = "The student whose name is "+ User.objects.filter(id = request.user.id)[0].last_name+" contributes a magazine to the term "+Term.objects.filter(idTerm=id)[0].NameTerm+".\n Please visit here to see contributions: http://localhost:8000/Coordinator/viewContribute/" +  str(Contribute.objects.latest('id').id)
+                mimeMessage = MIMEMultipart()
+                mimeMessage["to"] = i[0]
+                mimeMessage["subject"] = "Notification"
+                mimeMessage.attach(MIMEText(emailMsg, 'plain'))
+                raw_string = base64.urlsafe_b64encode(mimeMessage.as_bytes()).decode()
+                message = service.users().messages().send(userId="me", body={"raw": raw_string}).execute()
+            return redirect('/Student/ViewDeadline')
+        else:
+            # Not found 404
+            return redirect('/')
+    else:
+        return render(request, 'login.html')
+def updateContribute(request,id):
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Student":
+        if request.method == 'POST' and request.FILES['contribute'] and request.FILES['image1'] and request.FILES['image2']:
+            nameContribute = request.POST.get('nameContribute','')
+            description = request.POST.get('description','')
+            contribute = request.FILES['contribute']
+            image1 = request.FILES['image1']
+            image2 = request.FILES['image2']
+            Contribute.objects.filter(TermID_id = id, UserID_id = request.user.id).delete()
+            Contribute.objects.create(Name = nameContribute, Description = description, TermID_id = id, Status = False, UserID_id = request.user.id, Document = contribute, Readed = False)
             Data.objects.create(Data = image1, ContributeID_id = Contribute.objects.latest('id').id)
             Data.objects.create(Data = image2, ContributeID_id = Contribute.objects.latest('id').id)
             # Send email
@@ -280,10 +323,10 @@ def getMessenger(request, id):
 #             return render(request, 'login.html')
 #     else:
 #         return render(request, 'login.html')
-def my_profile(request):
+def my_profileStudent(request):
     if request.user.is_authenticated:
         user = User.objects.filter(id = request.user.id)
         profile = {'user' : user}
-        return render(request, 'my_profile.html', profile)
+        return render(request, 'my_profileStudent.html', profile)
     else:
         return render(request, 'login.html')

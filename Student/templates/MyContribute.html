@@ -3,19 +3,7 @@
 <head>
     {% load static %}   
 	<title></title>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-	<!-- Popper JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
-	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
 		body{
 			color:white;
@@ -26,6 +14,7 @@
 	</style>
 </head>
 <body>
+{% include "toolbarStudent.html" %}
 	<img src="{% static 'image/backgroundUpload.png' %}" alt="" style="width: 100%; height: 100%; position: fixed; filter: brightness(70%);object-fit: cover;">
 	<div class="container-xl">
 		<div class="row">
@@ -72,17 +61,23 @@
 							<th>Date upload</th>
 							<th>Days left</th>
 							<th>Email</th>
+							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody id="myTable" style="color: white;">
 						{% for view in views %}
-						
 						<tr>        
 							<th>{{ view.0 }}</th>
 							<th>{{ view.1 }}</th>
 							<th>{{ view.2|date:"d-m-Y" }}</th>
 							<th id="Date{{view.7}}"></th>
 							<th>{{ view.4 }}</th>
+							{% if view.5 == 0 %}
+							<th style="color: red;">Private</th>
+							{% endif %}
+							{% if view.5 == 1 %}
+							<th style="color: #73ff08;">Public</th>
+							{% endif %}
 						</tr>	
 						{% endfor %}		
 					</tbody>

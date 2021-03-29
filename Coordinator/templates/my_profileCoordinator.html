@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{% load static %}  
+	<title>Your profile</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+{% include "toolbarCoordinator.html" %}
+	<img src="{% static 'img/anh2.png' %}" alt="" style="width: 100%; height: 100%; object-fit: cover; position: absolute; filter: brightness(70%); ">
+	<div class="container-xl" style="color: #FFFFFF;">
+		<div class="row">
+			<div class="col-12 ">
+				<div style="text-align: center; font-size: 30px;">
+				<h1>My Profile</h1>
+				<p>View your personal info below.</p>
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 30px;">
+			<div class="col-12">
+				<div class="row">
+					<div class="col-xl-6 col-12" style="text-align: center;">
+						<img src="{% static 'img/anh1.png' %}" style="width:40%; height: auto; ">
+						<p></p>
+						<h2>{{user.0.username}}</h2>
+					</div>
+
+					<div class="col-xl-6 col-12">
+						<div style="margin-top: 40px;">
+							{% if user.0.Sex == 0 %} 
+							<h4><span style="font-weight: bold; color: #FFFFFF;">Sex:</span><span style="margin-left: 52px;">Male</span></h4>
+							{% endif %}
+							{% if user.0.Sex == 1 %} 
+							<h4><span style="font-weight: bold; color: #FFFFFF;">Sex:</span><span style="margin-left: 52px;">FeMale</span></h4>
+							{% endif %}
+							{% if user.0.Sex != 0 and user.0.Sex != 1 %} 
+							<h4><span style="font-weight: bold; color: #FFFFFF;">Sex:</span><span style="margin-left: 52px;">Other</span></h4>
+							{% endif %}
+							<h4><span style="font-weight: bold; color: #FFFFFF;">Email:</span><span style="margin-left: 30px;">{{user.0.email}}</span></h4>
+							<h4><span style="font-weight: bold; color: #FFFFFF;">Phone:</span><span style="margin-left: 25px;">{{user.0.PhoneNumber}}</span></h4>
+							<h4><span style="font-weight: bold; color: #FFFFFF;">Faculty:</span><span style="margin-left: 30px;">{{user.0.Faculty}}</span></h4>									
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -286,10 +286,10 @@
 				</div>
 				<div class="container" style="background-color: #74b9ff; border-radius: 10px;">
 					<p>Before you updating, make sure to read:</p>
-					<p>- You can upload file word and image</p>
-					<p>- You can update or edit your article(s) until the final closure date</p>
+					<p>1. You can upload file word and image</p>
+					<p>2. You can update or edit your article(s) until the final closure date</p>
 				</div>
-				<form method="post" action="/Student/ViewDeadline/uploadContribute/{{ternID}}" enctype="multipart/form-data">
+				<form method="post" action="/Student/ViewDeadline/updateContribute/{{ternID}}" enctype="multipart/form-data">
 					{% csrf_token %}
 					<div class="container">
 						{% for data in DataNoImage %}
