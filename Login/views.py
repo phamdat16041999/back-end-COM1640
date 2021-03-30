@@ -21,13 +21,17 @@ from django.db import connection
 from .models import Contribute
 
 def getAuthGroup(UserID):
-    with connection.cursor() as cursor:
-        cursor.execute(
-            "SELECT auth_group.name FROM auth_group INNER JOIN login_user_groups ON auth_group.id = login_user_groups.group_id INNER JOIN login_user ON login_user.id = login_user_groups.user_id WHERE login_user.id = '%s'" ,
-            [UserID]
-        )
-        auth_group = cursor.fetchall()[0][0]
-    return auth_group
+    isAdmin = User.objects.filter(id = UserID, is_superuser = True)
+    if(len(isAdmin) == 0):
+        return redirect('/logout')
+    else:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT auth_group.name FROM auth_group INNER JOIN login_user_groups ON auth_group.id = login_user_groups.group_id INNER JOIN login_user ON login_user.id = login_user_groups.user_id WHERE login_user.id = '%s'" ,
+                [UserID]
+            )
+            auth_group = cursor.fetchall()[0][0]
+        return auth_group
 def random_code(length):
     LETTERS = string.ascii_letters
     DIGITS = string.digits

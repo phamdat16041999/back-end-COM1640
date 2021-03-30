@@ -227,7 +227,7 @@ def uploadContribute(request,id):
                 API_VERSION = "v1"
                 SCOPES = ["https://mail.google.com/"]
                 service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-                emailMsg = "The student whose name is "+ User.objects.filter(id = request.user.id)[0].last_name+" contributes a magazine to the term "+Term.objects.filter(idTerm=id)[0].NameTerm+".\n Please visit here to see contributions: http://localhost:8000/Coordinator/viewContribute/" +  str(Contribute.objects.latest('id').id)
+                emailMsg = "The student whose name is "+ User.objects.filter(id = request.user.id)[0].last_name+" contributes a magazine to the term "+Term.objects.filter(idTerm=id)[0].NameTerm+".\n Please visit here to see contributions: https://group1640.herokuapp.com/Coordinator/viewContribute/" +  str(Contribute.objects.latest('id').id)
                 mimeMessage = MIMEMultipart()
                 mimeMessage["to"] = i[0]
                 mimeMessage["subject"] = "Notification"
