@@ -82,7 +82,7 @@ APPEND_SLASH=False
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = dj_database_url.config(
+DATABASES['default'] = dj_database_url.config(
     default='mysql://b68c35d971762f:38109520@us-cdbr-east-03.cleardb.com/heroku_a66b815fefe58dc?reconnect=true',
 )
 # DATABASES = {
