@@ -22,7 +22,7 @@ from .models import Contribute
 
 def getAuthGroup(UserID):
     isAdmin = User.objects.filter(id = UserID, is_superuser = True)
-    if(len(isAdmin) == 0):
+    if(len(isAdmin) > 0):
         return redirect('/logout')
     else:
         with connection.cursor() as cursor:
