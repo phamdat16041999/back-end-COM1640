@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import django_heroku
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,19 +82,22 @@ APPEND_SLASH=False
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'heroku_a66b815fefe58dc',
-        'USER': 'b68c35d971762f',
-        'PASSWORD': '38109520',
-        'HOST': 'us-cdbr-east-03.cleardb.com',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
-        'OPTIONS': {
-            'sql_mode': 'traditional',
-        }
-    }
-}
+DATABASES['default'] = dj_database_url.config(
+    default='mysql://b68c35d971762f:38109520@us-cdbr-east-03.cleardb.com/heroku_a66b815fefe58dc?reconnect=true',
+)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql', 
+#         'NAME': 'heroku_a66b815fefe58dc',
+#         'USER': 'b68c35d971762f',
+#         'PASSWORD': '38109520',
+#         'HOST': 'us-cdbr-east-03.cleardb.com',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'sql_mode': 'traditional',
+#         }
+#     }
+# }
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql', 
