@@ -84,9 +84,9 @@ APPEND_SLASH=False
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'heroku_a66b815fefe58dc',
-        'USER': 'b68c35d971762f',
-        'PASSWORD': '38109520',
+        'NAME': 'heroku_db47fd6b8e9efc4',
+        'USER': 'b5044ab38bab55',
+        'PASSWORD': '30afd9fa',
         'HOST': 'us-cdbr-east-03.cleardb.com',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         'OPTIONS': {
