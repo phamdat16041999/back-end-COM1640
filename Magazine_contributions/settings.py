@@ -94,6 +94,19 @@ DATABASES = {
         }
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql', 
+#         'NAME': 'manazinecontributions',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'sql_mode': 'traditional',
+#         }
+#     }
+# }
 
 
 # Password validation

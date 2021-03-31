@@ -223,89 +223,101 @@
     </style>
 </head>
 <body>
-{% include "toolbarCoordinator.html" %}
+    {% include "toolbarCoordinator.html" %}
     <div class="container-fluid" style="margin-top: 50px;">
         <div class="row">
             <div class="col-xl-1 col-12"></div>
             <div class="col-xl-5 col-12 border">
-                    {% csrf_token %}
-                    <div class="container">
-                        {% for Contributes in Contributes %}
-                        <div class="input-group">
-                            <div class="input-group-prepend" id="label">
-                                <span class="input-group-text" style="background-color: transparent; border-color: transparent;">Sort title</span>
-                            </div>
-                            <input type="text" class="form-control" name="nameContribute" value="{{Contributes.Name}}">
+                {% csrf_token %}
+                <div class="container">
+                    {% for Contributes in Contributes %}
+                    <div class="input-group">
+                        <div class="input-group-prepend" id="label">
+                            <span class="input-group-text" style="background-color: transparent; border-color: transparent;">Sort title</span>
                         </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend" id="label">
-                                <span class="input-group-text" style="background-color: transparent; border-color: transparent;">Description</span>
-                            </div>
-                            <input type="text" class="form-control" name="description" value="{{Contributes.Description}}">
+                        <input type="text" class="form-control" name="nameContribute" value="{{Contributes.Name}}">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-prepend" id="label">
+                            <span class="input-group-text" style="background-color: transparent; border-color: transparent;">Description</span>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info" onclick="document.getElementById('uploadContribute').click();">Upload contribute</button>
-                                <input type="file" required id="uploadContribute" name="contribute" accept=".doc,.docx,application/msword" style="display: none;">
-                                <p id="nameFileContribute" style="margin-top: 16px;"><a href="/media/{{Contributes.Document}}">{{Contributes.Document}}</a></p>
-                            </div>
-                            {% endfor %}
+                        <input type="text" class="form-control" name="description" value="{{Contributes.Description}}">
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info" onclick="document.getElementById('uploadContribute').click();">Upload contribute</button>
+                            <input type="file" required id="uploadContribute" name="contribute" accept=".doc,.docx,application/msword" style="display: none;">
+                            <p id="nameFileContribute" style="margin-top: 16px;"><a href="/media/{{Contributes.Document}}">{{Contributes.Document}}</a></p>
+                        </div>
+                        {% endfor %}
 
-                            <div class="col-12">
-                                <button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info" onclick="document.getElementById('uploadImage1').click()">Upload image</button>
-                                <input type="file" required id="uploadImage1" name="image1" accept="image/*" style="display: none;">
-                                <p id="nameImage1" style="margin-top: 16px;"><a href="/media/{{img.0.Data}}">{{img.0.Data}}</a></p>
-                            </div>
-                            <div class="col-12">
-                                <button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info" onclick="document.getElementById('uploadImage2').click()">Upload image</button>
-                                <input type="file" required id="uploadImage2" name="image2" accept="image/*" style="display: none;">
-                                <p id="nameImage2" style="margin-top: 16px;"><a href="/media/{{img.1.Data}}">{{img.1.Data}}</a></p>
-                            </div>
-							<div class="col-12">
-                                <select class="form-select" aria-label="Default select example">
+                        <div class="col-12">
+                            <button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info" onclick="document.getElementById('uploadImage1').click()">Upload image</button>
+                            <input type="file" required id="uploadImage1" name="image1" accept="image/*" style="display: none;">
+                            <p id="nameImage1" style="margin-top: 16px;"><a href="/media/{{img.0.Data}}">{{img.0.Data}}</a></p>
+                        </div>
+                        <div class="col-12">
+                            <button style="width: 180px; margin-top: 10px; float: left;" type="button" class="btn btn-info" onclick="document.getElementById('uploadImage2').click()">Upload image</button>
+                            <input type="file" required id="uploadImage2" name="image2" accept="image/*" style="display: none;">
+                            <p id="nameImage2" style="margin-top: 16px;"><a href="/media/{{img.1.Data}}">{{img.1.Data}}</a></p>
+                        </div>
+                        <div class="col-12">
+                            <select class="form-select" aria-label="Default select example">
                                 {% if Contributes.0.Status == False %}
-                                  <option value="0" selected>Private</option>
-                                  <option value="1" >Public</option>
+                                <option value="0" selected>Private</option>
+                                <option value="1" >Public</option>
                                 {% endif %}
                                 {% if Contributes.0.Status == True %}
-                                  <option value="0" >Private</option>
-                                  <option value="1" selected>Public</option>
+                                <option value="0" >Private</option>
+                                <option value="1" selected>Public</option>
                                 {% endif %}
-                                </select>
-                            </div>
-                            <div class="row">
+                            </select>
+                        </div>
+                        <div class="row">
                             <div class="col-12" style="text-align: center;">
                                 <button type="button" class="btn" id="myBtn" onclick="public()" style="margin-top: 10px; color: white; background-color: #e74c3c; border-color: #e74c3c;">Upload</button>
 
                             </div>
                         </div>
-                        </div>
                     </div>
-                </form>
-            </div>
-            <div class="col-xl-6 col-12"></div>
+                </div>
+            </form>
         </div>
+        <div class="col-xl-6 col-12"></div>
     </div>
-    <div class="messenger">
-        <div style="width: 100%; background-color: white; height: 40px; color: #5E56C2; border-top-left-radius: 5px;  border-top-right-radius: 5px; border: 1px solid #bdc3c7;">
-            <p style="width: 85%; float: left; height: 40px; align-items: center; justify-content: center; display: flex;">Feedback from the coordinator</p>
-            <i class='fas fa-angle-down' id="noneBorderChat" style='font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex; cursor: pointer;'></i>
-            <i class="fa fa-angle-up" style="font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex; display: none; cursor: pointer;" id="blockBorderChat"></i>
-        </div>
-        <div style="width: 100%; background-color: white; height: 350px; border: 1px solid #bdc3c7;" id="borderChat">
-            <div class="chat">
-                <div class="chat-content clearfix" style="position: absolute;height: 296px;overflow: auto; width: 100%;" id="contentChat">
-                </div>
-                <div class="msg-box">
-                    <input type="text" class="ip-msg" placeholder="type something.." id="contentMessenger" />
-                    <span class="btn-group">
-						<i class="fa fa-paper-plane" style="cursor: pointer;" id="btnSendMessenger"></i>
-					</span>
-                </div>
+</div>
+<div class="messenger">
+    <div style="width: 100%; background-color: white; height: 40px; color: #5E56C2; border-top-left-radius: 5px;  border-top-right-radius: 5px; border: 1px solid #bdc3c7;">
+        <p style="width: 85%; float: left; height: 40px; align-items: center; justify-content: center; display: flex;">Feedback from the coordinator</p>
+        <i class='fas fa-angle-down' id="noneBorderChat" style='font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex; cursor: pointer;'></i>
+        <i class="fa fa-angle-up" style="font-size:36px; height: 40px; align-items: center; justify-content: center; display: flex; display: none; cursor: pointer;" id="blockBorderChat"></i>
+    </div>
+    <div style="width: 100%; background-color: white; height: 350px; border: 1px solid #bdc3c7;" id="borderChat">
+        <div class="chat">
+            <div class="chat-content clearfix" style="position: absolute;height: 296px;overflow: auto; width: 100%;" id="contentChat">
             </div>
-        </div>
+            <div class="msg-box">
+                <input type="text" class="ip-msg" placeholder="type something.." id="contentMessenger" />
+                <span class="btn-group">
+                  <i class="fa fa-paper-plane" style="cursor: pointer;" id="btnSendMessenger"></i>
+              </span>
+          </div>
+      </div>
+  </div>
 
-    </div>
+</div>
+<script>
+    $("#noneBorderChat").click(function(){
+        $("#borderChat").hide();
+        $("#noneBorderChat").hide();
+        $("#blockBorderChat").show();
+    });
+    $("#blockBorderChat").click(function(){
+        $("#borderChat").show();
+        $("#noneBorderChat").show();
+        $("#blockBorderChat").hide();
+    });
+</script>
 <script>
 	var element = document.getElementById("contentChat");
 	element.scrollTop = element.scrollHeight;
@@ -367,7 +379,7 @@
 	{
 		var status = document.getElementsByClassName("form-select")[0].value;
         location.href = "/Coordinator/public/" + status + "/" + "{{Contributes.0.id}}";
-	}
+    }
 </script>
 </body>
 
