@@ -10,4 +10,5 @@ urlpatterns = [
     path('viewContributionManager', views.viewContributionManager),
     path('filter/', views.filter),
     path('my_profileManager', views.my_profileManager),
+    path('downloadZip/<int:id>', views.downloadZip),
 ]

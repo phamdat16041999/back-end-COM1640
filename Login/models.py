@@ -11,6 +11,7 @@ class User(AbstractUser):
 	Sex_choise = ((0,"Male"),(1,"Female"),(2,"Other"))
 	code = models.CharField(max_length=12, null = True, blank = True)
 	DOB = models.DateTimeField(blank = True, null = True)
+	email = models.CharField(max_length=254, unique=True)
 	PhoneNumber = models.IntegerField(blank=True, null = True)
 	Sex = models.IntegerField(blank=True, choices= Sex_choise, null = True)
 	Faculty = models.ForeignKey(Faculty, default=None, on_delete=models.CASCADE, blank=True, null = True)

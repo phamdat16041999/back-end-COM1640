@@ -99,7 +99,7 @@
 							{% for ViewDeadline in ViewDeadlines %}	
 							{% if ViewDeadline.FinalClosureDate|date:"Y m d" < Now|date:"Y m d" %}
 							<div class="col-12" onclick="viewUploaded('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
-								<div style="height: 150px; background-color: white; margin-top: 10px;">
+								<div style="background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
 										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
@@ -126,7 +126,7 @@
 						{% for ViewDeadline in ViewDeadlines %}	
 						{% if ViewDeadline.ClosureDate|date:"Y m d" <= Now|date:"Y m d" and ViewDeadline.FinalClosureDate|date:"Y m d" >= Now|date:"Y m d" %}
 							<div class="col-12" onclick="viewUpdate('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
-								<div style="height: 150px; background-color: white; margin-top: 10px;">
+								<div style="background-color: white; margin-top: 10px;">
 								<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
 										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
@@ -154,7 +154,7 @@
 							{% for ViewDeadline in ViewDeadlines %}	
 							{% if ViewDeadline.ClosureDate|date:"Y m d" > Now|date:"Y m d" %}
 							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
-								<div style="height: 150px; background-color: white; margin-top: 10px;">
+								<div style="background-color: white; margin-top: 10px;">
 									<h2>{{ViewDeadline.NameTerm}}</h2>
 									<div>
 										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>

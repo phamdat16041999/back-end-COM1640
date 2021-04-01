@@ -2,6 +2,11 @@ from django.shortcuts import render
 from django.db import connection
 from Login.models import Contribute, Term, Data, Comment, User, Faculty
 from datetime import datetime
+from django.http import HttpResponse
+import os
+import zipfile
+import io as stringIOModule
+
 
 def daytime(Enddate):
     Begindate = datetime.today()
@@ -111,5 +116,23 @@ def my_profileManager(request):
         user = User.objects.filter(id = request.user.id)
         profile = {'user' : user}
         return render(request, 'my_profileManager.html', profile)
+    else:
+        return render(request, 'login.html')
+def downloadZip(request, id):
+    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+        document = Contribute.objects.filter(id = id)[0].Document
+        filenames = ["./media/"+str(document)]
+        zip_subdir = "somefiles"
+        zip_filename = "%s.zip" % zip_subdir
+        s = stringIOModule.StringIO()
+        zf = zipfile.ZipFile(s, "w")
+        for fpath in filenames:
+            fdir, fname = os.path.split(fpath)
+            zip_path = os.path.join(zip_subdir, fname)
+            zf.write(fpath, zip_path)
+        zf.close()
+        resp = HttpResponse(s.getvalue(), mimetype = "application/x-zip-compressed")
+        resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+        return resp
     else:
         return render(request, 'login.html')
