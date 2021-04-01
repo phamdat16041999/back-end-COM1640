@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-import django_heroku
+
 from pathlib import Path
 import os
 
@@ -81,32 +81,32 @@ APPEND_SLASH=False
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql', 
-#         'NAME': 'heroku_db47fd6b8e9efc4',
-#         'USER': 'b5044ab38bab55',
-#         'PASSWORD': '30afd9fa',
-#         'HOST': 'us-cdbr-east-03.cleardb.com',   # Or an IP Address that your DB is hosted on
-#         'PORT': '3306',
-#         'OPTIONS': {
-#             'sql_mode': 'traditional',
-#         }
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'manazinecontributions',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'NAME': 'heroku_db47fd6b8e9efc4',
+        'USER': 'b5044ab38bab55',
+        'PASSWORD': '30afd9fa',
+        'HOST': 'us-cdbr-east-03.cleardb.com',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         'OPTIONS': {
             'sql_mode': 'traditional',
         }
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql', 
+#         'NAME': 'manazinecontributions',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'sql_mode': 'traditional',
+#         }
+#     }
+# }
 
 
 # Password validation
@@ -152,4 +152,3 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-django_heroku.settings(locals())
