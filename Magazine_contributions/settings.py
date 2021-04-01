@@ -26,7 +26,6 @@ SECRET_KEY = 'q_rmk1=pgwvugf)-l&u-47mi*rj@xg8d=u#=32x5lojb71922b'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-django_heroku.settings(locals())
 AUTH_USER_MODEL = 'Login.User'
 # Application definition
 
@@ -152,3 +151,4 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+django_heroku.settings(locals())
