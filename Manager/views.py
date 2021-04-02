@@ -122,7 +122,10 @@ def my_profileManager(request):
         return render(request, 'login.html')
 def downloadZip(request, id):
     if request.user.is_authenticated:
-        filelist = ["./media/test - Copy (6).jpg", "./media/test - Copy (7).jpg"]
+        data = Contribute.objects.get(id = id).Document
+        image1 = Data.objects.filter(ContributeID_id = id)[0].Data
+        image2 = Data.objects.filter(ContributeID_id = id)[1].Data
+        filelist = ["./media/"+str(request), "./media/"+str(image1), "./media/"+str(image2)]
         byte_data = BytesIO()
         zip_file = zipfile.ZipFile(byte_data, "w")
 
