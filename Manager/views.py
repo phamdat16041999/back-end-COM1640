@@ -5,8 +5,8 @@ from datetime import datetime
 from django.http import HttpResponse
 import os
 import zipfile
-import io as stringIOModule
-
+from io import BytesIO
+from zipfile import ZipFile , ZIP_DEFLATED
 
 def daytime(Enddate):
     Begindate = datetime.today()
@@ -119,20 +119,24 @@ def my_profileManager(request):
     else:
         return render(request, 'login.html')
 def downloadZip(request, id):
-    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
-        document = Contribute.objects.filter(id = id)[0].Document
-        filenames = ["./media/"+str(document)]
-        zip_subdir = "somefiles"
-        zip_filename = "%s.zip" % zip_subdir
-        s = stringIOModule.StringIO()
-        zf = zipfile.ZipFile(s, "w")
-        for fpath in filenames:
-            fdir, fname = os.path.split(fpath)
-            zip_path = os.path.join(zip_subdir, fname)
-            zf.write(fpath, zip_path)
-        zf.close()
-        resp = HttpResponse(s.getvalue(), mimetype = "application/x-zip-compressed")
-        resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-        return resp
+    # if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+    if request.user.is_authenticated:
+        document = Contribute.objects.get(id=id).Document
+        image1 = Data.objects.filter(ContributeID_id = id)[0].Data
+        image2 = Data.objects.filter(ContributeID_id = id)[1].Data
+        filelist = ["./media/"+str(document), "./media/"+str(image1), "./media/"+str(image2)]
+        byte_data = BytesIO()
+        zip_file = zipfile.ZipFile(byte_data, "w")
+
+        for file in filelist:
+            filename = os.path.basename(os.path.normpath(file))
+            print(filename)
+            zip_file.write(file, filename)
+        zip_file.close()
+        response = HttpResponse(byte_data.getvalue(), content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename=files.zip'
+        byte_data.close()
+        return response
+
     else:
         return render(request, 'login.html')
