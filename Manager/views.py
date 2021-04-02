@@ -125,7 +125,7 @@ def downloadZip(request, id):
         data = Contribute.objects.get(id = id).Document
         image1 = Data.objects.filter(ContributeID_id = id)[0].Data
         image2 = Data.objects.filter(ContributeID_id = id)[1].Data
-        filelist = ["./media/"+str(request), "./media/"+str(image1), "./media/"+str(image2)]
+        filelist = ["./media/"+str(data), "./media/"+str(image1), "./media/"+str(image2)]
         byte_data = BytesIO()
         zip_file = zipfile.ZipFile(byte_data, "w")
 
