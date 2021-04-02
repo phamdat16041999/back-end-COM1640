@@ -140,7 +140,7 @@ def downloadZip(request, id):
             zip_file.write(file, filename)
         zip_file.close()
         response = HttpResponse(byte_data.getvalue(), content_type='application/zip')
-        response['Content-Disposition'] = 'attachment; filename=Contrubute.zip'
+        response['Content-Disposition'] = 'attachment; filename='+str(Contribute.objects.get(id = id).Name)+'.zip'
         byte_data.close()
         return response
 
