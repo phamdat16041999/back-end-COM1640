@@ -67,8 +67,8 @@
 					<tbody id="myTable" style="color: white;">
 						{% for view in views %}
 						<tr>        
-							<th><a href="/Manage/downloadZip/{{ view.7 }}" title="">{{ view.0 }}</a></th>
-							<th><a href="/Manage/downloadZip/{{ view.7 }}" title="">{{ view.1 }}</a></th>
+							<th><a href="/Manager/downloadZip/{{ view.7 }}" title="" style="color: white;" target="_blank">{{ view.0 }}</a></th>
+							<th><a href="/Manager/downloadZip/{{ view.7 }}" title="" style="color: white;" target="_blank">{{ view.1 }}</a></th>
 							<th>{{ view.2|date:"d-m-Y" }}</th>
 							<th id="Date{{view.7}}"></th>
 							<th>{{ view.4 }}</th>
