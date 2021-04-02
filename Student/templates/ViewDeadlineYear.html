@@ -100,12 +100,12 @@
 						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.FinalClosureDate|date:"Y m d" < Now|date:"Y m d" %}
 							<div class="col-12" onclick="viewUploaded('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h2>{{ViewDeadline.NameTerm}}</h2>
+									<h4>{{ViewDeadline.NameTerm}}</h4>
 									<div>
 										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
+										<br>
 										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
+										<br>
 										<span>Description: {{ViewDeadline.Description}}</span>
 									</div>
 								</div>
@@ -127,12 +127,12 @@
 						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.ClosureDate|date:"Y m d" <= Now|date:"Y m d" and  ViewDeadline.FinalClosureDate|date:"Y m d" >= Now|date:"Y m d" %}
 							<div class="col-12" onclick="viewUpdate('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
-								<h2>{{ViewDeadline.NameTerm}}</h2>
+								<h4>{{ViewDeadline.NameTerm}}</h4>
 									<div>
 										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
+										<br>
 										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
+										<br>
 										<span>Description: {{ViewDeadline.Description}}</span>								
 									</div>
 								</div>
@@ -155,12 +155,12 @@
 						{% if ViewDeadline.ClosureDate|date:"Y" == id and ViewDeadline.ClosureDate|date:"Y m d" > Now|date:"Y m d" %}
 							<div class="col-12" onclick="viewUpload('{{ViewDeadline.idTerm}}')" style="cursor: pointer;">
 								<div style="height: 150px; background-color: white; margin-top: 10px;">
-									<h2>{{ViewDeadline.NameTerm}}</h2>
+									<h4>{{ViewDeadline.NameTerm}}</h4>
 									<div>
 										<span>ClosureDate: {{ViewDeadline.ClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
+										<br>
 										<span>FinalClosureDate: {{ViewDeadline.FinalClosureDate|date:"d/m/Y"}}</span>
-										<h4></h4>
+										<br>
 										<span>Description: {{ViewDeadline.Description}}</span>
 									</div>
 								</div>
