@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .forms import UserCreationForm
 class UserAdmin(BaseUserAdmin):
 	add_form = UserCreationForm
-	list_display = ['username', 'first_name','last_name','Faculty', 'Sex']
+	list_display = ['username', 'first_name','last_name','Faculty', 'Sex', 'email']
 	list_filter = ['Faculty']
 	search_fields = ['username']
 	fieldsets = BaseUserAdmin.fieldsets  +(
