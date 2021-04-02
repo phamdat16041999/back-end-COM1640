@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db import connection
 from datetime import datetime
 from Login.models import Contribute, Term, Data, Comment, User, Faculty
@@ -71,7 +71,7 @@ def public(request, status, id):
         Contributes = Contribute.objects.filter(id=id)
         img = Data.objects.filter(ContributeID_id=id)
         dataContribute = {'Contributes': Contributes, 'img':img}
-        return render(request, 'indexCoordinator.html', dataContribute)
+        return redirect('/Coordinator/')
     else:
         return render(request, 'login.html')
 def filter(request):

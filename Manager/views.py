@@ -1,3 +1,8 @@
+import os
+import zipfile
+from io import BytesIO
+from zipfile import ZipFile , ZIP_DEFLATED
+from pathlib import Path
 from django.shortcuts import render
 from django.db import connection
 from Login.models import Contribute, Term, Data, Comment, User, Faculty
@@ -7,6 +12,7 @@ import os
 import zipfile
 from io import BytesIO
 from zipfile import ZipFile , ZIP_DEFLATED
+
 
 def daytime(Enddate):
     Begindate = datetime.today()
@@ -27,9 +33,14 @@ def indexManager(request):
         return render(request, 'login.html')
 def viewContributionManager(request):
     if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
+        # with connection.cursor() as cursor:
+        #     cursor.execute(
+        #     "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status = 1 AND login_contribute.Readed = 1 AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [User.objects.filter(id= request.user.id)[0].Faculty_id]
+        #     )
+        #     views = cursor.fetchall()
         with connection.cursor() as cursor:
             cursor.execute(
-            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status = 1 AND login_contribute.Readed = 1 AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [User.objects.filter(id= request.user.id)[0].Faculty_id]
+            "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status = 1 AND login_contribute.Readed = 1 ORDER BY login_term.FinalClosureDate"
             )
             views = cursor.fetchall()
         with connection.cursor() as cursor:
@@ -73,7 +84,7 @@ def filter(request):
         if Year == 'All':
             with connection.cursor() as cursor:
                 cursor.execute(
-                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status = 1 AND login_contribute.Readed = 1 AND login_user.Faculty_id = '%s' ORDER BY login_term.FinalClosureDate", [User.objects.filter(id= request.user.id)[0].Faculty_id]
+                "SELECT login_user.username, login_contribute.Name, login_contribute.Date, login_term.FinalClosureDate, login_user.email, login_contribute.Status, login_contribute.Readed, login_contribute.id FROM login_user INNER JOIN login_contribute ON login_user.id = login_contribute.UserID_id INNER JOIN login_term ON login_contribute.TermID_id = login_term.idTerm WHERE login_contribute.Status = 1 AND login_contribute.Readed = 1 ORDER BY login_term.FinalClosureDate"
                 )
                 views = cursor.fetchall()
             with connection.cursor() as cursor:
@@ -119,12 +130,18 @@ def my_profileManager(request):
     else:
         return render(request, 'login.html')
 def downloadZip(request, id):
+<<<<<<< HEAD
     # if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
     if request.user.is_authenticated:
         document = Contribute.objects.get(id=id).Document
         image1 = Data.objects.filter(ContributeID_id = id)[0].Data
         image2 = Data.objects.filter(ContributeID_id = id)[1].Data
         filelist = ["./media/"+str(document), "./media/"+str(image1), "./media/"+str(image2)]
+    if request.user.is_authenticated:
+        data = Contribute.objects.get(id = id).Document
+        image1 = Data.objects.filter(ContributeID_id = id)[0].Data
+        image2 = Data.objects.filter(ContributeID_id = id)[1].Data
+        filelist = ["./media/"+str(data), "./media/"+str(image1), "./media/"+str(image2)]
         byte_data = BytesIO()
         zip_file = zipfile.ZipFile(byte_data, "w")
 
@@ -135,8 +152,8 @@ def downloadZip(request, id):
         zip_file.close()
         response = HttpResponse(byte_data.getvalue(), content_type='application/zip')
         response['Content-Disposition'] = 'attachment; filename=files.zip'
+        response['Content-Disposition'] = 'attachment; filename='+str(Contribute.objects.get(id = id).Name)+'.zip'
         byte_data.close()
         return response
-
     else:
         return render(request, 'login.html')
