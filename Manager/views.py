@@ -1,11 +1,13 @@
+import os
+import zipfile
+from io import BytesIO
+from zipfile import ZipFile , ZIP_DEFLATED
+from pathlib import Path
 from django.shortcuts import render
 from django.db import connection
 from Login.models import Contribute, Term, Data, Comment, User, Faculty
 from datetime import datetime
 from django.http import HttpResponse
-import os
-import zipfile
-import io as stringIOModule
 
 
 def daytime(Enddate):
@@ -119,20 +121,20 @@ def my_profileManager(request):
     else:
         return render(request, 'login.html')
 def downloadZip(request, id):
-    if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
-        document = Contribute.objects.filter(id = id)[0].Document
-        filenames = ["./media/"+str(document)]
-        zip_subdir = "somefiles"
-        zip_filename = "%s.zip" % zip_subdir
-        s = stringIOModule.StringIO()
-        zf = zipfile.ZipFile(s, "w")
-        for fpath in filenames:
-            fdir, fname = os.path.split(fpath)
-            zip_path = os.path.join(zip_subdir, fname)
-            zf.write(fpath, zip_path)
-        zf.close()
-        resp = HttpResponse(s.getvalue(), mimetype = "application/x-zip-compressed")
-        resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-        return resp
+    if request.user.is_authenticated:
+        filelist = ["./media/test - Copy (6).jpg", "./media/test - Copy (7).jpg"]
+        byte_data = BytesIO()
+        zip_file = zipfile.ZipFile(byte_data, "w")
+
+        for file in filelist:
+            filename = os.path.basename(os.path.normpath(file))
+            print(filename)
+            zip_file.write(file, filename)
+        zip_file.close()
+        response = HttpResponse(byte_data.getvalue(), content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename=Contrubute.zip'
+        byte_data.close()
+        return response
+
     else:
         return render(request, 'login.html')
