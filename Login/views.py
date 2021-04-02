@@ -160,7 +160,7 @@ def indexUser(request):
             elif (auth_group == "Guess"):
                 return redirect('/Guess/')
         else:
-            error = {'error': 'Username already exists, please try a different username'}
+            error = {'error': 'Username or password is incorrect, please try again!'}
             return render(request, 'login.html', error)
     else:
         if request.user.is_authenticated:
