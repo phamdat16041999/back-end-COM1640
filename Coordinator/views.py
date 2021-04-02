@@ -71,7 +71,7 @@ def public(request, status, id):
         Contributes = Contribute.objects.filter(id=id)
         img = Data.objects.filter(ContributeID_id=id)
         dataContribute = {'Contributes': Contributes, 'img':img}
-        return redirect('/Coordinator')
+        return redirect('/Coordinator/')
     else:
         return render(request, 'login.html')
 def filter(request):
