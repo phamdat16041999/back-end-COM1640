@@ -1,78 +1,81 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title></title>
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title></title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-	<!-- Popper JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<style>
-		.textToolbar{
-			color: white !important;
-		}
-	</style>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .textToolbar {
+            color: white !important;
+        }
+    </style>
 </head>
+
 <body>
-	<div class="container-fluid" style="background-color: #2980b9;">
-		<div class="row">
-			<div class="container-xl">
-				<div class="row" style="background-color: #2980b9;">
-					<nav class="navbar navbar-expand-lg navbar-light" style="width: 100%;">
-						<a class="navbar-brand textToolbar" href="{% url 'home' %}">Home</a>
-						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container-fluid" style="background-color: #2980b9; position: fixed; z-index: 1;">
+        <div class="row">
+            <div class="container-xl">
+                <div class="row" style="background-color: #2980b9;">
+                    <nav class="navbar navbar-expand-lg navbar-light" style="width: 100%;">
+                        <a class="navbar-brand textToolbar" href="{% url 'home' %}">Home</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
 						</button>
 
-						<div class="collapse navbar-collapse" id="navbarSupportedContent">
-							<ul class="navbar-nav mr-auto">
-								<li class="nav-item dropdown">
-									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
 										View statistical
 									</a>
-									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-										<a class="dropdown-item" href="/Manager/Contributionofterms">Contribute of terms</a>
-										<a class="dropdown-item" href="/Manager/Percentageofcontributionscontributetoeachfaculty">Percentage of contributions contribute to each faculty</a>
-										<a class="dropdown-item" href="/Manager/Numberofstudentssubmittingallsubjectsineachterm">Number of students submitting all subjects in each term</a>
-										<a class="dropdown-item" href="/Manager/Exercisesthatthecoordinatorhasnotreadyet">Number of posts that the moderator has not scored</a>
-									</div>
-								</li>
-								<li class="nav-item active">
-									<a class="nav-link textToolbar" href="/Manager/viewContributionManager">View contribute<span class="sr-only">(current)</span></a>
-								</li>
-							</ul>
-							<form class="form-inline my-2 my-lg-0">
-							<ul class="navbar-nav mr-auto">
-							</ul>
-							<form class="form-inline my-2 my-lg-0">
-								<ul class="navbar-nav mr-auto">
-									<li class="nav-item dropdown">
-										<a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<i class="fa fa-user-circle-o" style="font-size:38px; color:white;"></i>
-										</a>
-										<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-											<a class="dropdown-item" href="/Manager/my_profileManager">My profile</a>
-											<a class="dropdown-item" href="/forgotPassword">Change Password</a>
-											<a class="dropdown-item" href="/logout">Logout</a>
-										</div>
-									</li>
-								</ul>
-							</form>
-							</form>
-						</div>
-					</nav>
-				</div>
-			</div>
-		</div>
-	</div>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="/Manager/Contributionofterms">Contribute of terms</a>
+                                        <a class="dropdown-item" href="/Manager/Percentageofcontributionscontributetoeachfaculty">Percentage of contributions contribute to each faculty</a>
+                                        <a class="dropdown-item" href="/Manager/Numberofstudentssubmittingallsubjectsineachterm">Number of students submitting all subjects in each term</a>
+                                        <a class="dropdown-item" href="/Manager/Exercisesthatthecoordinatorhasnotreadyet">Number of posts that the moderator has not scored</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link textToolbar" href="/Manager/viewContributionManager">View contribute<span class="sr-only">(current)</span></a>
+                                </li>
+                            </ul>
+                            <form class="form-inline my-2 my-lg-0">
+                                <ul class="navbar-nav mr-auto">
+                                </ul>
+                                <form class="form-inline my-2 my-lg-0">
+                                    <ul class="navbar-nav mr-auto">
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-user-circle-o" style="font-size:38px; color:white;"></i>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="/Manager/my_profileManager">My profile</a>
+                                                <a class="dropdown-item" href="/forgotPassword">Change Password</a>
+                                                <a class="dropdown-item" href="/logout">Logout</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </form>
+                            </form>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
