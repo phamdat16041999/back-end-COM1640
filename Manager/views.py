@@ -130,7 +130,6 @@ def my_profileManager(request):
     else:
         return render(request, 'login.html')
 def downloadZip(request, id):
-<<<<<<< HEAD
     # if request.user.is_authenticated and getAuthGroup(request.user.id) == "Manager":
     if request.user.is_authenticated:
         document = Contribute.objects.get(id=id).Document
