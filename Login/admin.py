@@ -30,7 +30,7 @@ class TermAdmin(admin.ModelAdmin):
 admin.site.register(Term, TermAdmin)
 class ContributeAdmin(admin.ModelAdmin):
 	list_display = ['Name', 'Date','Status','Document','UserID']
-	list_filter = ['Name']
+	list_filter = ['Status']
 	search_fields = ['Name']
 	Readed = ['Name']
 admin.site.register(Contribute, ContributeAdmin)
